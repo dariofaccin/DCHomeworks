@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.1.7)  28 MAR 2018 11:39
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.1.7)  28 MAR 2018 11:56
 entering extended mode
 **./report.tex
 (report.tex
@@ -1126,21 +1126,21 @@ Underfull \hbox (badness 10000) in paragraph at lines 86--88
  []
 
 [1] [2]
-<figs/estimatedpsd01.png, id=55, 1064.47687pt x 395.22656pt>
-File: figs/estimatedpsd01.png Graphic file (type png)
-<use figs/estimatedpsd01.png>
-Package pdftex.def Info: figs/estimatedpsd01.png  used on input line 203. on in
-put line 203.
-Package pdftex.def Info: Requested size: 483.69687pt x 179.58713pt on input lin
-e 203.
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 212.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 204.
 
  ("C:\Program Files\MiKTeX 2.9\tex\latex\base\omscmr.fd"
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 212.
- [3 <./figs/estimatedpsd01.png (PNG copy)>]
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 204.
+<figs/estimatedpsd01.png, id=55, 1064.47687pt x 395.22656pt>
+File: figs/estimatedpsd01.png Graphic file (type png)
+<use figs/estimatedpsd01.png>
+Package pdftex.def Info: figs/estimatedpsd01.png  used on input line 219. on in
+put line 219.
+Package pdftex.def Info: Requested size: 483.69687pt x 179.58713pt on input lin
+e 219.
+ [3]
 <figs/choiceofn.png, id=61, 526.96875pt x 395.22656pt>
 File: figs/choiceofn.png Graphic file (type png)
 <use figs/choiceofn.png>
@@ -1148,7 +1148,7 @@ Package pdftex.def Info: figs/choiceofn.png  used on input line 238. on input l
 ine 238.
 Package pdftex.def Info: Requested size: 241.84843pt x 181.3903pt on input line
  238.
- [4 <./figs/choiceofn.png (PNG copy)>]
+ [4 <./figs/estimatedpsd01.png (PNG copy)> <./figs/choiceofn.png (PNG copy)>]
 <figs/zplane.png, id=65, 526.96875pt x 395.22656pt>
 File: figs/zplane.png Graphic file (type png)
 <use figs/zplane.png>
@@ -1196,7 +1196,7 @@ ror_300real.png (PNG copy)>] [8
 Here is how much of TeX's memory you used:
  18714 strings out of 493312
  377531 string characters out of 3138900
- 459387 words of memory out of 3000000
+ 457387 words of memory out of 3000000
  21841 multiletter control sequences out of 15000+200000
  25029 words of font info for 78 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1227,7 +1227,7 @@ ublic/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/am
 sfonts/cm/cmsy6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm
 /cmsy8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.p
 fb>
-Output written on report.pdf (9 pages, 511704 bytes).
+Output written on report.pdf (9 pages, 511994 bytes).
 PDF statistics:
  409 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
