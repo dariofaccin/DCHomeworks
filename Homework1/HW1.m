@@ -70,23 +70,14 @@ ylim([-15 30])
 b = zeros(1,800);
 for i=1:length(b)
     b(i) = 10*log10(0.1);
+    %if sigmaw=2
+    %b(i) = 10*log10(2);
 end
 
 % 30 is random choice just to see the plot
 b(ceil(0.17*800)) = 10*log10(Nsamples);
 b(ceil(0.78*800)) = 0.8*10*log10(Nsamples);
 
-%sigmaw=2
-%{
-b = zeros(1,800);
-for i=1:length(b)
-    b(i) = 10*log10(2);
-end
-
-% 30 is random choice just to see the plot
-b(ceil(0.17*800)) = 10*log10(Nsamples);
-b(ceil(0.78*800)) = 0.8*10*log10(Nsamples);
-%}
 %% Choice of N
 N = 3;
 

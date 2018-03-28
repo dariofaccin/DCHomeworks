@@ -36,7 +36,7 @@
 \date{}
 \maketitle
 
-\section*{Problem 1}
+\section*{Setup and presentation of the methods}
 
 \subsection*{Input signal}
 The random process to simulate is:
@@ -44,7 +44,7 @@ The random process to simulate is:
 x(k)=e^{j(2\pi f_1 k +\phi_1)} + 0.8e^{j(2\pi f_2 k +\phi_2)} + w(k)
 \end{equation}
 where $f_1=0.17$ and $f_2=0.78$ are the normalized frequencies of the exponential signals, $\phi_1$ and $\phi_2$ their initial phases considered as uniformly distributed in the interval $ [0,2\pi)$. The added noise $w(k)$ is a r.p. that follows a complex Gaussian distribution with zero mean and variance $\sigma_w^2$.
-The simulation of this process has been carried out for $K=800$ samples of a single realization.
+The simulation of this process has been carried out for $K=800$ samples of a single realization. The sampling period $T_c$ is assumed to be equal to $1$.
 
 \subsection*{Autocorrelation estimation}
 
@@ -68,7 +68,7 @@ Since the autocorrelation estimate is unbiased, also the estimator is unbiased.
 \begin{equation}
 \mathcal{P}_{BT}(f) = T_c\sum_{n=-L}^{L} \mathtt{w}(n)\hat{\mathtt{r}}_x(n)e^{-j2\pi f n T_c}
 \end{equation}
-where $\mathtt{w}$ is a window of length $2L+1$. For this estimator we used an Hamming window and $L=\frac{K}{5}=160$ to reduce the variance of the autocorrelation estimate.
+where $\mathtt{w}$ is a window of length $2L+1$.
 
 \subsection*{Periodogram}
 An estimate of the statistical power of $\{ x(k) \}$ is given by
@@ -99,7 +99,7 @@ The Welch periodogram is computed as
 \mathcal{P}_{WE}(f) = \frac{1}{N_s}\sum_{s=0}^{N_s-1}{\mathcal{P}}_{PER}^{(s)}(f)
 \end{equation}
 
-where ${\mathcal{P}}_{PER}^{(s)}(f)$ is the periodogram computed for $x^{(s)}$ as (\ref{eq:periodogram}) using an Hamming window of size $D=70$ samples and overlap of size $S=35$ samples.
+where ${\mathcal{P}}_{PER}^{(s)}(f)$ is the periodogram computed for $x^{(s)}$ as (\ref{eq:periodogram}) using a window of length $D$ that can be for example a rectangular window or an Hamming window.
 
 \subsection*{AR Model}
 One last method for estimating the PSD of a signal is using an AR model of order N to describe the process.\\
@@ -194,19 +194,8 @@ The variance $\sigma_w ^2$ of the white noise $w(k)$ is then
 	\sigma_w ^2 = \mathtt{r}_x(0) + \mathbf{r}^H \mathbf{a}
 \end{equation}
 
-To choose the parameter $N$ we decided to analyze the behavior of the cost function $J_{min} = \mathtt{r}_x(0) + \mathbf{r}_n^H \mathbf{a}$ in function of the number $N$ (from $1$ to $20$) of the coefficients.
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.5\textwidth]{choiceofn}
-	\caption{$J_{min}$ over $N$}
-	\label{fig:choiceofn}
-\end{figure}
-
-From Figure \ref{fig:choiceofn}, with restricted to the interval $[1,5]$ it can be seen that a suitable choice is $N=2$.\\
-Using this value the autocorrelation matrix $\mathbf{R}$ is indeed well conditioned, hence the solution is acceptable.
-
-\subsection*{Results}
+\section*{Problem 1}
 In Figure \ref{fig:estimatedpsd01} it is shown the power spectral density estimation using the methods described in the previous sections, along with the analytical PSD.
 
 \begin{figure}[H]
@@ -216,13 +205,44 @@ In Figure \ref{fig:estimatedpsd01} it is shown the power spectral density estima
 	\label{fig:estimatedpsd01}
 \end{figure}
 
+The parameters used for the different methods are listed below:
+
+\begin{itemize}
+	
+\item {\bf Periodogram} In this method the samples of the autocorrelation used are up to $K-1$ so we use 800 samples. Of course this implies that the variance of the estimator will be very high.
+
+\item {\bf Correlogram}  For this estimator we used an Hamming window and $L=\frac{K}{5}=160$ to reduce the variance of the autocorrelation estimate.
+
+\item {\bf Welch periodogram} In this case we used a Hamming window of size $D=160$ samples and overlap of size $S=80$ samples. This decision is due to the necessity of reducing the variance of the estimator (that is done by taking more sequences) and at the same time obtain a good evaluation of the peaks (that means increasing $D$).
+
+\item {\bf AR model} N=20-25   %complete+write better explaination
+
+\end{itemize}
+
 \section*{Problem 2}
 
-\subsection*{Input signal}
-In this case the input signal is the same as Section 1, except for the noise variance which now is $\sigma_w^2 = 2$.
 
-\subsection*{Results}
-In Figure REF it is shown the power spectral density estimation using the same methods of Problem 1, along with its actual value.
+\begin{itemize}
+	
+	\item {\bf Periodogram} Again the samples used are 800, so the variance will be very high.
+	
+	\item {\bf Correlogram}  For this estimator we used an Hamming window and $L=\frac{K}{5}=160$ to reduce the variance of the autocorrelation estimate.
+	
+	\item {\bf Welch periodogram} In this case we used a Hamming window of size $D=$ samples and overlap of size $S=$ samples. This decision is due to the necessity of reducing the variance of the estimator (that is done by taking more sequences) and at the same time obtain a good evaluation of the peaks (that means increasing $D$).
+	
+	
+\item {\bf AR model} To choose the parameter $N$ we decided to analyze the behavior of the cost function $J_{min} = \mathtt{r}_x(0) + \mathbf{r}_n^H \mathbf{a}$ as a function of the number $N$ (from $1$ to $20$) of the coefficients.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{choiceofn}
+	\caption{$J_{min}$ over $N$}
+	\label{fig:choiceofn}
+\end{figure}
+
+From Figure \ref{fig:choiceofn}, restricted to the interval $[1,5]$ it can be seen that a suitable choice is $N=2$.\\
+Using this value the autocorrelation matrix $\mathbf{R}$ is indeed well conditioned, hence the solution is acceptable.
+\end{itemize}
 
 \section*{Problem 3}
 The coefficients for the optimal error predictor are given by $ \mathbf{c} = -\mathbf{a}$, where the vector $\mathbf{a}$ is given by the coefficients of the AR model.
