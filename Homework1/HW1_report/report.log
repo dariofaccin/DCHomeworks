@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.1.7)  28 MAR 2018 11:15
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.1.7)  28 MAR 2018 11:39
 entering extended mode
 **./report.tex
 (report.tex
@@ -1196,7 +1196,7 @@ ror_300real.png (PNG copy)>] [8
 Here is how much of TeX's memory you used:
  18714 strings out of 493312
  377531 string characters out of 3138900
- 458387 words of memory out of 3000000
+ 459387 words of memory out of 3000000
  21841 multiletter control sequences out of 15000+200000
  25029 words of font info for 78 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1227,7 +1227,7 @@ ublic/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/am
 sfonts/cm/cmsy6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm
 /cmsy8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.p
 fb>
-Output written on report.pdf (9 pages, 511569 bytes).
+Output written on report.pdf (9 pages, 511704 bytes).
 PDF statistics:
  409 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

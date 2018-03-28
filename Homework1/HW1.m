@@ -79,7 +79,7 @@ b(ceil(0.17*800)) = 10*log10(Nsamples);
 b(ceil(0.78*800)) = 0.8*10*log10(Nsamples);
 
 %% Choice of N
-N = 3;
+N = 2;
 
 [copt, Jmin]=predictor(rx, N);
 t=20;
