@@ -9,9 +9,9 @@ Nsamples=length(x);
 %% SPECTRAL ANALYSIS
 
 % Autocorrelation (unbiased estimate)
-[rx]=autocorrelation_Unb(x);
-L=floor(Nsamples/5);%L should be lower than the length of the r.p. because of the high variance when n approaches K
-rx=rx(1:L);
+[rx_full]=autocorrelation_Unb(x);
+L=floor(Nsamples/2);%L should be lower than the length of the r.p. because of the high variance when n approaches K
+rx=rx_full(1:L);
 
 % Blackman-Tukey correlogram 
 % The length of 2*L+1 is because of page 86 note 24

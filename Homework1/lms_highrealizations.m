@@ -91,5 +91,5 @@ title('Mean squared error over iterations');
 xlabel('Number of iterations'); ylabel('Mean Squared Error (dB)');
 
 
-%save('Jmin.mat', 'mean_error');
-%save('avg_coeff.mat', 'c_mean');
+save('Jmin.mat', 'mean_error');
+save('avg_coeff.mat', 'c_mean');
