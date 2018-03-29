@@ -381,7 +381,7 @@ In Table \ref{tab:predopt} are reported the coefficients of the predictor at con
 \end{table}
 
 In Figure \ref{fig:coeff1} it is shown the behavior of the coefficients $c_i, \, i=1,2$,  their mean across 300 realizations (as $k$ increases) and the optimal solution by the Wiener-Hopf equation.\\
-In Figure \ref{fig:err300} it is shown the behavior of the cost function $J(k) = E \left[ |e(k)|^2 \right]$  across 300 realizations, the values of $|e(k)|^2$ obtained with the LMS algorithm and the solution of the direct method $J_{min}$, as the number of iterations $k$ increases.
+In Figure \ref{fig:err300} it is shown the behavior of the cost function $J(k) = E \left[ |e(k)|^2 \right]$  across 300 realizations, the values of $|e(k)|^2$ obtained with the LMS algorithm and the solution of the direct method $J_{min}$, as the number of iterations $k$ increases. We can notice that, according to the theoretical results, the mean squared error $J(k)$ presents an \emph{excess noise} $J_{ex}(\infty)$ that makes it not perfectly converging to the analytical value $J_{min}$ (the difference is small but visible in figure \ref{fig:err300}). To reduce this excess value we could choose a smaller value of $\tilde{\mu}$, but this would result in a slower convergence of the coefficients that we want to avoid.
 
 \begin{figure}[H]
 	\centering
