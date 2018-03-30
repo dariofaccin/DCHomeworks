@@ -59,6 +59,7 @@ for index = 1:N
     title(['Real part of c' int2str(index) ' and c_{opt}' int2str(index)]);
     legend(['c' int2str(index)], ['c_{est}' int2str(index)], ['average' int2str(index)]);
     xlim([0 max_iter]);
+   
     
     
     subplot(2, 1, 2);
@@ -80,4 +81,4 @@ title('Error function at each iteration');
 legend('|e(k)|^2', 'J_{min}','J(k)');
 ylim([-15 10])
 xlabel('k')
-ylabel('|e(k)|^2, J_{min}, \sigma_w^2')
+ylabel('|e(k)|^2, J_{min}, J(k)')
