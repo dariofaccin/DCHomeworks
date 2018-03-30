@@ -203,11 +203,14 @@ The parameters used for the different methods are listed below:
 	
 \item {\bf Periodogram} In this method the samples of the autocorrelation used are up to $K-1$ so we use 800 samples. Of course this implies that the variance of the estimator will be very high.
 
-\item {\bf Correlogram}  For this estimator we used an Hamming window and $L=\frac{K}{5}=160$ to reduce the variance of the autocorrelation estimate.
+\item {\bf Correlogram}  For this estimator we used an Hamming window and $L=\frac{K}{5}=160$ to reduce the variance of the autocorrelation estimate. The choice of the Hamming window is based on the outcome of the estimate and on the consideration that the two carrier frequencies are well separated so a rectangular window would perform worse. The expression for the Hamming window is:
+\begin{equation}
+w_H(n)=0.54-0.46\cos\Big( \frac{2 \pi n}{2L} \Big)
+\end{equation}
 
-\item {\bf Welch periodogram} In this case we used a Hamming window of size $D=160$ samples and overlap of size $S=80$ samples. This decision is due to the necessity of reducing the variance of the estimator (that is done by taking more sequences) and at the same time obtain a good evaluation of the peaks (that means increasing $D$).
+\item {\bf Welch periodogram} In this case we used a rectangular window of size $D=120$ samples and overlap of size $S=60$ samples. This decision is due to the necessity of reducing the variance of the estimator (that is done by taking more sequences) and at the same time obtain a good evaluation of the peaks (that means increasing $D$). 
 
-\item {\bf AR model} The AR model with this value of the variance of the error requires a high order to estimate correctly the PSD. Indeed, the plot of the error $J$ over the order of the filter $N$ shows a decreasing behavior without flattening even at high values of $N$. For this reason we chose $N=25$ for a trade-off between not increasing the complexity too much and being able to estimate the shape of the PSD correctly from a graphical point of view.  %complete+write better explaination
+\item {\bf AR model} The AR model with this value of the variance of the error requires a high order to estimate correctly the PSD. Indeed, the plot of the error $J_{min}$ of a linear predictor over the order of the filter $N$ shows a decreasing behavior without flattening even at high values of $N$. For this reason, recalling the relation between the coefficients of the predictor and those of the AR model ($\mathbf{c} = -\mathbf{a}$)  we chose $N=25$ for a trade-off between not increasing the complexity too much and being able to estimate the shape of the PSD correctly from a graphical point of view.  %complete+write better explaination
 
 \end{itemize}
 
@@ -226,12 +229,15 @@ In Figure \ref{fig:estimatedpsd01} it is shown the power spectral density estima
 	
 	\item {\bf Periodogram} Again the samples used are 800, so the variance will be very high.
 	
-	\item {\bf Correlogram}  For this estimator we used an Hamming window and $L=\frac{K}{5}=160$ to reduce the variance of the autocorrelation estimate.
+	\item {\bf Correlogram}  For this estimator we used $L=\frac{K}{5}=160$ to reduce the variance of the autocorrelation estimate. This time the window used was a Blackman-Harris window, because it led to less oscillations than the Hamming window:
+	\begin{equation}
+	w_{BH}(n)=0.35875-0.48829\cos \Big( \frac{2\pi n}{2L} \Big) +0.14128\cos \Big( \frac{4\pi n}{2L} \Big) - 0.01168 \cos \Big( \frac{6 \pi n}{2L} \Big)
+	\end{equation}
 	
-	\item {\bf Welch periodogram} In this case we used a Hamming window of size $D=$ samples and overlap of size $S=$ samples. This decision is due to the necessity of reducing the variance of the estimator (that is done by taking more sequences) and at the same time obtain a good evaluation of the peaks (that means increasing $D$).
+	\item {\bf Welch periodogram} In this case we used a Hamming window of size $D=160$ samples and overlap of size $S=80$ samples. This decision is due to the necessity of reducing the variance of the estimator (that is done by taking more sequences) and at the same time obtain a good evaluation of the peaks (that means increasing $D$). This time an Hamming window was used, because a rectangular window would lead to much higher side peaks. 
 	
 	
-\item {\bf AR model} To choose the parameter $N$ we decided to analyze the behavior of the cost function $J_{min} = \mathtt{r}_x(0) + \mathbf{r}_n^H \mathbf{a}$ as a function of the number $N$ (from $1$ to $20$) of the coefficients.
+\item {\bf AR model} To choose the parameter $N$ we exploited the relation between the linear predictor designed in exercise 3 and the AR model of the process.  The cost function obtained for an optimal choice of the predictor's coefficients is  $J_{min} = \mathtt{r}_x(0) + \mathbf{r}_n^H \mathbf{a}$ and we plotted it as a function of the number $N$ (from $1$ to $20$) of the coefficients.
 
 \begin{figure}[H]
 	\centering

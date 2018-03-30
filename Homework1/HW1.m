@@ -15,10 +15,10 @@ rx=rx_full(1:L);
 
 % Blackman-Tukey correlogram 
 % The length of 2*L+1 is because of page 86 note 24
-w_rect=window(@rectwin,2*L+1);
-w_hamming=window(@hamming,2*L+1);    
-Pbt1=correlogram(x, w_hamming, rx, L);
-Pbt2=correlogram(x, w_rect, rx, L);
+%w_rect=window(@rectwin,2*L+1);
+w_bt=window(@blackmanharris,2*L+1);    
+Pbt1=correlogram(x, w_bt, rx, L);
+%Pbt2=correlogram(x, w_rect, rx, L);
 
 %{
 figure();
@@ -51,6 +51,8 @@ ylim([-15 30])
 S=80;   %overlap
 D=160;   %window length
 w_welch=window(@hamming,D);
+%w_welch=window(@rectwin,D);
+%w_welch=kaiser(D,5);
 [Welch_P, Ns] = welchPSD(x, w_welch, S);
 var_Welch=Welch_P.^2/Ns;
 
@@ -69,9 +71,8 @@ ylim([-15 30])
 %sigmaw=0.1
 b = zeros(1,800);
 for i=1:length(b)
+    %change to 0.1 for es2
     b(i) = 10*log10(0.1);
-    %if sigmaw=2
-    %b(i) = 10*log10(2);
 end
 
 % 30 is random choice just to see the plot
@@ -109,7 +110,7 @@ plot(omega/(2*pi), 10*log10(s_white*abs(H_w).^2));
 title('AR model estimate of the PSD');
 xlabel('f');
 ylabel('Amplitude (dB)');
-ylim([-15 40]);
+ylim([-15 30]);
 %}
 %% Final spectral plot
 figure('Name', 'Spectral Analysis');
