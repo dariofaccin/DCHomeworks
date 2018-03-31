@@ -212,19 +212,25 @@ w_H(n)=0.54-0.46\cos\Big( \frac{2 \pi n}{2L} \Big)
 
 \item {\bf AR model} The AR model with this value of the variance of the error requires a high order to estimate correctly the PSD. Indeed, the plot of the error $J_{min}$ of a linear predictor over the order of the filter $N$ shows a decreasing behavior without flattening even at high values of $N$. For this reason, recalling the relation between the coefficients of the predictor and those of the AR model ($\mathbf{c} = -\mathbf{a}$)  we chose $N=25$ for a trade-off between not increasing the complexity too much and being able to estimate the shape of the PSD correctly from a graphical point of view.  %complete+write better explaination
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{choiceofn_ex1}
+	\caption{$J_{min}$ over $N$, $\sigma_w^2 = 2$}
+	\label{fig:choiceofn_ex1}
+\end{figure}
+
 \end{itemize}
 
-\section*{Problem 2}
-In Figure \ref{fig:estimatedpsd01} it is shown the power spectral density estimation using the methods described in the previous sections, along with the analytical PSD.
+In Figure \ref{fig:estimatedpsd2} it is shown the power spectral density estimation using the methods described in the previous sections, along with the analytical PSD.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth]{estimatedpsd01}
-	\caption{Estimated PSD, $\sigma_w^2 = 0.1$}
-	\label{fig:estimatedpsd01}
+	\includegraphics[width=1\textwidth]{estimatedpsd2}
+	\caption{Estimated PSD, $\sigma_w^2 = 2$}
+	\label{fig:estimatedpsd2}
 \end{figure}
 
-
+\section*{Problem 2}
 \begin{itemize}
 	
 	\item {\bf Periodogram} Again the samples used are 800, so the variance will be very high.
@@ -237,18 +243,27 @@ In Figure \ref{fig:estimatedpsd01} it is shown the power spectral density estima
 	\item {\bf Welch periodogram} In this case we used a Hamming window of size $D=160$ samples and overlap of size $S=80$ samples. This decision is due to the necessity of reducing the variance of the estimator (that is done by taking more sequences) and at the same time obtain a good evaluation of the peaks (that means increasing $D$). This time an Hamming window was used, because a rectangular window would lead to much higher side peaks. 
 	
 	
-\item {\bf AR model} To choose the parameter $N$ we exploited the relation between the linear predictor designed in exercise 3 and the AR model of the process.  The cost function obtained for an optimal choice of the predictor's coefficients is  $J_{min} = \mathtt{r}_x(0) + \mathbf{r}_n^H \mathbf{a}$ and we plotted it as a function of the number $N$ (from $1$ to $20$) of the coefficients.
+\item {\bf AR model} To choose the parameter $N$ we exploited the relation between the linear predictor designed in exercise 3 and the AR model of the process. The cost function obtained for an optimal choice of the predictor's coefficients is  $J_{min} = \mathtt{r}_x(0) + \mathbf{r}_n^H \mathbf{a}$ and we plotted it as a function of the number $N$ (from $1$ to $20$) of the coefficients.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.5\textwidth]{choiceofn}
-	\caption{$J_{min}$ over $N$}
-	\label{fig:choiceofn}
+	\includegraphics[width=0.5\textwidth]{choiceofn_ex2}
+	\caption{$J_{min}$ over $N$, $\sigma_w^2 = 0.1$}
+	\label{fig:choiceofn_ex2}
 \end{figure}
 
-From Figure \ref{fig:choiceofn}, restricted to the interval $[1,5]$ it can be seen that a suitable choice is $N=2$, because it corresponds to the knee of the curve. Increasing the order would mean increasing the complexity without a significant decrement of the error.  \\
+From Figure \ref{fig:choiceofn_ex2}, restricted to the interval $[1,5]$ it can be seen that a suitable choice is $N=2$, because it corresponds to the knee of the curve. Increasing the order would mean increasing the complexity without a significant decrement of the error.  \\
 Using this value the autocorrelation matrix $\mathbf{R}$ is indeed well conditioned, hence the solution is acceptable.
 \end{itemize}
+
+In Figure \ref{fig:estimatedpsd01} it is shown the power spectral density estimation using the methods described in the previous sections, along with the analytical PSD.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{estimatedpsd01}
+	\caption{Estimated PSD, $\sigma_w^2 = 0.1$}
+	\label{fig:estimatedpsd01}
+\end{figure}
 
 \section*{Problem 3}
 The coefficients for the optimal error predictor are given by $ \mathbf{c} = -\mathbf{a}$, where the vector $\mathbf{a}$ is given by the coefficients of the AR model.

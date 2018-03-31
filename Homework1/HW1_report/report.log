@@ -1,9 +1,9 @@
-This is XeTeX, Version 3.14159265-2.6-0.99998 (MiKTeX 2.9.6500 64-bit) (preloaded format=xelatex 2018.3.31)  31 MAR 2018 11:18
+This is XeTeX, Version 3.14159265-2.6-0.99999 (MiKTeX 2.9.6630 64-bit) (preloaded format=xelatex 2018.3.26)  31 MAR 2018 13:12
 entering extended mode
 **./report.tex
 (report.tex
 LaTeX2e <2017-04-15>
-Babel <3.15> and hyphenation patterns for 75 language(s) loaded.
+Babel <3.18> and hyphenation patterns for 76 language(s) loaded.
 ("C:\Program Files\MiKTeX 2.9\tex\latex\base\report.cls"
 Document Class: report 2014/09/29 v1.4h Standard LaTeX document class
 ("C:\Program Files\MiKTeX 2.9\tex\latex\base\size12.clo"
@@ -43,10 +43,10 @@ Package: inputenc 2015/03/17 v1.2c Input encoding file
 Package inputenc Warning: inputenc package ignored with utf8 based engines.
 
 ) ("C:\Program Files\MiKTeX 2.9\tex\generic\babel\babel.sty"
-Package: babel 2017/11/03 3.15 The Babel package
+Package: babel 2018/02/14 3.18 The Babel package
 
 ("C:\Program Files\MiKTeX 2.9\tex\generic\babel\switch.def"
-File: switch.def 2017/11/03 3.15 Babel switching mechanism
+File: switch.def 2018/02/14 3.18 Babel switching mechanism
 )
 *************************************
 * Local config file bblopts.cfg used
@@ -59,15 +59,12 @@ File: bblopts.cfg 2005/09/08 v0.1 add Arabic and Farsi to "declared" options of
 Language: english 2017/06/06 v3.3r English support from the babel system
 
 ("C:\Program Files\MiKTeX 2.9\tex\generic\babel\babel.def"
-File: babel.def 2017/11/03 3.15 Babel common definitions
-
-("C:\Program Files\MiKTeX 2.9\tex\generic\babel\switch.def"
-File: switch.def 2017/11/03 3.15 Babel switching mechanism
-)
+File: babel.def 2018/02/14 3.18 Babel common definitions
 \babel@savecnt=\count88
 \U@D=\dimen103
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\babel\xebabel.def")
+("C:\Program Files\MiKTeX 2.9\tex\generic\babel\xebabel.def"
+("C:\Program Files\MiKTeX 2.9\tex\generic\babel\txtbabel.def"))
 \bbl@dirlevel=\count89
 )
 \l@canadian = a dialect from \language\l@american 
@@ -781,17 +778,23 @@ File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Font shape `OMS/lmr/m/n' in size <12> not available
 (Font)              Font shape `OMS/lmsy/m/n' tried instead on input line 204.
+File: figs/choiceofn_ex1.png Graphic file (type bmp)
+<figs/choiceofn_ex1.png>
+ [3]
+File: figs/estimatedpsd2.png Graphic file (type bmp)
+<figs/estimatedpsd2.png>
+ [4]
+File: figs/choiceofn_ex2.png Graphic file (type bmp)
+<figs/choiceofn_ex2.png>
 File: figs/estimatedpsd01.png Graphic file (type bmp)
 <figs/estimatedpsd01.png>
- [3]
-File: figs/choiceofn.png Graphic file (type bmp)
-<figs/choiceofn.png>
- [4]
+ [5]
 File: figs/zplane.png Graphic file (type bmp)
 <figs/zplane.png>
- [5] [6]
-Overfull \hbox (0.63614pt too wide) in paragraph at lines 389--391
-\T1/lmr/m/n/12 In Fig-ure 7[] it is shown the be-hav-ior of the cost func-tion 
+ [6]
+[7]
+Overfull \hbox (0.63614pt too wide) in paragraph at lines 404--406
+\T1/lmr/m/n/12 In Fig-ure 9[] it is shown the be-hav-ior of the cost func-tion 
 $\OML/cmm/m/it/12 J\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 k\OT1/cmr/m/n/12 ) = \OML/
 cmm/m/it/12 E []$ \T1/lmr/m/n/12 across 300 re-al-iza-tions,
  []
@@ -801,21 +804,20 @@ File: figs/c1_1real.png Graphic file (type bmp)
 File: figs/c2_1real.png Graphic file (type bmp)
 <figs/c2_1real.png>
 
-Overfull \hbox (7.83322pt too wide) in paragraph at lines 395--398
+Overfull \hbox (7.83322pt too wide) in paragraph at lines 410--413
  [][][] 
  []
 
-[7]
 File: figs/err_lms.png Graphic file (type bmp)
 <figs/err_lms.png>
- [8] [9
+[8] [9
 
 ] (report.aux) ) 
 Here is how much of TeX's memory you used:
- 17704 strings out of 427839
- 356037 string characters out of 3152538
- 458216 words of memory out of 3000000
- 21310 multiletter control sequences out of 15000+200000
+ 17719 strings out of 427832
+ 356389 string characters out of 3152395
+ 458528 words of memory out of 3000000
+ 21326 multiletter control sequences out of 15000+200000
  53458 words of font info for 80 fonts, out of 3000000 for 9000
  1328 hyphenation exceptions out of 8191
  55i,10n,82p,822b,803s stack positions out of 5000i,500n,10000p,200000b,50000s

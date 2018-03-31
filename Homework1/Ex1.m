@@ -115,7 +115,7 @@ ylim([-15 30]);
 figure('Name', 'Spectral Analysis');
 hold on;
 plot((1:Nsamples)/Nsamples, 10*log10(Welch_P), 'r')
-plot((1:Nsamples)/Nsamples, 10*log10(abs(Pbt1)), 'b-.')
+plot((1:Nsamples)/Nsamples, 10*log10(abs(Pbt1)), 'b')
 plot((1:Nsamples)/Nsamples, 10*log10(Pper), 'g:')
 plot(omega/(2*pi), 10*log10(s_white*(abs(H_w)).^2), 'Color', 'm');
 plot((1:Nsamples)/Nsamples, b, 'k:');
