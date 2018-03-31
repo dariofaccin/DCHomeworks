@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99999 (MiKTeX 2.9.6630 64-bit) (preloaded format=xelatex 2018.3.26)  31 MAR 2018 11:02
+This is XeTeX, Version 3.14159265-2.6-0.99999 (MiKTeX 2.9.6630 64-bit) (preloaded format=xelatex 2018.3.26)  31 MAR 2018 11:06
 entering extended mode
 **./report.tex
 (report.tex
@@ -787,8 +787,11 @@ File: figs/choiceofn.png Graphic file (type bmp)
 File: figs/zplane.png Graphic file (type bmp)
 <figs/zplane.png>
  [5] [6]
-
-LaTeX Warning: Reference `fig:err300' on page 7 undefined on input line 390.
+Overfull \hbox (0.63614pt too wide) in paragraph at lines 389--391
+\T1/lmr/m/n/12 In Fig-ure 7[] it is shown the be-hav-ior of the cost func-tion 
+$\OML/cmm/m/it/12 J\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 k\OT1/cmr/m/n/12 ) = \OML/
+cmm/m/it/12 E []$ \T1/lmr/m/n/12 across 300 re-al-iza-tions,
+ []
 
 File: figs/c1_1real.png Graphic file (type bmp)
 <figs/c1_1real.png>
@@ -804,16 +807,12 @@ File: figs/err_lms.png Graphic file (type bmp)
 <figs/err_lms.png>
  [8] [9
 
-] (report.aux)
-
-LaTeX Warning: There were undefined references.
-
- ) 
+] (report.aux) ) 
 Here is how much of TeX's memory you used:
- 17710 strings out of 427832
- 356151 string characters out of 3152395
+ 17709 strings out of 427832
+ 356139 string characters out of 3152395
  458528 words of memory out of 3000000
- 21319 multiletter control sequences out of 15000+200000
+ 21318 multiletter control sequences out of 15000+200000
  53458 words of font info for 80 fonts, out of 3000000 for 9000
  1328 hyphenation exceptions out of 8191
  55i,10n,82p,822b,803s stack positions out of 5000i,500n,10000p,200000b,50000s
