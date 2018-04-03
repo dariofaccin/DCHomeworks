@@ -20,33 +20,10 @@ w_bt=window(@blackmanharris,2*L+1);
 Pbt1=correlogram(x, w_bt, rx, L);
 %Pbt2=correlogram(x, w_rect, rx, L);
 
-%{
-figure();
-subplot(2,1,1);
-plot(1/Nsamples:1/Nsamples:1,10*log10(abs(Pbt1)));
-title('Correlogram - Hamming');
-ylabel('Amplitude (dB)');
-xlabel('f');
-subplot(2,1,2);
-plot(1/Nsamples:1/Nsamples:1,10*log10(abs(Pbt2)));
-title('Correlogram - rect');
-xlabel('f');
-ylabel('Amplitude (dB)');
-ylim([-15 30]);
-%}
-
 % Periodogram
 X=fft(x);
 Pper=(1/Nsamples)*(abs(X)).^2;
 
-%{
-figure,
-plot(1/Nsamples:1/Nsamples:1,10*log10(Pper))
-title('Periodogram estimate of the PSD')
-xlabel('f')
-ylabel('Amplitude (dB)')
-ylim([-15 30])
-%}
 % Welch periodogram
 S=80;   %overlap
 D=160;   %window length
@@ -55,15 +32,6 @@ w_welch=window(@hamming,D);
 %w_welch=kaiser(D,5);
 [Welch_P, Ns] = welchPSD(x, w_welch, S);
 var_Welch=Welch_P.^2/Ns;
-
-%{
-figure('Name','Welch periodogram');
-plot(1/Nsamples:1/Nsamples:1,10*log10(Welch_P))
-title('Welch periodogram estimate of the PSD')
-xlabel('f')
-ylabel('Amplitude (dB)')
-ylim([-15 30])
-%}
 
 
 % Analytical PSD: compute the transform of rx(n) on paper and plot it
@@ -104,14 +72,7 @@ xlabel('N'); ylabel('J_{min} [dB]');
 % Coefficients of Wiener filter
 [a, s_white, d]=findAR(N, rx);
 [H_w, omega] = freqz(1, [1; a], Nsamples, 'whole');
-%{
-figure('Name','AR model estimate of the PSD');
-plot(omega/(2*pi), 10*log10(s_white*abs(H_w).^2));
-title('AR model estimate of the PSD');
-xlabel('f');
-ylabel('Amplitude (dB)');
-ylim([-15 30]);
-%}
+
 %% Final spectral plot
 figure('Name', 'Spectral Analysis');
 hold on;

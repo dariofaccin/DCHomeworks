@@ -1,6 +1,6 @@
 close all; clear global; clearvars; clc;
 
-%% GENERATE THE PROCESS x(k), 1 REALIZATION
+%% GENERATE THE PROCESS x(k), 300 REALIZATIONS
 
 Nsamples=800;
 % Frequencies of the exponentials

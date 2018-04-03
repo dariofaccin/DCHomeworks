@@ -7,6 +7,8 @@ Nsamples=800;
 f1=0.17;
 f2=0.78;
 % Generate the white noise (2 components)
+%choose the correct variance
+%sigmaw=2;
 sigmaw=0.1;
 % Real part
 wi=sigmaw*randn(Nsamples,1);
