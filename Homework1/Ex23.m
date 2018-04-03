@@ -92,10 +92,10 @@ for i=1:length(Jvect)
 end
 
 figure('Name', 'J over N');
-plot(1:t,Jvect);
+plot(1:t,10*log10(Jvect));
 title('J_{min} over N');
 xlim([1 t]);
-xlabel('N'); ylabel('J_{min}');
+xlabel('N'); ylabel('J_{min} [dB]');
 % coeff=[1; copt];
 % A = tf([1 copt.'], 1,1);
 % figure, pzmap(A)

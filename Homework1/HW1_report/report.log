@@ -1,9 +1,9 @@
-This is XeTeX, Version 3.14159265-2.6-0.99999 (MiKTeX 2.9.6630 64-bit) (preloaded format=xelatex 2018.3.26)  31 MAR 2018 13:12
+This is XeTeX, Version 3.14159265-2.6-0.99998 (MiKTeX 2.9.6500 64-bit) (preloaded format=xelatex 2018.3.31)  3 APR 2018 12:49
 entering extended mode
 **./report.tex
 (report.tex
 LaTeX2e <2017-04-15>
-Babel <3.18> and hyphenation patterns for 76 language(s) loaded.
+Babel <3.15> and hyphenation patterns for 75 language(s) loaded.
 ("C:\Program Files\MiKTeX 2.9\tex\latex\base\report.cls"
 Document Class: report 2014/09/29 v1.4h Standard LaTeX document class
 ("C:\Program Files\MiKTeX 2.9\tex\latex\base\size12.clo"
@@ -43,10 +43,10 @@ Package: inputenc 2015/03/17 v1.2c Input encoding file
 Package inputenc Warning: inputenc package ignored with utf8 based engines.
 
 ) ("C:\Program Files\MiKTeX 2.9\tex\generic\babel\babel.sty"
-Package: babel 2018/02/14 3.18 The Babel package
+Package: babel 2017/11/03 3.15 The Babel package
 
 ("C:\Program Files\MiKTeX 2.9\tex\generic\babel\switch.def"
-File: switch.def 2018/02/14 3.18 Babel switching mechanism
+File: switch.def 2017/11/03 3.15 Babel switching mechanism
 )
 *************************************
 * Local config file bblopts.cfg used
@@ -59,12 +59,15 @@ File: bblopts.cfg 2005/09/08 v0.1 add Arabic and Farsi to "declared" options of
 Language: english 2017/06/06 v3.3r English support from the babel system
 
 ("C:\Program Files\MiKTeX 2.9\tex\generic\babel\babel.def"
-File: babel.def 2018/02/14 3.18 Babel common definitions
+File: babel.def 2017/11/03 3.15 Babel common definitions
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\babel\switch.def"
+File: switch.def 2017/11/03 3.15 Babel switching mechanism
+)
 \babel@savecnt=\count88
 \U@D=\dimen103
 
-("C:\Program Files\MiKTeX 2.9\tex\generic\babel\xebabel.def"
-("C:\Program Files\MiKTeX 2.9\tex\generic\babel\txtbabel.def"))
+("C:\Program Files\MiKTeX 2.9\tex\generic\babel\xebabel.def")
 \bbl@dirlevel=\count89
 )
 \l@canadian = a dialect from \language\l@american 
@@ -808,18 +811,19 @@ Overfull \hbox (7.83322pt too wide) in paragraph at lines 410--413
  [][][] 
  []
 
+[8]
 File: figs/err_lms.png Graphic file (type bmp)
 <figs/err_lms.png>
-[8] [9
+ [9] [10
 
 ] (report.aux) ) 
 Here is how much of TeX's memory you used:
- 17719 strings out of 427832
- 356389 string characters out of 3152395
- 458528 words of memory out of 3000000
- 21326 multiletter control sequences out of 15000+200000
+ 17714 strings out of 427839
+ 356287 string characters out of 3152538
+ 458216 words of memory out of 3000000
+ 21318 multiletter control sequences out of 15000+200000
  53458 words of font info for 80 fonts, out of 3000000 for 9000
  1328 hyphenation exceptions out of 8191
- 55i,10n,82p,822b,803s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 55i,10n,82p,827b,803s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on report.pdf (10 pages).
+Output written on report.pdf (11 pages).

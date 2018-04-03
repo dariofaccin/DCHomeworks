@@ -82,7 +82,7 @@ b(ceil(0.78*800)) = 0.8*10*log10(Nsamples);
 N = 25;
 
 [copt, Jmin]=predictor(rx, N);
-t=159;
+t=40;
 Jvect=zeros(t,1);
 
 for i=1:length(Jvect)
@@ -91,10 +91,10 @@ for i=1:length(Jvect)
 end
 
 figure('Name', 'J over N');
-plot(1:t,Jvect);
+plot(1:t,10*log10(Jvect));
 title('J_{min} over N');
 xlim([1 t]);
-xlabel('N'); ylabel('J_{min}');
+xlabel('N'); ylabel('J_{min} [dB]');
 % coeff=[1; copt];
 % A = tf([1 copt.'], 1,1);
 % figure, pzmap(A)
@@ -124,4 +124,4 @@ legend('Welch', 'Correlogram', 'Periodogram', ['AR(' int2str(N) ')'], 'Actual va
 hold off;
 xlabel('Normalized frequency');
 ylabel('Estimated PSD (dB)');
-ylim([-30 30]);
+ylim([-15 30]);
