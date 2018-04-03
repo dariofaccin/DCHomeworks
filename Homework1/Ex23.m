@@ -61,9 +61,8 @@ end
 
 figure('Name', 'J over N');
 plot(1:t,10*log10(Jvect));
-title('J_{min} over N');
 xlim([1 t]);
-xlabel('N'); ylabel('J_{min} [dB]');
+xlabel('N'); ylabel('\sigma_w^2 = J_{min} [dB]');
 % coeff=[1; copt];
 % A = tf([1 copt.'], 1,1);
 % figure, pzmap(A)
@@ -77,12 +76,11 @@ xlabel('N'); ylabel('J_{min} [dB]');
 figure('Name', 'Spectral Analysis');
 hold on;
 plot((1:Nsamples)/Nsamples, 10*log10(Welch_P), 'r')
-plot((1:Nsamples)/Nsamples, 10*log10(abs(Pbt1)), 'Color', 'b')
+plot((1:Nsamples)/Nsamples, 10*log10(abs(Pbt1)),'b')
 plot((1:Nsamples)/Nsamples, 10*log10(Pper), 'g:')
-plot(omega/(2*pi), 10*log10(s_white*(abs(H_w)).^2), 'Color', 'm');
+plot(omega/(2*pi), 10*log10(s_white*(abs(H_w)).^2), 'm');
 plot((1:Nsamples)/Nsamples, b, 'k:');
-title('Spectral analysis');
-legend('Welch', 'Correlogram', 'Periodogram', ['AR(' int2str(N) ')'], 'Actual value', 'Location', 'SouthWest');
+legend('Welch', 'Correlogram', 'Periodogram', ['AR(' int2str(N) ')'], 'Analytical PSD', 'Location', 'SouthWest');
 hold off;
 xlabel('Normalized frequency');
 ylabel('Estimated PSD (dB)');

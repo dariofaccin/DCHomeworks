@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.1.7)  3 APR 2018 14:15
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.1.7)  3 APR 2018 20:04
 entering extended mode
 **./report.tex
 (report.tex
@@ -1126,38 +1126,38 @@ Underfull \hbox (badness 10000) in paragraph at lines 86--88
  []
 
 [1] [2]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 204.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 202.
 
  ("C:\Program Files\MiKTeX 2.9\tex\latex\base\omscmr.fd"
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 204.
-<figs/choiceofn_ex1.png, id=55, 526.96875pt x 395.22656pt>
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 202.
+ [3]
+<figs/choiceofn_ex1.png, id=59, 526.96875pt x 395.22656pt>
 File: figs/choiceofn_ex1.png Graphic file (type png)
 <use figs/choiceofn_ex1.png>
-Package pdftex.def Info: figs/choiceofn_ex1.png  used on input line 217. on inp
-ut line 217.
+Package pdftex.def Info: figs/choiceofn_ex1.png  used on input line 216. on inp
+ut line 216.
 Package pdftex.def Info: Requested size: 241.84843pt x 181.3903pt on input line
- 217.
- [3]
-<figs/estimatedpsd2.png, id=61, 1445.4pt x 704.6325pt>
+ 216.
+<figs/estimatedpsd2.png, id=60, 1445.4pt x 704.6325pt>
 File: figs/estimatedpsd2.png Graphic file (type png)
 <use figs/estimatedpsd2.png>
-Package pdftex.def Info: figs/estimatedpsd2.png  used on input line 228. on inp
-ut line 228.
+Package pdftex.def Info: figs/estimatedpsd2.png  used on input line 227. on inp
+ut line 227.
 Package pdftex.def Info: Requested size: 483.69687pt x 235.798pt on input line 
-228.
+227.
  [4 <./figs/choiceofn_ex1.png (PNG copy)> <./figs/estimatedpsd2.png (PNG copy)>
 ]
-<figs/choiceofn_ex2.png, id=65, 526.96875pt x 395.22656pt>
+<figs/choiceofn_ex2.png, id=64, 526.96875pt x 395.22656pt>
 File: figs/choiceofn_ex2.png Graphic file (type png)
 <use figs/choiceofn_ex2.png>
 Package pdftex.def Info: figs/choiceofn_ex2.png  used on input line 250. on inp
 ut line 250.
 Package pdftex.def Info: Requested size: 241.84843pt x 181.3903pt on input line
  250.
-<figs/estimatedpsd01.png, id=66, 1445.4pt x 704.6325pt>
+<figs/estimatedpsd01.png, id=65, 1445.4pt x 704.6325pt>
 File: figs/estimatedpsd01.png Graphic file (type png)
 <use figs/estimatedpsd01.png>
 Package pdftex.def Info: figs/estimatedpsd01.png  used on input line 263. on in
@@ -1165,7 +1165,7 @@ put line 263.
 Package pdftex.def Info: Requested size: 483.69687pt x 235.798pt on input line 
 263.
  [5 <./figs/choiceofn_ex2.png (PNG copy)>]
-<figs/zplane.png, id=70, 526.96875pt x 395.22656pt>
+<figs/zplane.png, id=69, 526.96875pt x 395.22656pt>
 File: figs/zplane.png Graphic file (type png)
 <use figs/zplane.png>
 Package pdftex.def Info: figs/zplane.png  used on input line 342. on input line
@@ -1174,80 +1174,65 @@ Package pdftex.def Info: Requested size: 241.84843pt x 181.3903pt on input line
  342.
  [6 <./figs/estimatedpsd01.png (PNG copy)>]
 [7 <./figs/zplane.png (PNG copy)>]
-Overfull \hbox (0.54076pt too wide) in paragraph at lines 404--406
-\T1/cmr/m/n/12 In Fig-ure 9[] it is shown the be-hav-ior of the cost func-tion 
-$\OML/cmm/m/it/12 J\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 k\OT1/cmr/m/n/12 ) = \OML/
-cmm/m/it/12 E []$ \T1/cmr/m/n/12 across 300 re-al-iza-tions,
- []
-
-<figs/c1_1real.png, id=78, 526.96875pt x 395.22656pt>
+<figs/c1_1real.png, id=77, 526.96875pt x 395.22656pt>
 File: figs/c1_1real.png Graphic file (type png)
 <use figs/c1_1real.png>
-Package pdftex.def Info: figs/c1_1real.png  used on input line 410. on input li
-ne 410.
-Package pdftex.def Info: Requested size: 241.84843pt x 181.3903pt on input line
- 410.
-<figs/c2_1real.png, id=79, 526.96875pt x 395.22656pt>
+Package pdftex.def Info: figs/c1_1real.png  used on input line 411. on input li
+ne 411.
+Package pdftex.def Info: Requested size: 435.32422pt x 326.50616pt on input lin
+e 411.
+ [8]
+<figs/c2_1real.png, id=82, 526.96875pt x 395.22656pt>
 File: figs/c2_1real.png Graphic file (type png)
 <use figs/c2_1real.png>
-Package pdftex.def Info: figs/c2_1real.png  used on input line 412. on input li
-ne 412.
-Package pdftex.def Info: Requested size: 241.84843pt x 181.3903pt on input line
- 412.
-
-Overfull \hbox (7.83142pt too wide) in paragraph at lines 410--413
- [][][] 
- []
-
-[8]
-<figs/err_lms.png, id=84, 526.96875pt x 395.22656pt>
+Package pdftex.def Info: figs/c2_1real.png  used on input line 420. on input li
+ne 420.
+Package pdftex.def Info: Requested size: 435.32422pt x 326.50616pt on input lin
+e 420.
+<figs/err_lms.png, id=83, 526.96875pt x 395.22656pt>
 File: figs/err_lms.png Graphic file (type png)
 <use figs/err_lms.png>
-Package pdftex.def Info: figs/err_lms.png  used on input line 419. on input lin
-e 419.
-Package pdftex.def Info: Requested size: 241.84843pt x 181.3903pt on input line
- 419.
- [9 <./figs/c1_1real.png (PNG copy)> <./figs/c2_1real.png (PNG copy)> <./figs/e
-rr_lms.png (PNG copy)>] [10
+Package pdftex.def Info: figs/err_lms.png  used on input line 427. on input lin
+e 427.
+Package pdftex.def Info: Requested size: 386.95897pt x 290.23172pt on input lin
+e 427.
+ [9 <./figs/c1_1real.png (PNG copy)> <./figs/c2_1real.png (PNG copy)>] [10 <./f
+igs/err_lms.png (PNG copy)>] [11
 
-] (report.aux) ) 
+]
+(report.aux) ) 
 Here is how much of TeX's memory you used:
- 18726 strings out of 493312
- 377812 string characters out of 3138900
- 456403 words of memory out of 3000000
- 21851 multiletter control sequences out of 15000+200000
- 25029 words of font info for 78 fonts, out of 3000000 for 9000
+ 18705 strings out of 493312
+ 377560 string characters out of 3138900
+ 456413 words of memory out of 3000000
+ 21838 multiletter control sequences out of 15000+200000
+ 21250 words of font info for 66 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,10n,82p,827b,803s stack positions out of 5000i,500n,10000p,200000b,50000s
- <C:\Users\jacop\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknap
-pen\ec\dpi600\ecbx2488.pk> <C:\Users\jacop\AppData\Local\MiKTeX\2.9\fonts\pk\lj
-four\jknappen\ec\dpi600\ecrm1000.pk> <C:\Users\jacop\AppData\Local\MiKTeX\2.9\f
-onts\pk\ljfour\jknappen\ec\dpi600\ecbx1000.pk> <C:\Users\jacop\AppData\Local\Mi
-KTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecti1200.pk> <C:\Users\jacop\AppDat
-a\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx1200.pk> <C:\Users\ja
-cop\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ectt1200.pk> <C
-:\Users\jacop\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1
-200.pk> <C:\Users\jacop\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dp
-i600\ecbx1440.pk> <C:\Users\jacop\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jkna
-ppen\ec\dpi600\ecbx1728.pk> <C:\Users\jacop\AppData\Local\MiKTeX\2.9\fonts\pk\l
-jfour\jknappen\ec\dpi600\ecrm1440.pk> <C:\Users\jacop\AppData\Local\MiKTeX\2.9\
-fonts\pk\ljfour\jknappen\ec\dpi600\ecrm2074.pk><C:/Program Files/MiKTeX 2.9/fon
-ts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1
-/public/amsfonts/cm/cmex10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/
-amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts
-/cm/cmmi12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi
-6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:
-/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program 
-Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Program Files/MiKT
-eX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Program Files/MiKTeX 2.9/fon
-ts/type1/public/amsfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/p
-ublic/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/am
-sfonts/cm/cmsy6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm
-/cmsy8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.p
-fb>
-Output written on report.pdf (11 pages, 770508 bytes).
+ <C:\Users\jacop\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappe
+n\ec\dpi600\ecbx2488.pk> <C:\Users\jacop\AppData\Local\MiKTeX\2.9\fonts\pk\ljfo
+ur\jknappen\ec\dpi600\ecti1200.pk> <C:\Users\jacop\AppData\Local\MiKTeX\2.9\fon
+ts\pk\ljfour\jknappen\ec\dpi600\ecbx1200.pk> <C:\Users\jacop\AppData\Local\MiKT
+eX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ectt1200.pk> <C:\Users\jacop\AppData\
+Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1200.pk> <C:\Users\jaco
+p\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx1440.pk> <C:\
+Users\jacop\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx172
+8.pk> <C:\Users\jacop\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi6
+00\ecrm1440.pk> <C:\Users\jacop\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknapp
+en\ec\dpi600\ecrm2074.pk><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfon
+ts/cm/cmbx12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cm
+ex10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi12.pfb
+><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Prog
+ram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Program Files
+/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX 2
+.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Program Files/MiKTeX 2.9/fonts/t
+ype1/public/amsfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/publi
+c/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfon
+ts/cm/cmsy8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmt
+t12.pfb>
+Output written on report.pdf (12 pages, 735608 bytes).
 PDF statistics:
- 421 PDF objects out of 1000 (max. 8388607)
+ 385 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  149 words of extra memory for PDF output out of 10000 (max. 10000000)
 

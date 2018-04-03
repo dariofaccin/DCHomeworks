@@ -43,7 +43,7 @@ The random process to simulate is:
 \begin{equation}
 x(k)=e^{j(2\pi f_1 k +\phi_1)} + 0.8e^{j(2\pi f_2 k +\phi_2)} + w(k)
 \end{equation}
-where $f_1=0.17$ and $f_2=0.78$ are the normalized frequencies of the exponential signals, $\phi_1$ and $\phi_2$ their initial phases considered as uniformly distributed in the interval $ [0,2\pi)$. The added noise $w(k)$ is a r.p. that follows a complex Gaussian distribution with zero mean and variance $\sigma_w^2$.
+where $f_1=0.17$ and $f_2=0.78$ are the normalized frequencies of the exponential signals, $\phi_1$ and $\phi_2$ their initial phases considered as uniformly distributed in the interval $ [0,2\pi)$. The added noise $w(k)$ is a r.p. that follows a complex Gaussian distribution with zero mean and variance $\sigma_{wa}^2$.
 The simulation of this process has been carried out for $K=800$ samples of a single realization. The sampling period $T_c$ is assumed to be equal to $1$.
 
 \subsection*{Autocorrelation estimation}
@@ -162,10 +162,6 @@ This equation is equivalent to the scheme in Figure \ref{fig:armodel}, where $w$
 \label{fig:armodel}
 \end{figure}
 
-The z-transform of the autocorrelation sequence of $x$ is given by
-\begin{equation}
-	P_x(z) = \frac{\sigma_w^2}{A(z) A^{*} \left( \frac{1}{z^{*}} \right) }
-\end{equation}
 The PSD of $x$, given by the Fourier transform of the autocorrelation sequence, is:
 \begin{equation}
 	\mathcal{P}_x(f) = P_z(e^{j 2 \pi f T_c})= \frac{T_c \sigma_w^2}{|\mathcal{A}(f)|^2}
@@ -193,62 +189,66 @@ The variance $\sigma_w ^2$ of the white noise $w(k)$ is then
 \begin{equation}
 	\sigma_w ^2 = \mathtt{r}_x(0) + \mathbf{r}^H \mathbf{a}
 \end{equation}
+In this work however the autocorrelation of the process is not known because we have access to only one realization. For this reason the autocorrelation matrix will be built using the unbiased estimate $\hat{\mathtt{r}}_x(n)$ defined as in equation (2).
 
+It's important to not confuse the added noise in the original r.p., with variance $\sigma_{wa}^2$, with the variance of the noise that is used as input for the AR model that has variance $\sigma_{w}^2$.
 
 \section*{Problem 1}
-
+Here $\sigma_{wa}^2=2$.
 The parameters used for the different methods are listed below:
 
 \begin{itemize}
 	
-\item {\bf Periodogram} In this method the samples of the autocorrelation used are up to $K-1$ so we use 800 samples. Of course this implies that the variance of the estimator will be very high.
+\item {\bf Periodogram} The estimate is computed using equation (6). In this method the samples of the autocorrelation are used up to $K-1$ so the variance of the estimator will be very high \cite{nevio<3}.
 
-\item {\bf Correlogram}  For this estimator we used an Hamming window and $L=\frac{K}{5}=160$ to reduce the variance of the autocorrelation estimate. The choice of the Hamming window is based on the outcome of the estimate and on the consideration that the two carrier frequencies are well separated so a rectangular window would perform worse. The expression for the Hamming window is:
+\item {\bf Correlogram}  For this estimator (see equation (4)) we used an Hamming window and $L=\frac{K}{5}=160$ to reduce the variance of the autocorrelation estimate (the unbiased one: (2)). The choice of the Hamming window is based on the outcome of the estimate and on the consideration that the two carrier frequencies are well separated so a rectangular window would perform worse. The expression for the Hamming window is:
 \begin{equation}
 w_H(n)=0.54-0.46\cos\Big( \frac{2 \pi n}{2L} \Big)
 \end{equation}
 
-\item {\bf Welch periodogram} In this case we used a rectangular window of size $D=120$ samples and overlap of size $S=60$ samples. This decision is due to the necessity of reducing the variance of the estimator (that is done by taking more sequences) and at the same time obtain a good evaluation of the peaks (that means increasing $D$). 
+\item {\bf Welch periodogram} The estimate is based on equations (7-8). In this case we used a rectangular window of size $D=120$ samples and overlap of size $S=60$ samples. This decision is due to the necessity of reducing the variance of the estimator (that is done by taking more sequences) and at the same time obtain a good evaluation of the peaks (that means increasing $D$).  
 
-\item {\bf AR model} The AR model with this value of the variance of the error requires a high order to estimate correctly the PSD. Indeed, the plot of the error $J_{min}$ of a linear predictor over the order of the filter $N$ shows a decreasing behavior without flattening even at high values of $N$. For this reason, recalling the relation between the coefficients of the predictor and those of the AR model ($\mathbf{c} = -\mathbf{a}$)  we chose $N=25$ for a trade-off between not increasing the complexity too much and being able to estimate the shape of the PSD correctly from a graphical point of view.  %complete+write better explaination
+\item {\bf AR model} The AR model (see (9-13-14)) with this value of the variance of the error requires a high order to estimate correctly the PSD. To correctly choose the order, we can plot the value of the variance of the input white process $\sigma_{w}^2$ versus $N$ and choose the value that represents a good trade-off between complexity and low variance. This is indeed a good method because if we recall the relation between the AR model of a process and the optimal linear predictor for the same process we can interpret $\sigma_{w}^2$ as the error made by the predictor, $J_{min}$. However in this case $J_{min}$ shows a decreasing behavior without flattening even at high values of $N$ so the decision is not easily determined.
+We chose $N=25$ because, without being too high, it provided a good representation of the expected peaks in the PSD estimate.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.5\textwidth]{choiceofn_ex1}
-	\caption{$J_{min}$ over $N$, $\sigma_w^2 = 2$}
+	\caption{$J_{min}$ over $N$, $\sigma_{wa}^2 = 2$}
 	\label{fig:choiceofn_ex1}
 \end{figure}
 
 \end{itemize}
 
-In Figure \ref{fig:estimatedpsd2} it is shown the power spectral density estimation using the methods described in the previous sections, along with the analytical PSD.
+In Figure \ref{fig:estimatedpsd2} it is shown the power spectral density estimation along with the analytical PSD.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{estimatedpsd2}
-	\caption{Estimated PSD, $\sigma_w^2 = 2$}
+	\caption{Estimated PSD, $\sigma_{wa}^2 = 2$}
 	\label{fig:estimatedpsd2}
 \end{figure}
-
+\newpage
 \section*{Problem 2}
+Here $\sigma_{wa}^2=0.1$
 \begin{itemize}
 	
-	\item {\bf Periodogram} Again the samples used are 800, so the variance will be very high.
+	\item {\bf Periodogram} Equation (6). In this method the samples of the autocorrelation are used up to $K-1$ so the variance of the estimator will be very high \cite{nevio<3}.
 	
-	\item {\bf Correlogram}  For this estimator we used $L=\frac{K}{5}=160$ to reduce the variance of the autocorrelation estimate. This time the window used was a Blackman-Harris window, because it led to less oscillations than the Hamming window:
+	\item {\bf Correlogram}  For this estimator (see equation (4)) we used $L=\frac{K}{5}=160$ to reduce the variance of the autocorrelation estimate (unbiased (2)). This time the window used was a Blackman-Harris window, because it led to less oscillations than the Hamming window:
 	\begin{equation}
 	w_{BH}(n)=0.35875-0.48829\cos \Big( \frac{2\pi n}{2L} \Big) +0.14128\cos \Big( \frac{4\pi n}{2L} \Big) - 0.01168 \cos \Big( \frac{6 \pi n}{2L} \Big)
 	\end{equation}
 	
-	\item {\bf Welch periodogram} In this case we used a Hamming window of size $D=160$ samples and overlap of size $S=80$ samples. This decision is due to the necessity of reducing the variance of the estimator (that is done by taking more sequences) and at the same time obtain a good evaluation of the peaks (that means increasing $D$). This time an Hamming window was used, because a rectangular window would lead to much higher side peaks. 
+	\item {\bf Welch periodogram} Equation (7-8). In this case we used a Hamming window of size $D=160$ samples and overlap of size $S=80$ samples. This decision is due to the necessity of reducing the variance of the estimator (that is done by taking more sequences) and at the same time obtain a good evaluation of the peaks (that means increasing $D$). This time an Hamming window was chosen because a rectangular window would lead to much higher side peaks. 
 	
 	
-\item {\bf AR model} To choose the parameter $N$ we exploited the relation between the linear predictor designed in exercise 3 and the AR model of the process. The cost function obtained for an optimal choice of the predictor's coefficients is  $J_{min} = \mathtt{r}_x(0) + \mathbf{r}_n^H \mathbf{a}$ and we plotted it as a function of the number $N$ (from $1$ to $20$) of the coefficients.
+\item {\bf AR model} To choose the parameter $N$ we exploited the relation between the AR model and the linear predictor as in exercise 1, plotting $\sigma_w^2=J_{min}$ versus $N$.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.5\textwidth]{choiceofn_ex2}
-	\caption{$J_{min}$ over $N$, $\sigma_w^2 = 0.1$}
+	\caption{$J_{min}$ over $N$, $\sigma_{wa}^2 = 0.1$}
 	\label{fig:choiceofn_ex2}
 \end{figure}
 
@@ -256,12 +256,12 @@ From Figure \ref{fig:choiceofn_ex2}, it can be seen that a suitable choice is $N
 Using this value the autocorrelation matrix $\mathbf{R}$ is indeed well conditioned, hence the solution is acceptable.
 \end{itemize}
 
-In Figure \ref{fig:estimatedpsd01} it is shown the power spectral density estimation using the methods described in the previous sections, along with the analytical PSD.
+In Figure \ref{fig:estimatedpsd01} is shown the power spectral density estimation along with the analytical PSD.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{estimatedpsd01}
-	\caption{Estimated PSD, $\sigma_w^2 = 0.1$}
+	\caption{Estimated PSD, $\sigma_{wa}^2 = 0.1$}
 	\label{fig:estimatedpsd01}
 \end{figure}
 
@@ -401,22 +401,30 @@ In Table \ref{tab:predopt} are reported the coefficients of the predictor at con
 	\label{tab:predopt}
 \end{table}
 
-In Figure \ref{fig:coeff1} it is shown the behavior of the coefficients $c_i, \, i=1,2$,  their mean across 300 realizations (as $k$ increases) and the optimal solution by the Wiener-Hopf equation. We can see that the convergence is very good in all cases, only the imaginary part of coefficient $c_1$ is a bit worse than the others.\\
+In Figures \ref{fig:coeff1} and \ref{fig:coeff2} it is shown the behavior of the coefficients $c_i, \, i=1,2$,  their mean across 300 realizations (as $k$ increases) and the optimal solution by the Wiener-Hopf equation. We can see that the convergence is very good in all cases, only the imaginary part of coefficient $c_1$ is a bit worse than the others.\\
 In Figure \ref{fig:err_lms} it is shown the behavior of the cost function $J(k) = E \left[ |e(k)|^2 \right]$  across 300 realizations, the values of $|e(k)|^2$ obtained with the LMS algorithm and the solution of the direct method $J_{min}$, as the number of iterations $k$ increases. We can notice that, according to the theoretical results, the mean squared error $J(k)$ presents an \emph{excess noise} $J_{ex}(\infty)$ that makes it not perfectly converging to the analytical value $J_{min}$ (the difference is small but visible in Figure \ref{fig:err_lms}). To reduce this excess value we could choose a smaller value of $\tilde{\mu}$, but this would result in a slower convergence of the coefficients that we want to avoid having at our disposal only a limited number of samples of the signal.
+
 
 \begin{figure}[H]
 	\centering
-	\subfloat[Real and imaginary part of $c_1$]{
-		\includegraphics[width=0.5\textwidth]{c1_1real}}
-	\subfloat[Real and imaginary part of $c_2$]{
-	\includegraphics[width=0.5\textwidth]{c2_1real}}
-	\caption{Coefficients for one realization}
+	
+	\includegraphics[width=0.9\textwidth]{c1_1real}
+	
+	\caption{Real and imaginary part of $c_1$}
 	\label{fig:coeff1}
+\end{figure}
+
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=0.9\textwidth]{c2_1real}
+	\caption{Real and imaginary part of $c_2$}
+	\label{fig:coeff2}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.5\textwidth]{err_lms}
+	\includegraphics[width=0.8\textwidth]{err_lms}
 	\caption{Mean squared error obtained with LMS (blue), by averaging over 300 realizations (yellow) and with the direct method (red).}
 	\label{fig:err_lms}
 \end{figure}
