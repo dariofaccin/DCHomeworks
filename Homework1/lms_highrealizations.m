@@ -1,6 +1,6 @@
 clc; close all; clear global; clearvars;
 
-%% Least Mean Squares Estimation
+%% Least Mean Square, mean over 300 realizations
 
 % Load one realization
 load('realizations.mat','x');
