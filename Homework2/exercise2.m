@@ -67,11 +67,7 @@ h_sd=std(abs(h_bar));
 h_mean=mean(abs(h_bar));
 % magnitude
 mag_h=abs(h_bar);
-% fit the data with a Rice ditribution to derive the parameters 
-[v, s]=ricefit(mag_h);
-% parameters v ans s are related to the rice factor K (wikipedia rician
-% distribution)
-K_est=v^2/(2*s^2); % estimated value of K 
+
 
 % plot an histogram of h to get an idea of the shape of the distribution
 Nbins=100;
@@ -81,11 +77,6 @@ ylabel('Number of samples')
 xlabel('Value')
 title('Histogram of h_0')
 
-% compute the theoretical distribution
-x=linspace(0,3,1000);
-v_th=sqrt(K/(K+1));
-s_th=sqrt(1/(2*(K+1)));
-th=ricepdf(x,v_th,s_th );
 
 
 %% SPECTRUM ESTIMATION
@@ -103,8 +94,8 @@ f=1/Tc:1/Tc:Nsamples;
 Welch_centered=fftshift(Welch_P);
 figure,
 plot(10*log10(Welch_centered))
-%ylim([-10 30])
-%xlim([Nsamples/2-5*Nsamples*fd Nsamples/2+5*Nsamples*fd])
+ylim([-10 30])
+xlim([Nsamples/2-5*Nsamples*fd Nsamples/2+5*Nsamples*fd])
 xticks([39850 39900 39950 40000 40050 40100 40150])
 xticklabels({'-150','-100','-50','0','50','100','150'});
 ylabel('H(f) [dB]')
