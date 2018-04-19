@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.10.26)  19 APR 2018 13:54
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.10.26)  19 APR 2018 23:15
 entering extended mode
 **./report.tex
 (report.tex
@@ -1147,27 +1147,51 @@ File: images/Model_2.png Graphic file (type png)
 <use images/Model_2.png>
 Package pdftex.def Info: images/Model_2.png used on input line 46.
 (pdftex.def)             Requested size: 398.33858pt x 131.39304pt.
- [1 <./images/Model_2.png>]
-<images/h_d.png, id=53, 843.15pt x 632.3625pt>
+
+Overfull \hbox (17.25407pt too wide) in paragraph at lines 78--82
+\T1/cmr/m/n/12 power de-lay pro-file, and fi-nally added up with an-other con-s
+tant, $\OML/cmm/m/it/12 C$\T1/cmr/m/n/12 , which in-cluded the de-ter-min-is-ti
+c
+ []
+
+[1 <./images/Model_2.png>] <images/h_d.png, id=53, 843.15pt x 632.3625pt>
 File: images/h_d.png Graphic file (type png)
- <use images/h_d.png>
+
+<use images/h_d.png>
 Package pdftex.def Info: images/h_d.png used on input line 85.
 (pdftex.def)             Requested size: 213.39566pt x 160.03934pt.
-
-<images/D.png, id=54, 843.15pt x 632.3625pt>
+ <images/D.png, id=54, 843.15pt x 632.3625pt>
 File: images/D.png Graphic file (type png)
- <use images/D.png>
+
+<use images/D.png>
 Package pdftex.def Info: images/D.png used on input line 86.
 (pdftex.def)             Requested size: 213.39566pt x 160.03934pt.
- [2 <./images/h_d.png (PNG copy)> <./images/D.png (PNG copy)>] [3
+ <images/h0_7500.png, id=55, 843.15pt x 632.3625pt>
+File: images/h0_7500.png Graphic file (type png)
+
+<use images/h0_7500.png>
+Package pdftex.def Info: images/h0_7500.png used on input line 93.
+(pdftex.def)             Requested size: 398.33858pt x 298.75427pt.
+ [2 <./images/h_d.png (PNG copy)> <./images/D.png (PNG copy)> <./images/h0_7500
+.png (PNG copy)>]
+<images/hist.png, id=59, 843.15pt x 632.3625pt>
+File: images/hist.png Graphic file (type png)
+ <use images/hist.png>
+Package pdftex.def Info: images/hist.png used on input line 116.
+(pdftex.def)             Requested size: 398.33858pt x 298.75427pt.
+ [3
+
+ <./images/hist.png (PNG copy)>] [4
+
+] [5
 
 ] (report.aux) ) 
 Here is how much of TeX's memory you used:
- 18272 strings out of 493323
- 372222 string characters out of 3139065
- 454539 words of memory out of 3000000
- 21414 multiletter control sequences out of 15000+200000
- 20429 words of font info for 62 fonts, out of 3000000 for 9000
+ 18291 strings out of 493323
+ 372492 string characters out of 3139065
+ 454571 words of memory out of 3000000
+ 21429 multiletter control sequences out of 15000+200000
+ 21357 words of font info for 65 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,10n,82p,497b,376s stack positions out of 5000i,500n,10000p,200000b,50000s
  <C:\Users\giova\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknap
@@ -1180,19 +1204,21 @@ ova\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx1728.pk> <C
 :\Users\giova\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1
 440.pk> <C:\Users\giova\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dp
 i600\ecrm2074.pk><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cm
-bx10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx7.pfb>
-<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Prog
-ram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Program File
-s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Program Files/MiKTeX 
-2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Program Files/MiKTeX 2.9/fonts
-/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/pu
-blic/amsfonts/cm/cmr6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfo
-nts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cms
-y10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb><
-C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on report.pdf (4 pages, 319878 bytes).
+bx10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb
+><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx7.pfb><C:/Prog
+ram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Program File
+s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Program Files/MiKTeX
+ 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Program Files/MiKTeX 2.9/font
+s/type1/public/amsfonts/cm/cmmi8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/p
+ublic/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/ams
+fonts/cm/cmr6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/c
+mr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
+<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Progr
+am Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Program Files/
+MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+Output written on report.pdf (6 pages, 439131 bytes).
 PDF statistics:
- 287 PDF objects out of 1000 (max. 8388607)
+ 316 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 124 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 134 words of extra memory for PDF output out of 10000 (max. 10000000)
 

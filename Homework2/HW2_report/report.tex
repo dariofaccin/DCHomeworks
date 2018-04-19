@@ -78,7 +78,7 @@ In Table \ref{iircoeffs} are shown the coefficients used for such filter \cite{n
 The graphical representation of the impulse response of the IIR filter and the Doppler Spectrum is shown in Fig. \ref{DS}. 
 To obtain $h_0$, following the scheme of Fig. \ref{Model_2}, the noise component $w\sim \mathcal{CN}(0,1)$ is filtered with the IIR filter previously described. Note that the frequency response of this filter is $\mathcal{H}_{ds}(f)=\sqrt{\mathcal{D}(f)}$ while the PSD of the noise is constant and equal to 1. For this reason, the equivalent impulse response of this part is equal to $\mathcal{D}(f)=1\cdot |\mathcal{H}_{ds}|^2$ which is actually the Doppler spectrum. \\
 The output of the filter is affected by a transient, which we avoided by considering only values after $5N_{eq}T_p$, where $N_{eq} = \left\lceil -\frac{1}{\ln(|p|)} \right\rceil$ is the equivalent time constant, and $p$ is the pole with the highest magnitude. Then, after scaling the coefficient such that $M_{h_0}/\sqrt{E_{h_{ds}}}=1$, the signal is filtered with an interpolation filter of factor $1/T_Q = T_p/T_c=250$. \\
-The interpolator output signal is then multiplied by a constant $\sigma_0 = \sqrt{M_d}$ to impose the desired power delay profile, and finally added up with another constant, $C$, which included the deterministic component according to \cite{nevio<3}, Page 307.
+The interpolator output signal is multiplied by a constant $\sigma_0 = \sqrt{M_d}$ to impose the desired power delay profile, and finally added up with another constant, $C$, which included the deterministic component according to \cite{nevio<3}, Page 307. The final signal is given in Fig. \ref{h0_7500}.
 
 \begin{figure}[H]
 	\centering
@@ -88,9 +88,46 @@ The interpolator output signal is then multiplied by a constant $\sigma_0 = \sqr
 	\label{DS}
 \end{figure}
 
-\subsection*{Estimate of $\mathbf{\frac{|h_0|}{\sqrt{M_{|h_0|}}}}$}ù
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=14cm]{images/h0_7500}
+	\caption{Magnitude of the simulated $h_0$ for 7500 samples.}\label{h0_7500}
+\end{figure}
 
+\clearpage
+\subsection*{PDF of $\mathbf{\frac{|h_0|}{\sqrt{M_{|h_0|}}}}$}
+The signal $h' = \frac{h_0}{\sqrt{M_{|h_0|}}} $ for 80000 samples is now studied. Note that, according to Fig. [\ref{Model_2}], $h'$ contains a deterministic component in addiction to a random component, which is complex gaussian with zero-mean and variance equal to one. For this reason the \textit{pdf} of $|h'|$ is a Rice distribution given by
+\begin{equation}\label{Rice}
+p_{|h'|} = \begin{cases*}
+			2(1+K)ae^{-K-(1+K)a^2}I_0(2a\sqrt{K(1+K)}) \quad\quad a\ge0 \\
+			0 \quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad otherwise
+\end{cases*}
+\end{equation}
 
+where $I_0$ is the \textit{modified Bessel function of the first type and order zero}, respectively
+\begin{equation*}
+I_0 = \frac{1}{2\pi}\int_{-\pi}^{pi}e^{x \cos \alpha}d\alpha
+\end{equation*}
+
+The histogram of $h'$ is shown in Figure [\ref{hist}]. Here it is given also the theoretical \textit{pdf} evaluated according to equation \ref{Rice}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=14cm]{images/hist}
+	\caption{Plot of both estimate and theoretical curve of the pdf of $h'$ .}\label{hist}
+\end{figure}
+
+\clearpage
+\subsection*{Spectrum of $\mathbf{h_0}$}
+In this section the spectrum oh $h_0$ is computed using the Welch Periodogram. This method extracts different subsequences of consecutive D samples which eventually overlap, and for each of these it computes the periodogram $\mathcal{P}_{PER}^{\left(s\right)}(f)$. The matematical model is given by
+\begin{equation*}
+\mathcal{P}_{WE}(F) = \frac{1}{N_s}\sum_{x=0}^{N_s-1}\mathcal{P}_{PER}^{(s)}(f)
+\end{equation*}
+where $N_s = \lfloor \frac{K-D}{D-S}-1 \rfloor$ is the total number of subsequences. \\
+In order to compare the estimate with the theoretical case, the ideal PSD is computed. It is defined as the Fourier Transform of the autocorrelation function, which was evaluated using the unbiased estimator of equation \ref{autoc}:
+\begin{equation}\label{autoc}
+\hat{r}_x(n) = \frac{1}{K-n}\sum_{k=n}^Kh_0(k)h_0^*(k-n)  \quad\quad\quad n=0,1,\cdots,K-1
+\end{equation}
 
 
 \begin{thebibliography}{15}
