@@ -24,16 +24,16 @@ h = h(1:Nlim);
 [h_even,h_odd] = polyphase(h,Nlim);
 
 %% ESTIMATE OF h WITH THE CORRELATION METHOD
-z_0=filter(h_even, 1, x);       % r_0 per JP
+z_0=filter(h_even, 1, x);
 z_1=filter(h_odd, 1, x);
 d_0 = z_0 + w_0;
 d_1 = z_1 + w_1;
-
 h0_est=r_dx(x, d_0);       % correlation method
 h1_est=r_dx(x, d_1);
 
 % Estimated impulse response: take even/odd samples from the polyphase
 % components (S/P)
+
 h_est=zeros(Nlim,1);
 for i=1:Nlim
     if (i<=L)

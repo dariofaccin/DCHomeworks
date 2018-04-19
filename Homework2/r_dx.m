@@ -1,4 +1,4 @@
-function [rx]=r_dx(x,r)
+function [rx]=r_dx(x,d)
 % INPUT
 % x the input sequence of length 2*L
 % r the output of the filter
@@ -11,7 +11,7 @@ for m=1:L-1
     rtemp=zeros(L,1);
     for k=1:L
         %starts using the samples of d after a transient of ength L-1
-        rtemp(k)=r(L-2+k)*conj(x(L-1+k-m));
+        rtemp(k)=d(L-2+k)*conj(x(L-1+k-m));
     end
     rx(m)=sum(rtemp)/L;
 end
