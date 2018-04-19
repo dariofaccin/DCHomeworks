@@ -62,7 +62,7 @@ xlim([1 N_h0]), grid on
 title('Impulse response of the channel')
 
 %% ESTIMATE OF THE PDF OF H_p=|h0|/sqrt(M)
-h_p = h0/sqrt(C^2+Md);         % the normalization here does not make much sense
+h_p = h0/sqrt(C^2+Md);        % the normalization here does not make much sense
                               % as M_h0=1-C^2, but it's to keep the formulas as in the book
 
 h_sd = std(abs(h_p));         % mean 

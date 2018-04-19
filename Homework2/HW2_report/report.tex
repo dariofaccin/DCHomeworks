@@ -76,12 +76,9 @@ In Table \ref{iircoeffs} are shown the coefficients used for such filter \cite{n
 
 
 The graphical representation of the impulse response of the IIR filter and the Doppler Spectrum is shown in Fig. \ref{DS}. 
-To obtain $h_0$, following the scheme of Fig. \ref{Model_2}, the noise component $w\sim \mathcal{CN}(0,1)$ was filtered with the IIR filter previously described. Note that the frequency response of this filter is $mathcal{H}_{ds}(f)=\sqrt{\mathcal{D}(f)}$ while the PSD of the noise is constant and equal to 1. For this reason, the equivalent impulse response of this part is equal to $\mathcal{D}(f)=1\cdot |\mathcal{H}_{ds}|^2$ which is actually the Doppler spectrum. \\
-The output of the filter was affected by a transient, which we have avoided by considering only values after $5N_{eq}T_p$, where $N_{eq} = \left\lceil -\frac{1}{\ln(|p|)} \right\rceil$ is the equivalent time constant, and $p$ is the pole with the highest magnitude. Then, after having scaled the coefficient such that $M_{h_0}/\sqrt{E_{h_{ds}}}=1$, the signal was filtered with an interpolation filter of factor $1/T_Q = T_p/T_c=250$. The interpolator output signal was then multiplied by a constant $\sigma_0 = \sqrt{M_d}$ to impose the desired power delay profile, and finally added up with another constant, $C$, which included the deterministic component according to \cite{nevio<3}, Page NUMERO PAGINA.
-
-
-
-%Note that the statistical power of $h_0$ is normalized to one.
+To obtain $h_0$, following the scheme of Fig. \ref{Model_2}, the noise component $w\sim \mathcal{CN}(0,1)$ is filtered with the IIR filter previously described. Note that the frequency response of this filter is $\mathcal{H}_{ds}(f)=\sqrt{\mathcal{D}(f)}$ while the PSD of the noise is constant and equal to 1. For this reason, the equivalent impulse response of this part is equal to $\mathcal{D}(f)=1\cdot |\mathcal{H}_{ds}|^2$ which is actually the Doppler spectrum. \\
+The output of the filter is affected by a transient, which we avoided by considering only values after $5N_{eq}T_p$, where $N_{eq} = \left\lceil -\frac{1}{\ln(|p|)} \right\rceil$ is the equivalent time constant, and $p$ is the pole with the highest magnitude. Then, after scaling the coefficient such that $M_{h_0}/\sqrt{E_{h_{ds}}}=1$, the signal is filtered with an interpolation filter of factor $1/T_Q = T_p/T_c=250$. \\
+The interpolator output signal is then multiplied by a constant $\sigma_0 = \sqrt{M_d}$ to impose the desired power delay profile, and finally added up with another constant, $C$, which included the deterministic component according to \cite{nevio<3}, Page 307.
 
 \begin{figure}[H]
 	\centering
@@ -90,6 +87,11 @@ The output of the filter was affected by a transient, which we have avoided by c
 	\caption{Impulse response of the IIR filter and Doppler Spectrum}
 	\label{DS}
 \end{figure}
+
+\subsection*{Estimate of $\mathbf{\frac{|h_0|}{\sqrt{M_{|h_0|}}}}$}ù
+
+
+
 
 \begin{thebibliography}{15}
 	\bibitem{nevio<3}
