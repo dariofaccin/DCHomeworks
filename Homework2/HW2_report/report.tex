@@ -36,15 +36,24 @@
 \date{}
 \maketitle
 
-\section*{Setup and presentation}
 
-\subsection*{Exercise 1}
-
-\subsection*{Exercise 2}
 
 \section*{Problem 1}
 
 \section*{Problem 2}
+The Doppler spectrum $\mathcal{D}(\lambda)$ represents the power of the Doppler shift for different frequencies $\lambda$.\\
+This quantity is defined as the Fourier transform of the autocorrelation function of the impulse response of the channel.\\
+The maximum frequency $f_d$ of the Doppler spectrum support is called \textit{Doppler spread} of the channel and it is a measure of the fading rate.
+A model which is widely used is the so called \textit{classical Doppler spectrum}:
+\begin{equation}
+\mathcal{D}(f) =
+\begin{cases}
+\frac{1}{\pi f_d} \frac{1}{\sqrt{1-(f-f_d)^2}} & |f| \leq f_d \\
+0 & \text{otherwise}
+\end{cases}
+\end{equation}
+
+The Doppler spectrum can be implemented using an IIR filter $h_{ds}$ such that $|\mathcal{H}_{ds}(f)|^2 = \mathcal{D}(f)$.
 
 \begin{thebibliography}{15}
 	\bibitem{nevio<3}
