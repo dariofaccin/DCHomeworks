@@ -28,13 +28,15 @@ D = abs(H_dopp).^2;
 figure                                  
 subplot(121), plot(h_dopp,'r'), ylabel('$|h_{ds}|$'), hold on 
 stem(1:length(h_dopp),real(h_dopp));
-axis([0 Tp -0.15 0.25]);
+axis([0 Tp -0.15 0.25]), grid on
 legend('continuous |h_{ds}|','sampled |h_{ds}|');
+title('Impulse response of the IIR filter');
 subplot(122), plot(w,10*log10(D)), ylabel('$|D|$'), grid on;
 hold on, plot([fd fd], [-60 20], 'r--'), text(4.1e-4, 10, '$f_d$'); 
-xlim([0 2*fd]);
+xlim([0 2*fd]), xlabel('f');
 ylim([-60 20]);
 legend('Doppler Spectrum');
+title('Doppler Spectrum')
 
 % Transient is determined by the pole closest to the unit circle
 poles = abs(roots(a_ds));             % poles' magnitude 

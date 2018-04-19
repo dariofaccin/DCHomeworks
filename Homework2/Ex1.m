@@ -4,14 +4,19 @@ L=127;
 Nlim=20;
 
 % Additive noise
-sigdB=-8;
-sigmaw=10^(sigdB/10);
-w_0=sigmaw*randn(2*L,1);
-w_1=sigmaw*randn(2*L,1);
+sigdB = -8;
+sigmaw = 10^(sigdB/10);
+w_0 = wgn(2*L,1,sigdB);
+w_1 = wgn(2*L,1,sigdB);
 
 %% ML sequence
 % The input is the repetition of two ML sequences, each of length L
-x=[PNSeq(L); PNSeq(L)];
+PN = PNSeq(L);
+x=[PN];
+A = autocorrelation_Unb(x);
+plot(A,'*');
+F = fft(A);
+figure, plot(abs(F),'*')
 
 %% POLYPHASE REALIZATION
 % First we compute the impulse response, then we split in even and
@@ -21,17 +26,7 @@ a2 = 0.4642;
 h = impz(1, [1 a1 a2]);
 h = h(1:Nlim);
 
-% Even samples
-h_even=zeros(Nlim/2,1);
-for k=1:(Nlim/2)
-    h_even(k)=h(2*k-1);
-end
-
-% Odd samples
-h_odd=zeros(Nlim/2,1);
-for k=1:Nlim/2
-    h_odd(k)=h(2*k);
-end
+[h_even h_odd] = polyphase(h,Nlim);
 
 %% ESTIMATE OF h WITH THE CORRELATION METHOD
 
