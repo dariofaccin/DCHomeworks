@@ -54,7 +54,7 @@ The parameters are as follow:
 	\item noise samples iid with $w(m)\sim\mathcal{N}(0,\sigma_w^2)$, $\sigma_w^2=-8$ dB;
 	\item $r(m) = z(m)+w(m)$.
 \end{itemize}
-We assumed the receiver to know the input signal $\{ x(k)\}$ and a bound on the length of $h$, respectively $N_h \le 20$. In order to estimate the channel, i.e. the impulse response $\hat{h}_i$, $i=0,1,\cdots,N-1$, we exploited the \textit{polyphase decomposition} of $r(m)$ shown in Figure [\ref{poly}].
+We assumed the receiver to know the input signal $\{ x(k)\}$ and a bound on the length of $h$, respectively $N_h \le 20$. In order to estimate the channel, i.e. the impulse response $\hat{h}_i$, $i=0,1,\cdots,N-1$, we exploited the \textit{polyphase decomposition} of scheme in Figure [\ref{Model_1}] deriving from the first noble identity. This is shown in Figure [\ref{poly}].
 
 \begin{figure}[H]
 	\centering
@@ -75,7 +75,11 @@ We recall that the autocorrelation of a PN sequence is periodic with period L, t
 	\caption{Correlation method to estimate the first polyphase component of the system.}\label{Model_1.1} 
 \end{figure}
  
-The input signal is a Maximal-length PN sequence of length L repeated once. Since $h_0$ is defined only on the even values of $k$, we implicitly consider all involved signal to be defined 
+The input signal is a Maximal-length PN sequence of length L repeated once. Since $h_0$ is defined only on the even values of $k$, we implicitly consider all involved signal to be defined in the same intervals. The output of the FIR filter is affected by a transient, then $z(k)$ avoids the first L samples. The signal at the output of the unknown system is $d(k) = z(k) + w(k)$. Here the correlation method is computed:
+
+\begin{equation}
+\hat{r}_{dx,0}(m) = \frac{1}{L} \sum_{k=L-1}^{2L-2}d(k)x^*(k-m) \simeq h_m \quad\quad m=0,1,\dots,N-1
+\end{equation}
  
  
  
