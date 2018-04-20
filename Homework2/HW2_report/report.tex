@@ -39,8 +39,28 @@
 The following system was given:
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=14cm]{images/Model_1}
-	\caption{Model for the transmission system of Problem 1.}\label{Model_1} 
+	\begin{tikzpicture}[auto,>=latex']
+	\tikzstyle{block} = [draw, rectangle, minimum height=1cm, minimum width=1cm]
+	
+	\node [coordinate, label={[label distance=0.2cm]60:$x(k)$}] (start) {};
+	\node [block, right = 1.5cm of start] (intpl){$\uparrow 2$};
+	\node [coordinate, label={[label distance=0.2cm]90:$y(m)$}, right = 0.75 cm of intpl] (c1) {};
+	\node [block, right = 1.5cm of intpl] (imp){$h$};
+	\node [draw, circle,minimum size=0.5cm,inner sep=0pt, right = 1.5cm of imp] (sum){$+$};
+	\node [coordinate, label={[label distance=0.2cm]90:$z(m)$}, right = 0.75cm of imp] (c2) {};
+	
+	\node [coordinate, label={[label distance=0.2cm]0:$w(m)$}, above = 1cm of sum] (wgn) {};
+	\node [coordinate, label={[label distance=0.2cm]90:$r(m)$}, right = 1.5cm of sum] (end) {};
+	
+	\draw [->] (start) --node[]{} (intpl);
+	\draw [->] (intpl) --node[]{} (imp);
+	\draw [->] (imp) --node[]{} (sum);
+	\draw [->] (wgn) --node[]{} (sum);
+	\draw [->] (sum) --node[]{} (end);
+	
+	\end{tikzpicture}
+	\caption{Model for the transmission system of Problem 1.}
+	\label{Model_1} 
 \end{figure}
 
 The parameters are as follow:
@@ -58,8 +78,45 @@ We assumed the receiver to know the input signal $\{ x(k)\}$ and a bound on the 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=14cm]{images/Poly}
-	\caption{Polyphase decomposition of $r(m)$.}\label{poly} 
+	\begin{tikzpicture}[auto,>=latex']
+	\tikzstyle{block} = [draw, rectangle, minimum height=1cm, minimum width=1cm]
+	
+	\node [coordinate, label={$x(k)$}] (start) {};
+	\node [coordinate, right = 1cm of start] (c1){};
+	\node [coordinate, above = 1cm of c1] (c2){};
+	\node [coordinate, below = 1cm of c1] (c3){};
+	\node [block, right = 0.5cm of c2] (h0) {$h^{(0)}$};
+	\node [block, right = 0.5cm of c3] (h1) {$h^{(1)}$};
+	
+	\node [draw, circle,minimum size=0.5cm,inner sep=0pt, right = 1.5cm of h0] (s0){$+$};
+	\node [draw, circle,minimum size=0.5cm,inner sep=0pt, right = 1.5cm of h1] (s1){$+$};
+	
+	\node [coordinate, above = 1cm of s0, label={$w^{(0)}(k)$}] (w0){};
+	\node [coordinate, below = 1cm of s1, label={[label distance=0.2cm]-90:$w^{(1)}(k)$}] (w1){};
+	
+	\node [draw, rectangle, minimum height=3cm, minimum width=1cm, right = 6cm of start] (ps){$P/S$};
+	
+	\node [coordinate, right = 1.5cm of s0] (c4) {};
+	\node [coordinate, right = 1.5cm of s1] (c5) {};
+	
+	\node [coordinate, right = 1.5cm of ps, label={$r(m)$}] (end) {};
+	
+	\draw [-] (start) --node[]{} (c1);
+	\draw [-] (c1) --node[]{} (c2);
+	\draw [-] (c1) --node[]{} (c3);
+	\draw [->] (c2) --node[]{} (h0);
+	\draw [->] (c3) --node[]{} (h1);
+	\draw [->] (h0) --node[label={$z^{(0)}(k)$}]{} (s0);
+	\draw [->] (h1) --node[label={$z^{(1)}(k)$}]{} (s1);
+	\draw [->] (w0) --node[]{} (s0);
+	\draw [->] (w1) --node[]{} (s1);
+	\draw [->] (s0) --node[label={$r^{(0)}(k)$}]{} (c4);
+	\draw [->] (s1) --node[label={$r^{(1)}(k)$}]{} (c5);
+	\draw [->] (ps) --node[]{} (end);
+	
+	\end{tikzpicture}
+	\caption{Polyphase decomposition of $h$.}
+	\label{poly} 
 \end{figure}
 
 Being the system described with by a FIR filter, this is a linear channel estimation problem that is solved by taking as input a PN sequence with period L and statistical power $r_x(0)=\sigma_w^2$, $\{p(i)\}$, $i=0,1,\cdots,L-1$. In this way, infact, the cross-correlation between the desired signal $d$ and the input $x$ is proportional with a factor $\sigma_w^2$ to the impulse response ${h_i}$, respectively :
@@ -67,7 +124,7 @@ Being the system described with by a FIR filter, this is a linear channel estima
 r_{dx}(n) = r_{zx}(n) =r_x * h(n) = r_x(0)\cdot h_n
 \end{equation*}
 
-We recall that the autocorrelation of a PN sequence is periodic with period L, thus even the output of the time-inveriant filter is periodic with the same period. In the following analysis we explain how to estimate only the first polyphase component of $h$, $h_0$, since the other component is estimated using the same procedure. The model we used is given in Figure [\ref{Model_1.1}]
+We recall that the autocorrelation of a PN sequence is periodic with period L, thus even the output of the time-invariant filter is periodic with the same period. In the following analysis we explain how to estimate only the first polyphase component of $h$, $h_0$, since the other component is estimated using the same procedure. The model we used is given in Figure [\ref{Model_1.1}]
 
 \begin{figure}[H]
 	\centering
