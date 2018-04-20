@@ -83,31 +83,33 @@ grid on
 
 %% SPECTRUM ESTIMATION
 % Theoretical PSD
-rx = autocorrelation_Unb(h0(1:N_h0)'); 
-H0 = fft(rx);
-H0 = fftshift(H0);
+
 
 % Welch estimator
-S=1000;                     % overlap
-H_dopp=2000;                % window length
-w_welch=window(@hamming,H_dopp);
+S=1000;                 % overlap
+D=5000;                % window length
+w_welch=window(@bartlett,D);
+rx = autocorrelation_Unb(h0(1:N_h0)'); 
 %w_welch=kaiser(D,5);
-[Welch_P, N] = welchPSD(h0(1:N_h0)', w_welch, S);     % FAI SU TUTTO h0
+[Welch_P, N] = welchPSD(rx, w_welch, S);     % FAI SU TUTTO h0
 f=1/Tc:1/Tc:N;
 norm_f = f/N;
 Welch_centered=fftshift(Welch_P);
 
 figure
-plot(norm_f,10*log10(Welch_centered)), hold on
-plot(norm_f,10*log10(abs(H0)));
+plot(norm_f,10*log10(Welch_centered)), 
+% hold on
+% plot(norm_f,10*log10(abs(H0)));
 ylim([-5 35])
 xlim([0.5-5*fd  0.5+5*fd]);
 % xlim([N_t/2-5*N_t*fd N_t/2+5*N_t*fd])
-xticks([39850 39900 39950 40000 40050 40100 40150])
-xticklabels({'-150','-100','-50','0','50','100','150'});
+% xticks([39850 39900 39950 40000 40050 40100 40150])
+% xticklabels({'-150','-100','-50','0','50','100','150'});
 ylabel('H(f) [dB]')
 xlabel('f')
-legend('Welch Periodogram','Theoretical PSD')
+% legend('Welch Periodogram','Theoretical PSD')
+title('Spectrum Estimate')
+grid on
 
 %%
 

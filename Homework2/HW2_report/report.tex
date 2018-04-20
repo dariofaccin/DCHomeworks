@@ -36,7 +36,52 @@
 \maketitle
 
 \section*{Problem 1}
+The following system was given:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=14cm]{images/Model_1}
+	\caption{Model for the transmission system of Problem 1.}\label{Model_1} 
+\end{figure}
 
+The parameters are as follow:
+
+\begin{itemize}
+	\item $y(m) = \begin{cases}
+					x(m/2)  \quad \text{if \textit{m} is even} \\
+					0 \quad\quad\quad\quad \text{otherwise} 
+	\end{cases} $ \\
+	\item $z(m) = -a_1z(m-1)-a_2z(m-2)+y(m)$, $m=0,1,\cdots$, with initial values $z(-1)=z(-2)=0$ and coefficients $a_1 = -0.9635$ and $a_2 = 0.4642$;
+	\item noise samples iid with $w(m)\sim\mathcal{N}(0,\sigma_w^2)$, $\sigma_w^2=-8$ dB;
+	\item $r(m) = z(m)+w(m)$.
+\end{itemize}
+We assumed the receiver to know the input signal $\{ x(k)\}$ and a bound on the length of $h$, respectively $N_h \le 20$. In order to estimate the channel, i.e. the impulse response $\hat{h}_i$, $i=0,1,\cdots,N-1$, we exploited the \textit{polyphase decomposition} of $r(m)$ shown in Figure [\ref{poly}].
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=14cm]{images/Poly}
+	\caption{Polyphase decomposition of $r(m)$.}\label{poly} 
+\end{figure}
+
+Being the system described with by a FIR filter, this is a linear channel estimation problem that is solved by taking as input a PN sequence with period L and statistical power $r_x(0)=\sigma_w^2$, $\{p(i)\}$, $i=0,1,\cdots,L-1$. In this way, infact, the cross-correlation between the desired signal $d$ and the input $x$ is proportional with a factor $\sigma_w^2$ to the impulse response ${h_i}$, respectively :
+\begin{equation*}
+r_{dx}(n) = r_{zx}(n) =r_x * h(n) = r_x(0)\cdot h_n
+\end{equation*}
+
+We recall that the autocorrelation of a PN sequence is periodic with period L, thus even the output of the time-inveriant filter is periodic with the same period. In the following analysis we explain how to estimate only the first polyphase component of $h$, $h_0$, since the other component is estimated using the same procedure. The model we used is given in Figure [\ref{Model_1.1}]
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=14cm]{images/Model_11}
+	\caption{Correlation method to estimate the first polyphase component of the system.}\label{Model_1.1} 
+\end{figure}
+ 
+The input signal is a Maximal-length PN sequence of length L repeated once. Since $h_0$ is defined only on the even values of $k$, we implicitly consider all involved signal to be defined 
+ 
+ 
+ 
+ 
+ 
+\clearpage
 \section*{Problem 2}
 
 A flat fading channel with only one top $h_0(nT_c)$ was studied, assuming a \textit{Rice factor} of k=2 dB and normalized $M_{h_0}$. Moreover, a classical \textit{Doppler Spectrum} with $f_d T_c=40\cdot10^{-5}$ was considered. The schematic model to generate the coefficient $h_0$ of the channel is given in Figure \ref{Model_2}.
@@ -119,7 +164,7 @@ The histogram of $h'$ is shown in Figure [\ref{hist}]. Here it is given also the
 
 \clearpage
 \subsection*{Spectrum of $\mathbf{h_0}$}
-In this section the spectrum oh $h_0$ is computed using the Welch Periodogram. This method extracts different subsequences of consecutive D samples which eventually overlap, and for each of these it computes the periodogram $\mathcal{P}_{PER}^{\left(s\right)}(f)$. The matematical model is given by
+In this section the spectrum oh $h_0$ is computed using the Welch Periodogram. This method extracts different subsequences of consecutive D samples which eventually overlap, and for each of these it computes the periodogram $\mathcal{P}_{PER}^{\left(s\right)}(f)$. The mathematical model is given by
 \begin{equation*}
 \mathcal{P}_{WE}(F) = \frac{1}{N_s}\sum_{x=0}^{N_s-1}\mathcal{P}_{PER}^{(s)}(f)
 \end{equation*}
@@ -128,6 +173,13 @@ In order to compare the estimate with the theoretical case, the ideal PSD is com
 \begin{equation}\label{autoc}
 \hat{r}_x(n) = \frac{1}{K-n}\sum_{k=n}^Kh_0(k)h_0^*(k-n)  \quad\quad\quad n=0,1,\cdots,K-1
 \end{equation}
+
+The result is given in Figure [\ref{Welch}].
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=14cm]{images/Welch}
+	\caption{PSD estimate of $h_0$ with the theoretical curve.}\label{Welch}
+\end{figure}
 
 
 \begin{thebibliography}{15}
