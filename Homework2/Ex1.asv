@@ -20,19 +20,17 @@ a1 = -0.9635;
 a2 = 0.4642;
 h = impz(1, [1 a1 a2]);
 h = h(1:Nlim);
-
 [h_even,h_odd] = polyphase(h,Nlim);
 
-%% ESTIMATE OF h WITH THE CORRELATION METHOD
+%% ESTIMATE OF h0 WITH THE CORRELATION METHOD
 z_0=filter(h_even, 1, x);       % r_0 per JP
-z_1=filter(h_odd, 1, x);
 d_0 = z_0 + w_0;
+
+z_1=filter(h_odd, 1, x);
 d_1 = z_1 + w_1;
 
 h0_est=r_dx(x, d_0);       % correlation method
 h1_est=r_dx(x, d_1);
-
-h0_spaced = 
 
 % Estimated impulse response: take even/odd samples from the polyphase
 % components (S/P)
@@ -41,6 +39,8 @@ for i=1:Nlim
     if (i<=L)
     h_est(2*i-1)=h0_est(i);
     h_est(2*i)=h1_est(i);
+    h0_spaced(2*i-1) = h0_est(i);
+    h1_spaced(2*i) = h1_est(i)
     end
 end
 

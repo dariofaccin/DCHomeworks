@@ -1,6 +1,6 @@
 clc
 clearvars
-% close all
+close all
 set(0,'defaultTextInterpreter','latex')    % latex format
 
 % Given Parameters
@@ -23,7 +23,7 @@ Md = 1-C^2;                        % normalization of the statistical power
 
 % Doppler spectrum
 [H_dopp,w]=freqz(h_dopp,1,1024,'whole',1/Tp);  
-DS = abs(H_dopp).^2;
+D = abs(H_dopp).^2;
 
 figure                                  
 subplot(121), plot(h_dopp,'r'), ylabel('$|h_{ds}|$'), hold on 
@@ -31,9 +31,9 @@ stem(1:length(h_dopp),real(h_dopp));
 axis([0 Tp -0.15 0.25]), grid on
 legend('continuous |h_{ds}|','sampled |h_{ds}|');
 title('Impulse response of the IIR filter');
-subplot(122), plot(w,10*log10(DS)), ylabel('$|D|$'), grid on;
+subplot(122), plot(w,10*log10(D)), ylabel('$|D|$'), grid on;
 hold on, plot([fd fd], [-60 20], 'r--'), text(4.1e-4, 10, '$f_d$'); 
-xlim([0 5*fd]), xlabel('f');
+xlim([0 2*fd]), xlabel('f');
 ylim([-60 20]);
 legend('Doppler Spectrum');
 title('Doppler Spectrum')
@@ -84,25 +84,20 @@ grid on
 
 %% SPECTRUM ESTIMATION
 % Theoretical PSD
-[H_dopp,w]=freqz(h_dopp,1,1024,'whole',1/Tp);  
-DS = abs(H_dopp).^2;
-DS = fftshift(DS);
-figure, plot(w/max(w),10*log10(DS)), grid on
-% xlim([0.5-5*fd  0.5+5*fd]);
 
 % Welch estimator
-S =700;                % overlap
-D =1600;                % window length
-w_welch=window(@hamming,D);
-% rx = autocorrelation_Unb(h0(1:N_h0)'); 
+S=1000;                 % overlap
+D=5000;                % window length
+w_welch=window(@bartlett,D);
+rx = autocorrelation_Unb(h0(1:N_h0)'); 
 %w_welch=kaiser(D,5);
 [Welch_P, N] = welchPSD(h0', w_welch, S);     % FAI SU TUTTO h0
 f=1/Tc:1/Tc:N;
 norm_f = f/N;
 Welch_centered=fftshift(Welch_P);
 
-hold on
-plot(norm_f,10*log10(Welch_centered)); 
+figure
+plot(norm_f,10*log10(Welch_centered)), 
 % hold on
 % plot(norm_f,10*log10(abs(H0)));
 ylim([-5 35])
@@ -135,7 +130,7 @@ plot(norm_f,10*log10(abs(H0)),'r--');
 ylim([-5 35])
 xlim([0.5-5*fd  0.5+5*fd]);
 ylabel('H(f) [dB]'), xlabel('f')
-legend(['D = ' int2str(D(1)) ' and S = ' int2str(S(1)) ], ['D = ' int2str(D(2)) ' and S = ' int2str(S(2)) ],['D = ' int2str(DS(3)) ' and S = ' int2str(S(3)) ],['D = ' int2str(DS(4)) ' and S = ' int2str(S(4)) ]);
+legend(['D = ' int2str(D(1)) ' and S = ' int2str(S(1)) ], ['D = ' int2str(D(2)) ' and S = ' int2str(S(2)) ],['D = ' int2str(D(3)) ' and S = ' int2str(S(3)) ],['D = ' int2str(D(4)) ' and S = ' int2str(S(4)) ]);
 
 
 

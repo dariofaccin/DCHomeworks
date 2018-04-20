@@ -119,7 +119,7 @@ We assumed the receiver to know the input signal $\{ x(k)\}$ and a bound on the 
 	\label{poly} 
 \end{figure}
 
-Being the system described with by a FIR filter, this is a linear channel estimation problem that is solved by taking as input a PN sequence with period L and statistical power $r_x(0)=\sigma_w^2$, $\{p(i)\}$, $i=0,1,\cdots,L-1$. In this way, infact, the cross-correlation between the desired signal $d$ and the input $x$ is proportional with a factor $\sigma_w^2$ to the impulse response ${h_i}$, respectively :
+Since the system is described by a FIR filter, this is a linear channel estimation problem that is solved by taking as input a PN sequence with period L and statistical power $r_x(0)=\sigma_w^2$, $\{p(i)\}$, $i=0,1,\cdots,L-1$. In this way, infact, the cross-correlation between the output signal $d$ and the input $x$ is proportional with a factor $\sigma_w^2$ to the impulse response ${h_i}$, respectively:
 \begin{equation*}
 r_{dx}(n) = r_{zx}(n) =r_x * h(n) = r_x(0)\cdot h_n
 \end{equation*}
