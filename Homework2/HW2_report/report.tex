@@ -14,6 +14,9 @@
 % Useful floor and ceiling functions
 \DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
 \DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+% Argmax/Argmin notation
+\DeclareMathOperator*{\argmax}{argmax} 
+\DeclareMathOperator*{\argmin}{argmin}
 % Modified margins
 \usepackage[margin=2cm]{geometry}
 % This avoids hypenation
@@ -133,12 +136,12 @@ We recall that the autocorrelation of a PN sequence is periodic with period L, t
 	
 	\node [coordinate, label={[label distance=0.2cm]60:$x(k)$}] (start) {};
 	\node [block, right = 1.5cm of start] (intpl){$h_0$};
-	\node [coordinate, label={[label distance=0.2cm]90:$z(k)$}, right = 0.75 cm of intpl] (c1) {};
+	\node [coordinate, label={[label distance=0.2cm]90:$z_0(k)$}, right = 0.75 cm of intpl] (c1) {};
 	\node [draw, circle,minimum size=0.5cm,inner sep=0pt, right = 1.5cm of intpl] (sum){$+$};
 	\node [draw, circle,minimum size=0.5cm,inner sep=0pt, right = 1.5cm of sum] (sum2){$\times$};
-	\node [coordinate, label={[label distance=0.2cm]100:$d(k)$}, right = 0.75cm of imp] (c2) {};
+	\node [coordinate, label={[label distance=0.2cm]100:$d_0(k)$}, right = 0.75cm of imp] (c2) {};
 	
-	\node [coordinate, label={[label distance=0.1cm]90:$w(k)$}, above = 1cm of sum] (wgn) {};
+	\node [coordinate, label={[label distance=0.1cm]90:$w_0(k)$}, above = 1cm of sum] (wgn) {};
 	\node [coordinate, right = 1.5cm of sum2] (end) {};
 	
 	\node [coordinate, right = 0.5cm of start] (c1) {};
@@ -162,15 +165,60 @@ We recall that the autocorrelation of a PN sequence is periodic with period L, t
 	\label{Model_1.1}
 \end{figure}
  
-The input signal is a Maximal-length PN sequence of length L repeated once. Since $h_0$ is defined only on the even values of $k$, we implicitly consider all involved signal to be defined in the same intervals. The output of the FIR filter is affected by a transient, then $z(k)$ avoids the first L samples. The signal at the output of the unknown system is $d(k) = z(k) + w(k)$. Here the correlation method is computed:
+The input signal is a Maximal-length PN sequence of length L repeated once. Since $h_0$ is defined only on the even values of $k$, we implicitly consider all involved signal to be defined in the same intervals. The output of the FIR filter is affected by a transient, then $z(k)$ avoids the first L samples. The signal at the output of the unknown system is $d(k) = z(k) + w(k)$. 
+
+\subsection*{Correlation method}
+According to the model of Figure [\ref{Model_1.1}], the correlation method computes the coefficients $h_i$, $i=0,1,\dots,N-1$ exploiting the cross-correlation between the output signal $d_0(k)$ and the input one delayed of $m$ samples, respectively:
 
 \begin{equation}
 \hat{r}_{dx,0}(m) = \frac{1}{L} \sum_{k=L-1}^{2L-2}d(k)x^*(k-m) \simeq h_m \quad\quad m=0,1,\dots,N-1
 \end{equation}
  
- 
- 
- 
+\subsection*{Least-Square method}
+With reference to the model of Figure [\ref{Model_1.1}], the noisy output of the unknown system can be written as:
+
+\begin{equation*}
+d(k) = \mathbf{h}^T\mathbf{x}(k) \quad\quad\quad k=L-1,...,2L-2
+\end{equation*}
+
+For a certain estimate of \textbf{$\mathbf{\hat{h}}$} of the unknown system, the cost function is given by
+
+\begin{equation}\label{cost}
+\mathcal{E} = \sum_{k=L-1}^{2L-2}|d(k)-\hat{d(k)}|
+\end{equation}
+
+where $\hat{d(k)}=\mathbf{h}^T\mathbf{x}(k)$. This is minimized by 
+
+\begin{equation}
+\mathbf{\hat{h}}_{LS} = \argmin_{\hat{h}} \mathcal{E} = (\mathcal{I^HI})^{-1}\mathcal{I^H}o 
+\end{equation}
+
+where $\mathcal{I}$ is the \textit{observation matrix} and $o$ is the \textit{desired sample vector}, respectively:
+\begin{equation*}
+\begin{split}
+\mathbf{I} &= \begin{bmatrix}
+x(L-1) & \dots & x(0) \\
+\vdots & \vdots & \ddots & \vdots \\
+x((L-1)+(L-1)) &  \dots & x(L-1)
+\end{bmatrix} \\
+o^T &= [d(L-1) \dots d((L-1)+(L-1))]
+\end{split}
+\end{equation*}
+
+An example of the two estimates with $N_h=20$ and $L=127$ is given in the following Figures.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=14cm]{images/h_corr}
+	\caption{Estimates of the Polyphase components $\hat{h}_0$ and $\hat{h}_1$ computed with the correlation method.}\label{h_cor}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=14cm]{images/h_ls}
+	\caption{Estimates of the Polyphase components $\hat{h}_0$ and $\hat{h}_1$ computed with the leat-square method.}\label{h_ls}
+\end{figure}
+
+
  
 \clearpage
 \section*{Problem 2}

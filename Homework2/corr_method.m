@@ -1,4 +1,4 @@
-function [rx]=r_dx(x,d)
+function [rx]=corr_method(x,d)
 % INPUT
 % x the input sequence of length 2*L
 % r the output of the filter
