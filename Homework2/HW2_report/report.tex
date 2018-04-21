@@ -149,8 +149,31 @@ A flat fading channel with only one top $h_0(nT_c)$ was studied, assuming a \tex
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=14cm]{images/Model_2}
-	\caption{Model to generate the coefficient $h_0$ of the time-varying channel.}\label{Model_2} 
+	\begin{tikzpicture}[auto,>=latex']
+	\tikzstyle{block} = [draw, rectangle, minimum height=1cm, minimum width=1cm]
+	
+	\node [coordinate, label={[label distance=0.2cm]85:$w_i(lT_p)$}] (start) {};
+	\node [block, right = 1.5cm of start] (intpl){$\uparrow 2$};
+	\node [coordinate, label={[label distance=0.2cm]90:$g_{i}^{'}(lT_p)$}, right = 0.75 cm of intpl] (c1) {};
+	\node [block, right = 1.5cm of intpl] (imp){$h$};
+	\node[isosceles triangle, isosceles triangle apex angle=60,draw,
+	inner sep=0pt,anchor=lower side,rotate=0, minimum height=0.6cm, right= 1.5cm of imp, label={[label distance=0.05cm]60:$\overline{g}_{i}^{'}(kT_Q)$}] (gain){};
+	\node [draw, circle,minimum size=0.5cm,inner sep=0pt, right = 1.5cm of gain] (sum){$+$};
+	\node [coordinate, label={[label distance=0.2cm]90:$g_{i}^{'}(kT_Q)$}, right = 0.75cm of imp] (c2) {};
+	
+	\node [coordinate, label={[label distance=0.2cm]0:$c_i$}, above = 1cm of sum] (wgn) {};
+	\node [coordinate, label={[label distance=0.2cm]95:$g_i(kT_Q)$}, right = 1.5cm of sum] (end) {};
+	
+	\draw [->] (start) --node[]{} (intpl);
+	\draw [->] (intpl) --node[]{} (imp);
+	\draw [->] (imp) --node[]{} (gain);
+	\draw [->] (gain) --node[]{} (sum);
+	\draw [->] (wgn) --node[]{} (sum);
+	\draw [->] (sum) --node[]{} (end);
+	
+	\end{tikzpicture}
+	\caption{Model to generate the coefficient $h_0$ of the time-varying channel.}
+	\label{Model_2} 
 \end{figure}
 
 The Doppler Spectrum can be generated using a filter $h_{ds}$ such that $|\mathcal{H}_{ds}(f)|^2 = D(f)$.\\
