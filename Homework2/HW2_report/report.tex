@@ -128,8 +128,38 @@ We recall that the autocorrelation of a PN sequence is periodic with period L, t
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=14cm]{images/Model_11}
-	\caption{Correlation method to estimate the first polyphase component of the system.}\label{Model_1.1} 
+	\begin{tikzpicture}[auto,>=latex']
+	\tikzstyle{block} = [draw, rectangle, minimum height=1cm, minimum width=1cm]
+	
+	\node [coordinate, label={[label distance=0.2cm]60:$x(k)$}] (start) {};
+	\node [block, right = 1.5cm of start] (intpl){$h_0$};
+	\node [coordinate, label={[label distance=0.2cm]90:$z(k)$}, right = 0.75 cm of intpl] (c1) {};
+	\node [draw, circle,minimum size=0.5cm,inner sep=0pt, right = 1.5cm of intpl] (sum){$+$};
+	\node [draw, circle,minimum size=0.5cm,inner sep=0pt, right = 1.5cm of sum] (sum2){$\times$};
+	\node [coordinate, label={[label distance=0.2cm]100:$d(k)$}, right = 0.75cm of imp] (c2) {};
+	
+	\node [coordinate, label={[label distance=0.1cm]90:$w(k)$}, above = 1cm of sum] (wgn) {};
+	\node [coordinate, right = 1.5cm of sum2] (end) {};
+	
+	\node [coordinate, right = 0.5cm of start] (c1) {};
+	
+	\node [block, below = 1cm of sum2] (delay){$delay$};
+	\node [coordinate, below = 0.5cm of delay, label={[label distance=0.1cm]0:$x^{*}(k)$}] (c3) {};
+	\node [coordinate, left = 5.811cm of c3] (c2) {};
+	
+	\draw [->] (start) --node[]{} (intpl);
+	\draw [->] (intpl) --node[]{} (sum);
+	\draw [->] (wgn) --node[]{} (sum);
+	\draw [->] (sum) --node[]{} (sum2);
+	\draw [->] (sum2) --node[]{} (end);
+	\draw [->] (delay) --node[]{} (sum2);
+	\draw [dashed] (c1) --node[]{} (c2);
+	\draw [dashed] (c2) --node[]{} (c3);
+	\draw [dashed,->] (c3) --node[]{} (delay);
+	
+	\end{tikzpicture}
+	\caption{Correlation method to estimate the first polyphase component of the system}
+	\label{Model_1.1}
 \end{figure}
  
 The input signal is a Maximal-length PN sequence of length L repeated once. Since $h_0$ is defined only on the even values of $k$, we implicitly consider all involved signal to be defined in the same intervals. The output of the FIR filter is affected by a transient, then $z(k)$ avoids the first L samples. The signal at the output of the unknown system is $d(k) = z(k) + w(k)$. Here the correlation method is computed:

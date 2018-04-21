@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99999 (MiKTeX 2.9.6630 64-bit) (preloaded format=xelatex 2018.3.26)  21 APR 2018 10:24
+This is XeTeX, Version 3.14159265-2.6-0.99999 (MiKTeX 2.9.6630 64-bit) (preloaded format=xelatex 2018.3.26)  21 APR 2018 10:49
 entering extended mode
 **./report.tex
 (report.tex
@@ -773,10 +773,8 @@ Underfull \hbox (badness 10000) in paragraph at lines 69--73
 
  []
 
-File: images/Model_11.png Graphic file (type bmp)
-<images/Model_11.png>
 [1] [2]
-Overfull \hbox (17.37616pt too wide) in paragraph at lines 207--211
+Overfull \hbox (17.37616pt too wide) in paragraph at lines 237--241
 \T1/lmr/m/n/12 power de-lay pro-file, and fi-nally added up with an-other con-s
 tant, $\OML/cmm/m/it/12 C$\T1/lmr/m/n/12 , which in-cluded the de-ter-min-is-ti
 c
@@ -805,10 +803,10 @@ File: images/Welch.png Graphic file (type bmp)
 
 ] (report.aux) ) 
 Here is how much of TeX's memory you used:
- 17553 strings out of 427832
- 353975 string characters out of 3152395
- 459517 words of memory out of 3000000
- 21171 multiletter control sequences out of 15000+200000
+ 17567 strings out of 427832
+ 354212 string characters out of 3152395
+ 462702 words of memory out of 3000000
+ 21186 multiletter control sequences out of 15000+200000
  59847 words of font info for 71 fonts, out of 3000000 for 9000
  1328 hyphenation exceptions out of 8191
  55i,10n,82p,497b,802s stack positions out of 5000i,500n,10000p,200000b,50000s
