@@ -122,7 +122,7 @@ We assumed the receiver to know the input signal $\{ x(k)\}$ and a bound on the 
 	\label{poly} 
 \end{figure}
 
-Since the system is described by a FIR filter, this is a linear channel estimation problem that is solved by taking as input a PN sequence with period L and statistical power $r_x(0)=\sigma_w^2$, $\{p(i)\}$, $i=0,1,\cdots,L-1$. In this way, infact, the cross-correlation between the output signal $d$ and the input $x$ is proportional with a factor $\sigma_w^2$ to the impulse response ${h_i}$, respectively:
+Since the system is described by a FIR filter, this is a linear channel estimation problem that is solved by taking as input a PN sequence with period L and statistical power $r_x(0)$, $\{p(i)\}$, $i=0,1,\cdots,L-1$. In this way, infact, the cross-correlation between the output signal $d$ and the input $x$ is proportional with a factor $r_x(0)$ to the impulse response ${h_i}$, respectively:
 \begin{equation*}
 r_{dx}(n) = r_{zx}(n) =r_x * h(n) = r_x(0)\cdot h_n
 \end{equation*}
@@ -165,7 +165,8 @@ We recall that the autocorrelation of a PN sequence is periodic with period L, t
 	\label{Model_1.1}
 \end{figure}
  
-The input signal is a Maximal-length PN sequence of length L repeated once. Since $h_0$ is defined only on the even values of $k$, we implicitly consider all involved signal to be defined in the same intervals. The output of the FIR filter is affected by a transient, then $z(k)$ avoids the first L samples. The signal at the output of the unknown system is $d(k) = z(k) + w(k)$. 
+The input signal is a Maximal-length PN sequence of length L repeated once. Since $h_0$ is defined only on the even values of $k$, we implicitly consider all involved signal to be defined in the same intervals. The output of the FIR filter is affected by a transient, then $z(k)$ avoids the first L samples. The signal at the output of the unknown system is $d_0(k) = z_0(k) + w_0(k)$. 
+
 
 \subsection*{Correlation method}
 According to the model of Figure [\ref{Model_1.1}], the correlation method computes the coefficients $h_i$, $i=0,1,\dots,N-1$ exploiting the cross-correlation between the output signal $d_0(k)$ and the input one delayed of $m$ samples, respectively:
@@ -173,6 +174,24 @@ According to the model of Figure [\ref{Model_1.1}], the correlation method compu
 \begin{equation}
 \hat{r}_{dx,0}(m) = \frac{1}{L} \sum_{k=L-1}^{2L-2}d(k)x^*(k-m) \simeq h_m \quad\quad m=0,1,\dots,N-1
 \end{equation}
+According to Figure [\ref{poly}], once computed both $\hat{h}_0$ and $\hat{h}_0$, $\hat{h}$ is just the PS representation of the two. The variance of the estimate is:
+
+\begin{equation*}
+\hat{\sigma_w^2} = var[\hat{r}_{dx}(m)] \simeq \frac{\sigma_w^2}{L}
+\end{equation*}
+
+An example of the two estimates with $N_h=20$ and $L=127$ is given in the following Figures.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=14cm]{images/h_corr}
+	\caption{Estimates of the Polyphase components $\hat{h}_0$ and $\hat{h}_1$ computed with the correlation method.}\label{h_cor}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=14cm]{images/h_ls}
+	\caption{Estimates of the Polyphase components $\hat{h}_0$ and $\hat{h}_1$ computed with the leat-square method.}\label{h_ls}
+\end{figure}
  
 \subsection*{Least-Square method}
 With reference to the model of Figure [\ref{Model_1.1}], the noisy output of the unknown system can be written as:
@@ -205,18 +224,7 @@ o^T &= [d(L-1) \dots d((L-1)+(L-1))]
 \end{split}
 \end{equation*}
 
-An example of the two estimates with $N_h=20$ and $L=127$ is given in the following Figures.
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=14cm]{images/h_corr}
-	\caption{Estimates of the Polyphase components $\hat{h}_0$ and $\hat{h}_1$ computed with the correlation method.}\label{h_cor}
-\end{figure}
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=14cm]{images/h_ls}
-	\caption{Estimates of the Polyphase components $\hat{h}_0$ and $\hat{h}_1$ computed with the leat-square method.}\label{h_ls}
-\end{figure}
 
 
  

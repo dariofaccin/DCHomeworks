@@ -93,17 +93,9 @@ figure, plot(w/max(w),10*log10(DS)), grid on
 % Welch estimator
 S =700;                % overlap
 D =1600;                % window length
-w_welch=window(@bartlett,D);
+w_welch=window(@ba,Di);
 [Welch_P, N] = welchPSD(h0', w_welch, S);  
-Welch_P = Welch_P/N;
-Welch_centered=fftshift(Welch_P);
 
-Npoints=N*1/Tp;
-
-figure,
-freq1=[-N/2+1:N/2];
-freq2=[-Npoints/2+1:Npoints/2];
-plot(freq1, 10*log10(Welch_centered)) , hold on, plot(freq2, 10*log10(Md*DS),'r')
 
 
 

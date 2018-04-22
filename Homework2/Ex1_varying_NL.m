@@ -10,6 +10,7 @@ a2 = 0.4642;
 index = 0;
 noise = wgn(4*max(L),1,sigdB);
 % save('good_noise2','noise')
+load good_noise1
 
 %%
 for l=1:length(L)
@@ -73,21 +74,20 @@ Cost_ls(:,index) = E_L_ls;
 
 end
 
+plot_est(Cost_cor,Cost_ls,sigdB);
 
 % figure
 % grid on
-% for i=1:length(L)
-%     plot(N,Cost_cor(:,i),'--');
-%     hold on
-%     plot(N,Cost_ls(:,i),'-');
-% end
-% a = sigdB*ones(1,20);
+% plot(L,Cost_cor','o')
+% hold on
+% plot(L, Cost_ls')
+% a = sigdB*ones(1,max(L));
 % hold on
 % plot(a,'b--','LineWidth',2)
-% xlim([1 20]);  
+% xlim([min(L) max(L)]);  
 
 
-plot_est(Cost_cor,Cost_ls,sigdB);
+
     
 % figure
 % grid on
