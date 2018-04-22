@@ -27,10 +27,6 @@ for l=r+1:L
 end
 
 % Bits are {-1, 1}
-for i=1:L
-	if pn(i)==0
-        pn(i)=-1;
-	end
-end
+pn = 2*pn -1;
 
 end

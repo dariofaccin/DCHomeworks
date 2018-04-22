@@ -1,15 +1,13 @@
 clc; close all; clear global; clearvars;
 
-L=127;               % length of PN sequence
-Nh=20;             % Bound on the length of h
+L=3;               % length of PN sequence
+Nh=10;             % Bound on the length of h
 % Additive noise
 sigdB = -8;
 sigmaw = 10^(sigdB/10);
 w = wgn(4*L,1,sigdB);
 w_0 = w([1:2:end-1]);
 w_1 = w([2:2:end]);
-% w_0 = wgn(2*L,1,sigdB);
-% w_1 = wgn(2*L,1,sigdB);
 
 PN = PNSeq(L);      % ML sequence repeated once
 x=[PN ; PN];
@@ -52,14 +50,14 @@ h0_spaced=h0_spaced(1:Nh);
 h1_spaced=h1_spaced(1:Nh);
 
 % Plot 
-figure, 
-stem(0:19,h0_spaced,'ro'), hold on
-stem(0:19,h1_spaced,'ko'), hold on
-plot([0:19],h,'bx','LineWidth',1.5);
-legend('h_0 component','h_1 component','Analytic impulse response');
-xlabel('n'), ylim([-0.4 1.2]);
-title('Polyphase components with the Correlation method')
-grid on
+% figure, 
+% stem(0:Nh-1,h0_spaced,'ro'), hold on
+% stem(0:Nh-1,h1_spaced,'ko'), hold on
+% plot([0:Nh-1],h,'bx','LineWidth',1.5);
+% legend('h_0 component','h_1 component','Analytic impulse response');
+% xlabel('n'), ylim([-0.4 1.2]);
+% title('Polyphase components with the Correlation method')
+% grid on
 
 %% ESTIMATE WITH THE LS METHOD
 h0_ls=LS(x, d_0, L);
@@ -81,14 +79,21 @@ h0_spaced_ls=h0_spaced_ls(1:Nh);
 h1_spaced_ls=h1_spaced_ls(1:Nh);
 
 % Plot 
+% figure, 
+% stem(0:Nh-1,h0_spaced_ls,'ro'), hold on
+% stem(0:Nh-1,h1_spaced_ls,'ko'), hold on
+% plot([0:Nh-1],h,'bx','LineWidth',1.5);
+% legend('h_0 component','h_1 component','Analytic impulse response');
+% xlabel('n'), ylim([-0.4 1.2]);
+% title('Polyphase components with the LS method')
+% grid on
+
+%% comparison cor vs ls
 figure, 
-stem(0:19,h0_spaced_ls,'ro'), hold on
-stem(0:19,h1_spaced_ls,'ko'), hold on
-plot([0:19],h,'bx','LineWidth',1.5);
-legend('h_0 component','h_1 component','Analytic impulse response');
-xlabel('n'), ylim([-0.4 1.2]);
-title('Polyphase components with the LS method')
+stem(0:Nh-1,h_cor,'bo')
+hold on
+stem(0:Nh-1,h_ls,'ro')
 grid on
-
-
+plot([0:Nh-1],h,'bx','LineWidth',1.5);
+legend('h_cor','h_ls','Analytic impulse response');
 

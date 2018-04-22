@@ -1,0 +1,15 @@
+function []=plot_est(cor, ls, sigma2)
+
+figure
+[N,lengL] = size(cor);
+plot(N,cor(:,1),'b--'), hold on
+
+plot(N,cor(:,2),'c--'), hold on
+
+plot(N,cor(:,3),'g--'), hold on
+
+plot(N,cor(:,4),'y--'), hold on
+
+plot(N,cor(:,5),'m--'), hold on
+
+plot(N,cor(:,6),'r--'), hold on
