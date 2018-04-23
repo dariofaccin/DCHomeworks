@@ -89,11 +89,44 @@ h1_spaced_ls=h1_spaced_ls(1:Nh);
 % grid on
 
 %% comparison cor vs ls
-figure, 
-stem(0:Nh-1,h_cor,'bo')
-hold on
-stem(0:Nh-1,h_ls,'ro')
-grid on
-plot([0:Nh-1],h,'bx','LineWidth',1.5);
-legend('h_cor','h_ls','Analytic impulse response');
+% figure, 
+% stem(0:Nh-1,h_cor,'bo')
+% hold on
+% stem(0:Nh-1,h_ls,'ro')
+% grid on
+% plot([0:Nh-1],h,'bx','LineWidth',1.5);
+% legend('h_cor','h_ls','Analytic impulse response');
+
+%% COST FUNCTION
+d0_hat = filter(h0_cor,1,x);
+d1_hat = filter(h1_cor,1,x);
+d_hat_cor = PS(d0_hat, d1_hat); 
+error_cor = d - d_hat_cor;
+E_cor = sum(error_cor(L:2*L-1).^2);
+E_L_cor = 10*log10(E_cor/L);
+
+d0_hat = filter(h0_ls,1,x);
+d1_hat = filter(h1_ls,1,x);
+d_hat_ls = PS(d0_hat, d1_hat);
+error_ls = d - d_hat_ls;
+E_ls = sum(error_ls(L:2*L).^2);
+E_L_ls(1,n) = 10*log10(E_ls/L);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

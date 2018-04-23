@@ -1,6 +1,6 @@
 clc
 clearvars
-% close all
+close all
 set(0,'defaultTextInterpreter','latex')    % latex format
 
 % Given Parameters
@@ -25,18 +25,18 @@ Md = 1-C^2;                        % normalization of the statistical power
 [H_dopp,w]=freqz(h_dopp,1,1024,'whole',1/Tp);  
 DS = abs(H_dopp).^2;
 
-figure                                  
-subplot(121), plot(h_dopp,'r'), ylabel('$|h_{ds}|$'), hold on 
-stem(1:length(h_dopp),real(h_dopp));
-axis([0 Tp -0.15 0.25]), grid on
-legend('continuous |h_{ds}|','sampled |h_{ds}|');
-title('Impulse response of the IIR filter');
-subplot(122), plot(w,10*log10(DS)), ylabel('$|D|$'), grid on;
-hold on, plot([fd fd], [-60 20], 'r--'), text(4.1e-4, 10, '$f_d$'); 
-xlim([0 5*fd]), xlabel('f');
-ylim([-60 20]);
-legend('Doppler Spectrum');
-title('Doppler Spectrum')
+% figure                                  
+% subplot(121), plot(h_dopp,'r'), ylabel('$|h_{ds}|$'), hold on 
+% stem(1:length(h_dopp),real(h_dopp));
+% axis([0 Tp -0.15 0.25]), grid on
+% legend('continuous |h_{ds}|','sampled |h_{ds}|');
+% title('Impulse response of the IIR filter');
+% subplot(122), plot(w,10*log10(DS)), ylabel('$|D(f)|$'), grid on;
+% hold on, plot([fd fd], [-60 20], 'r--'), text(4.1e-4, 10, '$f_d$'); 
+% xlim([0 3*fd]), xlabel('f');
+% ylim([-60 20]);
+% legend('Doppler Spectrum');
+% title('Doppler Spectrum')
 
 % Transient is determined by the pole closest to the unit circle
 poles = abs(roots(a_ds));             % poles' magnitude 
@@ -45,7 +45,8 @@ tr = 5*Tp*ceil(-1/log(most_imp));     % transient as 5*Neq*Tp
 
 h_samples_needed = N_t+tr;            % total length including the transient
 w_samples_needed = ceil(h_samples_needed/Tp);
-w = wgn(w_samples_needed,1,0,'complex');      % w ~ CN(0,1)
+% w = wgn(w_samples_needed,1,0,'complex');      % w ~ CN(0,1)
+load ex2_noise
 hprime = filter(b_ds, a_ds, w);
 
 t = 1:length(hprime);                 % interpolation to Tq
@@ -56,13 +57,13 @@ sigma = sqrt(Md);
 h_fine = h_fine*sigma;                % impose the desired power delay profile
 h0 = h_fine(tr+1:end)+C;              % remove the transient and add C 
 
-figure, plot(abs(h0(1:N_h0)))        
-xlabel('$nT_c$')
-ylabel('$|h_0(nT_c)|$')
-xlim([1 N_h0]), grid on
-title('Impulse response of the channel')
+% figure, plot(abs(h0(1:N_h0)))        
+% xlabel('$nT_c$')
+% ylabel('$|h_0(nT_c)|$')
+% xlim([1 N_h0]), grid on
+% title('Impulse response of the channel')
 
-%% ESTIMATE OF THE PDF OF H_p=|h0|/sqrt(M)
+% ESTIMATE OF THE PDF OF H_p=|h0|/sqrt(M)
 h_p = h0/sqrt(C^2+Md);        % the normalization here does not make much sense
                               % as M_h0=1-C^2, but it's to keep the formulas as in the book
 abs_h = abs(h_p);             % magnitude
@@ -70,7 +71,7 @@ a=linspace(0,10,3000);
 % Rice distribution
 th_pdf = 2*(1+K).*a.*exp(-K-(1+K).*a.^2).*besseli(0,2.*a*sqrt(K*(1+K)));
 % Estimate of the pdf
-[y,t] = hist(abs_h);          
+[y,t] = hist(abs_h,100);          
 est_pdf = y/max(y);
 
 figure
@@ -91,26 +92,24 @@ DS = fftshift(H_dopp);
 
 % Welch estimator
 D = ceil(N_t/2);       % window length
+D = 40000;
 S = D/2;                   % overlap
 w_welch=window(@bartlett,D);
 [Welch_P, N] = welchPSD(h0', w_welch, S);  
 Welch_P = Welch_P/N;
-Welch_centered=fftshift(Welch_P);
-DS_norm = Md*DS;
+Welch_cent=fftshift(Welch_P);
 
-c = [-159:1:160];
-C_comp = [zeros(1,159) C^2 zeros(1,160)];
-PSD_theo = DS_norm + C_comp;
-plot(freq2, DS_norm), hold on, plot(c,C_comp)
-plot(freq2, 10*log10(PSD_theo))
+C_comp = 10*log10(C^2);
+PSD_theo = 10*log10(Md*DS);
+PSD_theo(length(PSD_theo)/2) = C_comp;
 
 
-freq1=[-N/2+1:N/2];
-freq2=[-Npoints/2+1:Npoints/2];
+f1=[-N/2+1:N/2];
+f2=[-Npoints/2+1:Npoints/2];
 
 figure,
-plot(freq1, 10*log10(Welch_centered)) , hold on, plot(freq2, 10*log10(PSD_theo),'r')
-ylim([-50 0])
+plot(f1-1, 10*log10(Welch_cent)) , hold on, plot(f2,PSD_theo,'r')
+ylim([-40 0])
 xlim([-5*N*fd  5*N*fd]);
 xticks([-5*N*fd -4*N*fd -3*N*fd -2*N*fd -1*N*fd 0 1*N*fd 2*N*fd 3*N*fd 4*N*fd 5*N*fd])
 xticklabels({'-5f_d','-4f_d','-3f_d','-2f_d','-f_d','0','f_d','2f_d','3f_d','4f_d','5f_d'});
@@ -121,6 +120,8 @@ title('Spectrum Estimate')
 grid on
 
 %%
+f1=[-N/2+1:N/2];
+f2=[-Npoints/2+1:Npoints/2];
 
 % Comparison of different S,D
 D = [10000 15000 20000 40000];
@@ -130,11 +131,11 @@ for i=1:length(S)
     [Welch_P(:,i), N] = welchPSD(h0', w_welch, S(i));
 end
 Welch_P = Welch_P/N;
-Welch_centered=fftshift(Welch_P);
+Welch_cent=fftshift(Welch_P);
 
 figure,
-plot(freq1, 10*log10(Welch_centered)), hold on
-plot(freq2, 10*log10(Md*DS),'r','LineWidth',1.5)
+plot(f1, 10*log10(Welch_cent)), hold on
+plot(f2, 10*log10(Md*DS),'r','LineWidth',1.5)
 ylim([-50 0])
 xlim([-5*N*fd  5*N*fd]);
 xticks([-5*N*fd -4*N*fd -3*N*fd -2*N*fd -1*N*fd 0 1*N*fd 2*N*fd 3*N*fd 4*N*fd 5*N*fd])

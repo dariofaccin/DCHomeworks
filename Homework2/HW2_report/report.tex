@@ -177,7 +177,7 @@ According to the model of Figure [\ref{Model_1.1}], the correlation method compu
 According to Figure [\ref{poly}], once computed both $\hat{h}_0$ and $\hat{h}_0$, $\hat{h}$ is just the PS representation of the two. The variance of the estimate is:
 
 \begin{equation*}
-\hat{\sigma_w^2} = var[\hat{r}_{dx}(m)] \simeq \frac{\sigma_w^2}{L}
+var[\hat{r}_{dx}(m)] \simeq \frac{\sigma_w^2}{L}
 \end{equation*}
 
 An example of the two estimates with $N_h=20$ and $L=127$ is given in the following Figures.
@@ -199,7 +199,7 @@ An example of the two estimates with $N_h=20$ and $L=127$ is given in the follow
 With reference to the model of Figure [\ref{Model_1.1}], the noisy output of the unknown system can be written as:
 
 \begin{equation*}
-d(k) = \mathbf{h}^T\mathbf{x}(k) \quad\quad\quad k=L-1,...,2L-2
+d(k) = \mathbf{h}^T\mathbf{x}(k)+w(k) \quad\quad\quad k=L-1,...,2L-2
 \end{equation*}
 
 For a certain estimate of \textbf{$\mathbf{\hat{h}}$} of the unknown system, the cost function is given by
@@ -208,7 +208,7 @@ For a certain estimate of \textbf{$\mathbf{\hat{h}}$} of the unknown system, the
 \mathcal{E} = \sum_{k=L-1}^{2L-2}|d(k)-\hat{d(k)}|
 \end{equation}
 
-where $\hat{d(k)}=\mathbf{h}^T\mathbf{x}(k)$. This is minimized by 
+where $\hat{d}(k)=\mathbf{h}^T\mathbf{x}(k)$. This is minimized by 
 
 \begin{equation}
 \mathbf{\hat{h}}_{LS} = \argmin_{\hat{h}} \mathcal{E} = (\mathcal{I^HI})^{-1}\mathcal{I^H}o 
@@ -226,7 +226,30 @@ o^T &= [d(L-1) \dots d((L-1)+(L-1))]
 \end{split}
 \end{equation*}
 
+\subsection*{Conclusions}
+To estimate the noise variance $\hat{\sigma}_w^2$, we computed the cost function given in equation \ref{cost} for both methods. Since the error
+\begin{equation*}
+d(k) - \hat{d}(k) = (z(k)-\hat{d}(k))+w(k)
+\end{equation*}
+consist of two terms, one due to the estimation error and the other due to the noise of the system, for $\mathbf{\hat{h}}\simeq\mathbf{h}$ the estimate of the variance of the noise $w$ can be assumed equal to 
+\begin{equation*}
+\hat{\sigma}_w^2 = \frac{\mathcal{E}}{L}
+\end{equation*} 
 
+We run the algorithm using $L\in \{31,63, 127, 255, 511, 1023\}$ and varying $N_i$, $i=1,2,\dots,20$. Note that, in order to garantee  The results are shown in Figure [\ref{Ex1_plot1}], while a zoomed version of the same plot is shown in Figure [\ref{Ex1_plot2}].\\
+In order to chose suitable values for $L$ and $N$, we decided to take the minimum length of the PN sequence which allowed the best estimate of the noise for a given $N$. Moreover, since the length of the impulsive response is related to the performance 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=18cm]{images/Ex1_plot1}
+	\caption{Estimate of noise variance $\hat{\sigma}_w^2$ as a function of N,L using the Correlation Method (dashed lines) and the Least-Square Method (solid Lines).}\label{Ex1_plot1}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=14cm]{images/Ex1_plot2}
+	\caption{Zoom of Figure [\ref{Ex1_plot1}].}\label{Ex1_plot2}
+\end{figure}
 
 
  
@@ -336,19 +359,22 @@ The histogram of $h'$ is shown in Figure [\ref{hist}]. Here it is given also the
 
 \clearpage
 \subsection*{Spectrum of $\mathbf{h_0}$}
-In this section the spectrum oh $h_0$ is computed using the Welch Periodogram. This method extracts different subsequences of consecutive D samples which eventually overlap, and for each of these it computes the periodogram $\mathcal{P}_{PER}^{\left(s\right)}(f)$. The mathematical model is given by
+In this section the spectrum oh $h_0$ is computed using the Welch Periodogram. This method extracts different subsequences of consecutive D samples which eventually overlap, and for each of these it computes the periodogram $\mathcal{P}_{PER}^{\left(s\right)}(f)$. We chose $D=4000$ and $S=20000$ in our analysis. The mathematical model is given by
 \begin{equation*}
 \mathcal{P}_{WE}(F) = \frac{1}{N_s}\sum_{x=0}^{N_s-1}\mathcal{P}_{PER}^{(s)}(f)
 \end{equation*}
-where $N_s = \lfloor \frac{K-D}{D-S}-1 \rfloor$ is the total number of subsequences. \\
-In order to compare the estimate with the theoretical case, the ideal PSD is computed. By definition, the \textit{Doppler Spectrum} is the Fourier Transform of the autocorrelation function of the impulse response, in correspondance of the same delay $\tau$, evaluated at two different instants. In out analysis, it is provided as IIR filter resulting from the Jakes model, and the coefficients are reported in table [\ref{DS}]
+where $N_s = \lfloor \frac{K-D}{D-S}-1 \rfloor = 2$ is the total number of subsequences. \\
+In order to compare the estimate with the theoretical case, the ideal PSD is computed. By definition, the \textit{Doppler Spectrum} is the Fourier Transform of the autocorrelation function of the impulse response, in correspondence of the same delay $\tau$, evaluated at two different instants. In out analysis, it is provided as IIR filter resulting from the Jakes model, and the coefficients are reported in table [\ref{DS}]. Note that this is actually an approximation deriving from an empirical model such Jakes model is. The deterministic component determines a specral line on the central frequency, as shown in Figure [\ref{Welch}].\\
+As a remark, notice that both curves are normalized according to the specifics of our problem.
 
-The result is given in Figure [\ref{Welch}].
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=14cm]{images/Welch}
 	\caption{PSD estimate of $h_0$ with the theoretical curve.}\label{Welch}
 \end{figure}
+
+
 
 
 \begin{thebibliography}{15}
