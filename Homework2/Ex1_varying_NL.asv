@@ -7,12 +7,12 @@ sigdB = -8;
 sigmaw = 10^(sigdB/10);
 a1 = -0.9635;
 a2 = 0.4642;
-index = 0;
 noise = wgn(4*max(L),1,sigdB);
 % save('good_noise2','noise')
-load good_noise1
+% load good_noise1
 
 %%
+index=0;
 for l=1:length(L)
     index = index+1;
 for n=1:length(N)
@@ -24,8 +24,9 @@ for n=1:length(N)
    
     
     h = impz(1, [1 a1 a2]);
-    h = h(1:N(n));            % Analytical h
-    [h_even,h_odd] = polyphase(h,N(n));
+%     h = h(1:N(n));            % Analytical h
+%     [h_even,h_odd] = polyphase(h,N(n));
+   [h_even,h_odd] = polyphase(h,length(h));
     
     % scheme pag 239
     z_0=filter(h_even, 1, x);
@@ -74,19 +75,20 @@ Cost_ls(:,index) = E_L_ls;
 
 end
 
-
-figure
-grid on
-plot(L, Cost_cor','--')
-hold on
-plot(L, Cost_ls')
-a = sigdB*ones(1,6);
-hold on
-plot(a,'b--','LineWidth',2)
-xlim([min(L) max(L)]);  
-
-
 plot_est(Cost_cor,Cost_ls,sigdB);
+
+% figure
+% grid on
+% plot(L,Cost_cor','o')
+% hold on
+% plot(L, Cost_ls')
+% a = sigdB*ones(1,max(L));
+% hold on
+% plot(a,'b--','LineWidth',2)
+% xlim([min(L) max(L)]);  
+
+
+
     
 % figure
 % grid on

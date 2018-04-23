@@ -1,7 +1,7 @@
 clc; close all; clear global; clearvars;
 
-L=3;               % length of PN sequence
-Nh=10;             % Bound on the length of h
+L=127;               % length of PN sequence
+Nh=20;             % Bound on the length of h
 % Additive noise
 sigdB = -8;
 sigmaw = 10^(sigdB/10);
@@ -20,7 +20,7 @@ h = h(1:Nh);
 [h_even,h_odd] = polyphase(h,Nh);
 
 %% ESTIMATE OF h0 WITH THE CORRELATION METHOD
-z_0=filter(h_even, 1, x);       % r_0 per JP
+z_0=filter(h_even, 1, x);       
 d_0 = z_0 + w_0;
 h0_cor=corr_method(x, d_0);     % correlation method
 var_h0_cor = sigmaw/(L/2);          % variance of the estimate  

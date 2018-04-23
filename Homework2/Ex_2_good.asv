@@ -84,61 +84,60 @@ grid on
 
 %% SPECTRUM ESTIMATION
 % Theoretical PSD
-[H_dopp,w]=freqz(h_dopp,1,1024,'whole',1/Tp);  
-DS = abs(H_dopp).^2;
-DS = fftshift(DS);
-figure, plot(w/max(w),10*log10(DS)), grid on
-% xlim([0.5-5*fd  0.5+5*fd]);
+Npoints=N_t*1/Tp;
+[H_dopp,w]=freqz(h_dopp,1,Npoints,'whole');
+H_dopp=(1/Npoints)*abs(H_dopp).^2;
+DS = fftshift(H_dopp);
 
 % Welch estimator
-S =700;                % overlap
-D =1600;                % window length
-w_welch=window(@ba,Di);
+D = ceil(N_t/2);       % window length
+S = D/2;                   % overlap
+w_welch=window(@bartlett,D);
 [Welch_P, N] = welchPSD(h0', w_welch, S);  
-
-
-
-
-
-
-f=1/Tc:1/Tc:N;
-norm_f = f/N;
+Welch_P = Welch_P/N;
 Welch_centered=fftshift(Welch_P);
+DS_norm = Md*DS;
 
-hold on
-plot(norm_f,10*log10(Welch_centered)); 
-% hold on
-% plot(norm_f,10*log10(abs(H0)));
-ylim([-5 35])
-xlim([0.5-5*fd  0.5+5*fd]);
-% xlim([N_t/2-5*N_t*fd N_t/2+5*N_t*fd])
-% xticks([39850 39900 39950 40000 40050 40100 40150])
-% xticklabels({'-150','-100','-50','0','50','100','150'});
+plot(freq2, DS_norm)
+
+
+
+freq1=[-N/2+1:N/2];
+freq2=[-Npoints/2+1:Npoints/2];
+
+figure,
+plot(freq1, 10*log10(Welch_centered)) , hold on, plot(freq2, 10*log10(PSD_theo),'r')
+ylim([-50 0])
+xlim([-5*N*fd  5*N*fd]);
+xticks([-5*N*fd -4*N*fd -3*N*fd -2*N*fd -1*N*fd 0 1*N*fd 2*N*fd 3*N*fd 4*N*fd 5*N*fd])
+xticklabels({'-5f_d','-4f_d','-3f_d','-2f_d','-f_d','0','f_d','2f_d','3f_d','4f_d','5f_d'});
 ylabel('H(f) [dB]')
 xlabel('f')
-% legend('Welch Periodogram','Theoretical PSD')
+legend('Welch Periodogram','Theoretical PSD')
 title('Spectrum Estimate')
 grid on
 
 %%
 
 % Comparison of different S,D
-S = [500 600 2000 5000];
-D = [1000 1200 4000 10000];
+D = [10000 15000 20000 40000];
+S = D./2;
 for i=1:length(S)
     w_welch=window(@hamming,D(i));
-    [Welch_P(:,i), N] = welchPSD(h0(1:N_h0)', w_welch, S(i));
+    [Welch_P(:,i), N] = welchPSD(h0', w_welch, S(i));
 end
+Welch_P = Welch_P/N;
 Welch_centered=fftshift(Welch_P);
-f=1/Tc:1/Tc:N;
-norm_f = f/N;
 
 figure,
-plot(norm_f,10*log10(Welch_centered)), hold on
-plot(norm_f,10*log10(abs(H0)),'r--');
-ylim([-5 35])
-xlim([0.5-5*fd  0.5+5*fd]);
-ylabel('H(f) [dB]'), xlabel('f')
+plot(freq1, 10*log10(Welch_centered)), hold on
+plot(freq2, 10*log10(Md*DS),'r','LineWidth',1.5)
+ylim([-50 0])
+xlim([-5*N*fd  5*N*fd]);
+xticks([-5*N*fd -4*N*fd -3*N*fd -2*N*fd -1*N*fd 0 1*N*fd 2*N*fd 3*N*fd 4*N*fd 5*N*fd])
+xticklabels({'-5f_d','-4f_d','-3f_d','-2f_d','-f_d','0','f_d','2f_d','3f_d','4f_d','5f_d'});
+ylabel('H(f) [dB]')
+xlabel('f')
 legend(['D = ' int2str(D(1)) ' and S = ' int2str(S(1)) ], ['D = ' int2str(D(2)) ' and S = ' int2str(S(2)) ],['D = ' int2str(DS(3)) ' and S = ' int2str(S(3)) ],['D = ' int2str(DS(4)) ' and S = ' int2str(S(4)) ]);
 
 

@@ -341,10 +341,7 @@ In this section the spectrum oh $h_0$ is computed using the Welch Periodogram. T
 \mathcal{P}_{WE}(F) = \frac{1}{N_s}\sum_{x=0}^{N_s-1}\mathcal{P}_{PER}^{(s)}(f)
 \end{equation*}
 where $N_s = \lfloor \frac{K-D}{D-S}-1 \rfloor$ is the total number of subsequences. \\
-In order to compare the estimate with the theoretical case, the ideal PSD is computed. It is defined as the Fourier Transform of the autocorrelation function, which was evaluated using the unbiased estimator of equation \ref{autoc}:
-\begin{equation}\label{autoc}
-\hat{r}_x(n) = \frac{1}{K-n}\sum_{k=n}^Kh_0(k)h_0^*(k-n)  \quad\quad\quad n=0,1,\cdots,K-1
-\end{equation}
+In order to compare the estimate with the theoretical case, the ideal PSD is computed. By definition, the \textit{Doppler Spectrum} is the Fourier Transform of the autocorrelation function of the impulse response, in correspondance of the same delay $\tau$, evaluated at two different instants. In out analysis, it is provided as IIR filter resulting from the Jakes model, and the coefficients are reported in table [\ref{DS}]
 
 The result is given in Figure [\ref{Welch}].
 \begin{figure}[H]

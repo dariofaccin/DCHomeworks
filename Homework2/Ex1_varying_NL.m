@@ -1,18 +1,18 @@
 clc; close all; clear global; clearvars;
 
 N = [1:1:20];
+% L = [7 15 31 63 127 255];
 L = [3 7 15 31 63 127];
-
 sigdB = -8;
 sigmaw = 10^(sigdB/10);
 a1 = -0.9635;
 a2 = 0.4642;
-index = 0;
 noise = wgn(4*max(L),1,sigdB);
-% save('good_noise2','noise')
+% save('good_noise3','noise')
 load good_noise1
 
 %%
+index=0;
 for l=1:length(L)
     index = index+1;
 for n=1:length(N)
@@ -21,11 +21,11 @@ for n=1:length(N)
     w_1 = w([2:2:end]);
     PN = PNSeq(L(l));         % ML sequence repeated once
     x=[PN ; PN];
-   
     
     h = impz(1, [1 a1 a2]);
-    h = h(1:N(n));            % Analytical h
-    [h_even,h_odd] = polyphase(h,N(n));
+%     h = h(1:N(n));            % Analytical h
+%     [h_even,h_odd] = polyphase(h,N(n));
+   [h_even,h_odd] = polyphase(h,length(h));
     
     % scheme pag 239
     z_0=filter(h_even, 1, x);
@@ -48,7 +48,7 @@ for n=1:length(N)
     d1_hat = filter(h1_cor,1,x);
     d_hat_cor = PS(d0_hat, d1_hat); 
     error_cor = d - d_hat_cor;
-    E_cor = sum(error_cor(L(l)-1:2*L(l)-2).^2);
+    E_cor = sum(error_cor(L(l):2*L(l)).^2);
     E_L_cor(1,n) = 10*log10(E_cor/L(l));
     
     % ls method
@@ -65,7 +65,7 @@ for n=1:length(N)
     d1_hat = filter(h1_ls,1,x);
     d_hat_ls = PS(d0_hat, d1_hat);
     error_ls = d - d_hat_ls;
-    E_ls = sum(error_ls(L(l):2*L(l)-1).^2);
+    E_ls = sum(error_ls(L(l):2*L(l)).^2);
     E_L_ls(1,n) = 10*log10(E_ls/L(l));
     
 end
