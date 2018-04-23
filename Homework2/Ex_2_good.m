@@ -84,10 +84,11 @@ grid on
 
 %% SPECTRUM ESTIMATION
 % Theoretical PSD
-[H_dopp,w]=freqz(h_dopp,1,1024,'whole',1/Tp);  
-DS = abs(H_dopp).^2;
-DS = fftshift(DS);
-figure, plot(w/max(w),10*log10(DS)), grid on
+Npoints=N_t*1/Tp;
+[H_dopp,w]=freqz(h_dopp,1,Npoints,'whole',1/Tp);
+H_dopp=(1/Npoints)*abs(H_dopp).^2;
+DS = fftshift(H_dopp);
+% figure, plot(w/max(w),10*log10(DS)), grid on
 % xlim([0.5-5*fd  0.5+5*fd]);
 
 % Welch estimator
@@ -98,27 +99,13 @@ w_welch=window(@bartlett,D);
 Welch_P = Welch_P/N;
 Welch_centered=fftshift(Welch_P);
 
-Npoints=N*1/Tp;
-
 figure,
 freq1=[-N/2+1:N/2];
 freq2=[-Npoints/2+1:Npoints/2];
 plot(freq1, 10*log10(Welch_centered)) , hold on, plot(freq2, 10*log10(Md*DS),'r')
-
-
-
-
-
-f=1/Tc:1/Tc:N;
-norm_f = f/N;
-Welch_centered=fftshift(Welch_P);
-
-hold on
-plot(norm_f,10*log10(Welch_centered)); 
-% hold on
-% plot(norm_f,10*log10(abs(H0)));
 ylim([-5 35])
-xlim([0.5-5*fd  0.5+5*fd]);
+
+xlim([-5*fd  5*fd]);
 % xlim([N_t/2-5*N_t*fd N_t/2+5*N_t*fd])
 % xticks([39850 39900 39950 40000 40050 40100 40150])
 % xticklabels({'-150','-100','-50','0','50','100','150'});
