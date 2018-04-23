@@ -1,0 +1,55 @@
+\documentclass[10pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+%\lstloadlanguages{Matlab}
+\lstset{% general command to set parameter(s)
+	framexleftmargin=0mm,
+	frame=single,
+	identifierstyle =, % nothing happens
+	%commentstyle = \color{commenti}, % comments
+	%stringstyle = \ttfamily \color{stringhe}, % typewriter type for strings
+	showstringspaces = false, % no special string spaces
+	emph = {for, if, then, else, end},
+	%emphstyle = \color{blue},
+	firstnumber = 1,
+	numbers =right, %  show number_line
+	numberstyle = \tiny, % style of number_line
+	stepnumber = 5, % one number_line after stepnumber
+	numbersep = 5pt,
+	language = {Matlab},
+	extendedchars = true,
+	breaklines = true,
+	breakautoindent = true,
+	breakindent = 30pt,
+	%basicstyle=\footnotesize\ttfamily
+}
+
+\begin{document}
+	\title{Digital Communications and Laboratory \\ Second Homework}
+	\author{Faccin Dario, Santi Giovanni}
+	\date{}
+	\maketitle
+	\section*{MATLAB code}
+	
+	\lstinputlisting{script_code_report/Ex1_varying_NL.m}
+	\lstinputlisting{script_code_report/Ex1_fixed_NL.m}
+	\lstinputlisting{script_code_report/autocorrelation_Unb.m}
+	\lstinputlisting{script_code_report/corr_method.m}
+	\lstinputlisting{script_code_report/LS.m}
+	\lstinputlisting{script_code_report/PNSeq.m}
+	\lstinputlisting{script_code_report/polyphase.m}
+	\lstinputlisting{script_code_report/PS.m}
+	\lstinputlisting{script_code_report/plot_est.m}
+	
+	\clearpage
+	
+	\lstinputlisting{script_code_report/Ex_2_good.m}
+	\lstinputlisting{script_code_report/Ex1_varying_NL.m}
+	\lstinputlisting{script_code_report/Ex1_varying_NL.m}
+	\lstinputlisting{script_code_report/ClassicalDS.m}
+	\lstinputlisting{script_code_report/welchPSD.m}
+	
+	
+
+\end{document}
