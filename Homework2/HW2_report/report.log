@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99999 (MiKTeX 2.9.6670 64-bit) (preloaded format=xelatex 2018.4.22)  23 APR 2018 17:00
+This is XeTeX, Version 3.14159265-2.6-0.99999 (MiKTeX 2.9.6670 64-bit) (preloaded format=xelatex 2018.4.22)  23 APR 2018 17:10
 entering extended mode
 **./report.tex
 (report.tex
@@ -784,7 +784,7 @@ File: images/h_ls.png Graphic file (type bmp)
 File: images/Ex1_plot1.png Graphic file (type bmp)
 <images/Ex1_plot1.png>
 
-Overfull \hbox (28.45273pt too wide) in paragraph at lines 244--245
+Overfull \hbox (28.45273pt too wide) in paragraph at lines 245--246
  [][] 
  []
 
@@ -792,17 +792,11 @@ Overfull \hbox (28.45273pt too wide) in paragraph at lines 244--245
 File: images/Ex1_plot2.png Graphic file (type bmp)
 <images/Ex1_plot2.png>
  [5]
-Overfull \hbox (17.37616pt too wide) in paragraph at lines 318--322
-\T1/lmr/m/n/12 power de-lay pro-file, and fi-nally added up with an-other con-s
-tant, $\OML/cmm/m/it/12 C$\T1/lmr/m/n/12 , which in-cluded the de-ter-min-is-ti
-c
- []
-
 File: images/h_d.png Graphic file (type bmp)
 <images/h_d.png>
 File: images/D.png Graphic file (type bmp)
 <images/D.png>
-[6
+ [6
 
 ]
 File: images/h0_7500.png Graphic file (type bmp)
@@ -827,6 +821,6 @@ Here is how much of TeX's memory you used:
  21247 multiletter control sequences out of 15000+200000
  59847 words of font info for 71 fonts, out of 3000000 for 9000
  1328 hyphenation exceptions out of 8191
- 55i,23n,82p,671b,802s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 55i,23n,82p,672b,802s stack positions out of 5000i,500n,10000p,200000b,50000s
 
 Output written on report.pdf (11 pages).

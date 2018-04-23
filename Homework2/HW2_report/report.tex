@@ -174,13 +174,14 @@ According to the model of Figure [\ref{Model_1.1}], the correlation method compu
 \begin{equation}
 \hat{r}_{dx,0}(m) = \frac{1}{L} \sum_{k=L-1}^{2L-2}d(k)x^*(k-m) \simeq h_m \quad\quad m=0,1,\dots,N-1
 \end{equation}
-According to Figure [\ref{poly}], once computed both $\hat{h}_0$ and $\hat{h}_0$, $\hat{h}$ is just the PS representation of the two. The variance of the estimate is:
+According to Figure [\ref{poly}], once computed both $\hat{h}_0$ and $\hat{h}_1$, $\hat{h}$ is just the P/S representation of the two.\\
+The variance of the estimate is:
 
 \begin{equation*}
 var[\hat{r}_{dx}(m)] \simeq \frac{\sigma_w^2}{L}
 \end{equation*}
 
-An example of the two estimates with $N_h=20$ and $L=127$ is given in the following Figures.
+An example of the two estimates with $N_h=20$ and $L=127$ is given in Figure [\ref{h_cor}] and [\ref{h_ls}].
 
 \begin{figure}[H]
 	\centering
@@ -190,7 +191,7 @@ An example of the two estimates with $N_h=20$ and $L=127$ is given in the follow
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=14cm]{images/h_ls}
-	\caption{Estimates of the Polyphase components $\hat{h}_0$ and $\hat{h}_1$ computed with the leat-square method.}\label{h_ls}
+	\caption{Estimates of the Polyphase components $\hat{h}_0$ and $\hat{h}_1$ computed with the least-square method.}\label{h_ls}
 \end{figure}
 
 
@@ -236,13 +237,13 @@ consist of two terms, one due to the estimation error and the other due to the n
 \hat{\sigma}_w^2 = \frac{\mathcal{E}}{L}
 \end{equation*} 
 
-We run the algorithm using $L\in \{31,63, 127, 255, 511, 1023\}$ and varying $N_i$, $i=1,2,\dots,20$. Note that, in order to garantee  The results are shown in Figure [\ref{Ex1_plot1}], while a zoomed version of the same plot is shown in Figure [\ref{Ex1_plot2}].\\
+We run the algorithm using $L\in \{31,63, 127, 255, 511, 1023\}$ and varying $N_i$, $i=1,2,\dots,20$. Note that, in order to guarantee  The results are shown in Figure [\ref{Ex1_plot1}], while a zoomed version of the same plot is shown in Figure [\ref{Ex1_plot2}].\\
 In order to chose suitable values for $L$ and $N$, we decided to take the minimum length of the PN sequence which allowed the best estimate of the noise for a given $N$. Moreover, since the length of the impulsive response is related to the performance 
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=18cm]{images/Ex1_plot1}
-	\caption{Estimate of noise variance $\hat{\sigma}_w^2$ as a function of N,L using the Correlation Method (dashed lines) and the Least-Square Method (solid Lines).}\label{Ex1_plot1}
+	\caption{Estimate of noise variance $\hat{\sigma}_w^2$ as a function of N,L using the Correlation Method (dashed lines) and the Least-Square Method (solid lines).}\label{Ex1_plot1}
 \end{figure}
 
 \begin{figure}[H]
@@ -288,7 +289,7 @@ A flat fading channel with only one top $h_0(nT_c)$ was studied, assuming a \tex
 \end{figure}
 
 The Doppler Spectrum can be generated using a filter $h_{ds}$ such that $|\mathcal{H}_{ds}(f)|^2 = D(f)$.\\
-In Table \ref{iircoeffs} are shown the coefficients used for such filter \cite{nevio<3}:
+In Table [\ref{iircoeffs}] are shown the coefficients used for such filter \cite{nevio<3}:
 
 \begin{table}[H]
 	\centering
@@ -318,7 +319,7 @@ In Table \ref{iircoeffs} are shown the coefficients used for such filter \cite{n
 The graphical representation of the impulse response of the IIR filter and the Doppler Spectrum is shown in Fig. \ref{DS}. 
 To obtain $h_0$, following the scheme of Fig. \ref{Model_2}, the noise component $w\sim \mathcal{CN}(0,1)$ is filtered with the IIR filter previously described. Note that the frequency response of this filter is $\mathcal{H}_{ds}(f)=\sqrt{\mathcal{D}(f)}$ while the PSD of the noise is constant and equal to 1. For this reason, the equivalent impulse response of this part is equal to $\mathcal{D}(f)=1\cdot |\mathcal{H}_{ds}|^2$ which is actually the Doppler spectrum. \\
 The output of the filter is affected by a transient, which we avoided by considering only values after $5N_{eq}T_p$, where $N_{eq} = \left\lceil -\frac{1}{\ln(|p|)} \right\rceil$ is the equivalent time constant, and $p$ is the pole with the highest magnitude. Then, after scaling the coefficient such that $M_{h_0}/\sqrt{E_{h_{ds}}}=1$, the signal is filtered with an interpolation filter of factor $1/T_Q = T_p/T_c=250$. \\
-The interpolator output signal is multiplied by a constant $\sigma_0 = \sqrt{M_d}$ to impose the desired power delay profile, and finally added up with another constant, $C$, which included the deterministic component according to \cite{nevio<3}, Page 307. The final signal is given in Fig. \ref{h0_7500}.
+The interpolator output signal is multiplied by a constant $\sigma_0 = \sqrt{M_d}$ to impose the desired power delay profile. Finally the signal is added with another constant, $C$, which includes the deterministic component according to \cite{nevio<3}, Page 307. The final signal is given in Figure [\ref{h0_7500}].
 
 \begin{figure}[H]
 	\centering
@@ -364,9 +365,8 @@ In this section the spectrum oh $h_0$ is computed using the Welch Periodogram. T
 \mathcal{P}_{WE}(F) = \frac{1}{N_s}\sum_{x=0}^{N_s-1}\mathcal{P}_{PER}^{(s)}(f)
 \end{equation*}
 where $N_s = \lfloor \frac{K-D}{D-S}-1 \rfloor = 2$ is the total number of subsequences. \\
-In order to compare the estimate with the theoretical case, the ideal PSD is computed. By definition, the \textit{Doppler Spectrum} is the Fourier Transform of the autocorrelation function of the impulse response, in correspondence of the same delay $\tau$, evaluated at two different instants. In out analysis, it is provided as IIR filter resulting from the Jakes model, and the coefficients are reported in table [\ref{DS}]. Note that this is actually an approximation deriving from an empirical model such Jakes model is. The deterministic component determines a specral line on the central frequency, as shown in Figure [\ref{Welch}].\\
+In order to compare the estimate with the theoretical case, the ideal PSD is computed. By definition, the \textit{Doppler Spectrum} is the Fourier Transform of the autocorrelation function of the impulse response, in correspondence of the same delay $\tau$, evaluated at two different instants. In out analysis, it is provided as IIR filter resulting from the Jakes model, and the coefficients are reported in table [\ref{DS}]. Note that this is actually an approximation deriving from an empirical model such Jakes model is. The deterministic component determines a spectral line on the central frequency, as shown in Figure [\ref{Welch}].\\
 As a remark, notice that both curves are normalized according to the specifics of our problem.
-
 
 \begin{figure}[H]
 	\centering
