@@ -73,15 +73,15 @@ end
 
 plot_est(Cost_cor,Cost_ls,sigdB);
 
-figure
-grid on
-plot(N,Cost_cor,'o-')
-hold on
-plot(N, Cost_ls,'--')
-a = sigdB*ones(1,max(L));
-hold on
-plot(a,'b--','LineWidth',2)
-xlim([1 20]);  
+% figure
+% grid on
+% plot(N,Cost_cor,'o-')
+% hold on
+% plot(N, Cost_ls,'--')
+% a = sigdB*ones(1,max(L));
+% hold on
+% plot(a,'b--','LineWidth',2)
+% xlim([1 20]);  
 
 
 

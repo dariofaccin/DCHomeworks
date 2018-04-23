@@ -77,7 +77,7 @@ The parameters are as follow:
 	\item noise samples iid with $w(m)\sim\mathcal{N}(0,\sigma_w^2)$, $\sigma_w^2=-8$ dB;
 	\item $r(m) = z(m)+w(m)$.
 \end{itemize}
-We assumed the receiver to know the input signal $\{ x(k)\}$ and a bound on the length of $h$, respectively $N_h \le 20$. In order to estimate the channel, i.e. the impulse response $\hat{h}_i$, $i=0,1,\dots,N-1$, we exploited the \textit{polyphase decomposition} of scheme in Figure [\ref{Model_1}] deriving from the first noble identity. This is shown in Figure [\ref{poly}].
+We assumed the receiver to know the input signal $\{ x(k)\}$ and a bound on the length of $h$, respectively $N_h \le 20$. Note that in this way we approximate the IIR filter with a FIR filter of order $N_h$. In order to estimate the channel, i.e. the impulse response $\hat{h}_i$, $i=0,1,\dots,N-1$, we exploited the \textit{polyphase decomposition} of scheme in Figure [\ref{Model_1}] deriving from the first noble identity. This step is necessary, since we know hat to estimate the channel only if both input and output of the system has the same period. The scheme is shown in Figure [\ref{poly}].
 
 \begin{figure}[H]
 	\centering
@@ -175,27 +175,26 @@ According to the model of Figure [\ref{Model_1.1}], the correlation method compu
 \hat{r}_{dx,0}(m) = \frac{1}{L} \sum_{k=L-1}^{2L-2}d(k)x^*(k-m) \simeq h_m \quad\quad m=0,1,\dots,N-1
 \end{equation}
 According to Figure [\ref{poly}], once computed both $\hat{h}_0$ and $\hat{h}_1$, $\hat{h}$ is just the P/S representation of the two.\\
-The variance of the estimate is:
-
-\begin{equation*}
-var[\hat{r}_{dx}(m)] \simeq \frac{\sigma_w^2}{L}
-\end{equation*}
-
-An example of the two estimates with $N_h=20$ and $L=127$ is given in Figure [\ref{h_cor}] and [\ref{h_ls}].
+An example of the two estimates with $N_h=20$ and $L=127$ is given in Figure [\ref{h_cor}].
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=14cm]{images/h_corr}
+%	\caption{Estimates of the Polyphase components $\hat{h}_0$ and $\hat{h}_1$ computed with the correlation method.}\label{h_cor}
+%\end{figure}
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=14cm]{images/h_ls}
+%	\caption{Estimates of the Polyphase components $\hat{h}_0$ and $\hat{h}_1$ computed with the least-square method.}\label{h_ls}
+%\end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=14cm]{images/h_corr}
-	\caption{Estimates of the Polyphase components $\hat{h}_0$ and $\hat{h}_1$ computed with the correlation method.}\label{h_cor}
-\end{figure}
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=14cm]{images/h_ls}
-	\caption{Estimates of the Polyphase components $\hat{h}_0$ and $\hat{h}_1$ computed with the least-square method.}\label{h_ls}
+	\subfloat{\includegraphics[width=8cm]{images/h_corr}}
+	\subfloat{\includegraphics[width=8cm]{images/h_ls}}
+	\caption{Estimates of the Polyphase components $\hat{h}_0$ and $\hat{h}_1$ computed with the correlation method (left) and with the least-square method (left).}\label{h_cor}
 \end{figure}
 
 
- 
 \subsection*{Least-Square method}
 With reference to the model of Figure [\ref{Model_1.1}], the noisy output of the unknown system can be written as:
 
@@ -227,6 +226,7 @@ o^T &= [d(L-1) \dots d((L-1)+(L-1))]
 \end{split}
 \end{equation*}
 
+
 \subsection*{Conclusions}
 To estimate the noise variance $\hat{\sigma}_w^2$, we computed the cost function given in equation \ref{cost} for both methods. Since the error
 \begin{equation*}
@@ -237,18 +237,61 @@ consist of two terms, one due to the estimation error and the other due to the n
 \hat{\sigma}_w^2 = \frac{\mathcal{E}}{L}
 \end{equation*} 
 
-We run the algorithm using $L\in \{31,63, 127, 255, 511, 1023\}$ and varying $N_i$, $i=1,2,\dots,20$. Note that, in order to guarantee  The results are shown in Figure [\ref{Ex1_plot1}], while a zoomed version of the same plot is shown in Figure [\ref{Ex1_plot2}].\\
-In order to chose suitable values for $L$ and $N$, we decided to take the minimum length of the PN sequence which allowed the best estimate of the noise for a given $N$. Moreover, since the length of the impulsive response is related to the performance 
+We run the algorithm using $L\in \{31,63, 127, 255, 511, 1023\}$ and varying $N_i$, $i=1,2,\dots,20$. Note that, in order to guarantee that the condition $L\gg N $ holds, we a priory exclued the first three possible vales for the length of the PN sequence, i.e. $L=3,7,15$. The results are shown in Figure [\ref{Ex1_plot1}].\\
+At the receiver side, the rationale behind the choice of the $L$,$N$ parameters that would be the most efficient to estimate the channel impulse response is given by the following facts: first of all, the functional $\frac{\mathcal{E}}{L}$ should be as near as possible to the performance bound $\sigma_w^2$, meaning that the error due to the estimate is negligible with respect to the error due to the noise; secondly, the trend of $\frac{\mathcal{E}}{L}$ as $N$ grows should be decreasing until $N = N_h$, and then it should be approximately constant. At the same time, a smaller $N$ should result in a higher computational speed. \\
+For all these reason we chose $L=63$ and $N=6$. This is graphically shown in Figure [\ref{Ex1_plot2}], where a zoomed version of the Figure [\ref{Ex1_plot1}] is given.
+The values of $\{h_i\}$ and $\{\hat{h}_i\}$, $i=1,\dots,6$ are reported in the following table. The variance of the estimates are respectively $\hat{\sigma}_h^2 = -8.1108$ for the correlation method and $\hat{\sigma}_h^2 = -8.0559$ for the ls method.
+
+
+%\begin{table}[H]
+%	\centering
+%	\begin{tabular}{c|c|c|c}
+%		\toprule
+%		\textbf{N}   & \textbf{$h$} & \textbf{$\hat{h}_{cor}$} & \textbf{$\hat{h}_{ls}$}     \\
+%		\midrule
+%		1	&	1.0000 &   1.0362 &   1.0377	\\
+%		\midrule
+%		2	&	0.9635 &   0.9658 &   0.9600	\\
+%		\midrule
+%		3	&	0.4641  &  0.5129 &   0.5228	\\
+%		\midrule
+%		4	&	-0.0001  &  0.0239 &   0.0418	\\
+%		\midrule
+%		5	&	-0.2155   &-0.1990  & -0.1879	\\
+%		\midrule
+%		6	&	-0.2076 &  -0.2407   &-0.2371	\\
+%		\bottomrule			
+%	\end{tabular}
+%	\caption{Coefficients of the impulse responses and estimated variances}
+%	\label{}
+%\end{table}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{c|c|c|c|c|c|c}
+		\toprule
+		\textbf{N} & 1 & 2 & 3 & 4 & 5 & 6 \\
+		\midrule
+		\textbf{$h$} & 1.0000  &  0.9635 &   0.4641 &  -0.0001  & -0.2155 &  -0.2076\\
+		\midrule
+		\textbf{$\hat{h}_{cor}$} & 0.9360 &   0.9394  &  0.3682 &   0.0459 &  -0.2240 &  -0.2200\\
+		\midrule
+		\textbf{$\hat{h}_{ls}$} & 0.9260 &   0.9645  &  0.3787  &  0.0814  & -0.2159   &-0.1768\\
+		\bottomrule			
+	\end{tabular}
+	\caption{Coefficients of the impulse responses and estimated variances}
+	\label{}
+\end{table}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=18cm]{images/Ex1_plot1}
+	\includegraphics[width=16cm]{images/Ex1_plot1}
 	\caption{Estimate of noise variance $\hat{\sigma}_w^2$ as a function of N,L using the Correlation Method (dashed lines) and the Least-Square Method (solid lines).}\label{Ex1_plot1}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=14cm]{images/Ex1_plot2}
+	\includegraphics[width=16cm]{images/Ex1_plot2}
 	\caption{Zoom of Figure [\ref{Ex1_plot1}].}\label{Ex1_plot2}
 \end{figure}
 
@@ -298,7 +341,7 @@ In Table [\ref{iircoeffs}] are shown the coefficients used for such filter \cite
 		\textbf{$H_{ds}(z) = B(z)/A(z)$} & $f_dT_p=0.1$ &  &     \\
 		\midrule
 		$ \{a_n\} $ ,& $n=0, \dots, 11$:  & & \\
-		1 & -4.4153 & 8.6283 & -9.4592   \\
+		1.0000 & -4.4153 & 8.6283 & -9.4592   \\
 	    6.1051 & -1.3542 & -3.3622 & 7.2390 \\
 	    -7.9361 & 5.1221 & -1.8401 & 2.8706e-1 \\
 	    \midrule
@@ -323,8 +366,8 @@ The interpolator output signal is multiplied by a constant $\sigma_0 = \sqrt{M_d
 
 \begin{figure}[H]
 	\centering
-	\subfloat{\includegraphics[width=7.5cm]{images/h_d}}
-	\subfloat{\includegraphics[width=7.5cm]{images/D}}
+	\subfloat{\includegraphics[width=8cm]{images/h_d}}
+	\subfloat{\includegraphics[width=8cm]{images/D}}
 	\caption{Impulse response of the IIR filter and Doppler Spectrum}
 	\label{DS}
 \end{figure}
