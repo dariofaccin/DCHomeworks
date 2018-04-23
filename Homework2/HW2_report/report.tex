@@ -73,11 +73,11 @@ The parameters are as follow:
 					x(m/2)  \quad \text{if \textit{m} is even} \\
 					0 \quad\quad\quad\quad \text{otherwise} 
 	\end{cases} $ \\
-	\item $z(m) = -a_1z(m-1)-a_2z(m-2)+y(m)$, $m=0,1,\cdots$, with initial values $z(-1)=z(-2)=0$ and coefficients $a_1 = -0.9635$ and $a_2 = 0.4642$;
+	\item $z(m) = -a_1z(m-1)-a_2z(m-2)+y(m)$, $m=0,1,\dots$, with initial values $z(-1)=z(-2)=0$ and coefficients $a_1 = -0.9635$ and $a_2 = 0.4642$;
 	\item noise samples iid with $w(m)\sim\mathcal{N}(0,\sigma_w^2)$, $\sigma_w^2=-8$ dB;
 	\item $r(m) = z(m)+w(m)$.
 \end{itemize}
-We assumed the receiver to know the input signal $\{ x(k)\}$ and a bound on the length of $h$, respectively $N_h \le 20$. In order to estimate the channel, i.e. the impulse response $\hat{h}_i$, $i=0,1,\cdots,N-1$, we exploited the \textit{polyphase decomposition} of scheme in Figure [\ref{Model_1}] deriving from the first noble identity. This is shown in Figure [\ref{poly}].
+We assumed the receiver to know the input signal $\{ x(k)\}$ and a bound on the length of $h$, respectively $N_h \le 20$. In order to estimate the channel, i.e. the impulse response $\hat{h}_i$, $i=0,1,\dots,N-1$, we exploited the \textit{polyphase decomposition} of scheme in Figure [\ref{Model_1}] deriving from the first noble identity. This is shown in Figure [\ref{poly}].
 
 \begin{figure}[H]
 	\centering
@@ -122,7 +122,7 @@ We assumed the receiver to know the input signal $\{ x(k)\}$ and a bound on the 
 	\label{poly} 
 \end{figure}
 
-Since the system is described by a FIR filter, this is a linear channel estimation problem that is solved by taking as input a PN sequence with period L and statistical power $r_x(0)$, $\{p(i)\}$, $i=0,1,\cdots,L-1$. In this way, infact, the cross-correlation between the output signal $d$ and the input $x$ is proportional with a factor $r_x(0)$ to the impulse response ${h_i}$, respectively:
+Since the system is described by a FIR filter, this is a linear channel estimation problem that is solved by taking as input a PN sequence with period L and statistical power $r_x(0)$, $\{p(i)\}$, $i=0,1,\dots,L-1$. In this way, infact, the cross-correlation between the output signal $d$ and the input $x$ is proportional with a factor $r_x(0)$ to the impulse response ${h_i}$, respectively:
 \begin{equation*}
 r_{dx}(n) = r_{zx}(n) =r_x * h(n) = r_x(0)\cdot h_n
 \end{equation*}
