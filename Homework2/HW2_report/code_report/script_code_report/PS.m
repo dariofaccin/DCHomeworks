@@ -1,4 +1,5 @@
 function [h] = PS(h0, h1)
+% Compute Parallel-to-series from the two polyphase components
 
 temp = length(h0)+length(h1);
 h=zeros(temp,1);

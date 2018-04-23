@@ -1,11 +1,9 @@
 function [pn] = PNSeq(L)
+% Maximal length sequense of period L (pag. 233)
 
 r = log2(L+1);
-pn = zeros(L,1);
-
-% Initial conditions (set to one, arbitrary)
-% Must not be ALL zeros
-pn(1:r) = ones(1,r).';
+pn = zeros(L,1); 
+pn(1:r) = ones(1,r).';    % Initial conditions
 
 for l=r+1:L
     switch r
@@ -35,7 +33,6 @@ for l=r+1:L
     end
 end
 
-% Bits are {-1, 1}
-pn = 2*pn -1;
+pn = 2*pn -1;      % pam modulation
 
 end
