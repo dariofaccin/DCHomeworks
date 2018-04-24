@@ -92,7 +92,7 @@ DS = fftshift(H_dopp);
 
 % Welch estimator
 D = ceil(N_t/2);       % window length
-D = 40000;
+% D = 40000;
 S = D/2;                   % overlap
 w_welch=window(@bartlett,D);
 [Welch_P, N] = welchPSD(h0', w_welch, S);  
