@@ -108,7 +108,7 @@ f1=[-N/2+1:N/2];
 f2=[-Npoints/2+1:Npoints/2];
 
 figure,
-plot(f1-1, 10*log10(Welch_cent)) , hold on, plot(f2,PSD_theo,'r')
+plot(f1-1, -3+10*log10(Welch_cent)) , hold on, plot(f2,PSD_theo,'r')
 ylim([-40 0])
 xlim([-5*N*fd  5*N*fd]);
 xticks([-5*N*fd -4*N*fd -3*N*fd -2*N*fd -1*N*fd 0 1*N*fd 2*N*fd 3*N*fd 4*N*fd 5*N*fd])
