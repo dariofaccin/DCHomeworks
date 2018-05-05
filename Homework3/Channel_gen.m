@@ -43,3 +43,5 @@ Qc = fftshift(fft(qc));
 
 figure()
 plot(10*log10(abs(Qc)/length(Qc)));
+
+save('channel_output.mat', 'r_c');
