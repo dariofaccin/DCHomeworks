@@ -29,3 +29,17 @@ s_c = filter(qc_num, qc_denom, a_prime);
 noise = wgn(length(s_c),1,10);
 
 r_c = s_c + noise;
+
+%% FIGURES
+
+abs_qc = abs(qc);
+
+figure()
+plot(abs_qc);
+xlabel('n T/4');
+xlim([1 length(abs_qc)]);
+
+Qc = fftshift(fft(qc));
+
+figure()
+plot(10*log10(abs(Qc)/length(Qc)));
