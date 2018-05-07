@@ -1,20 +1,18 @@
 clc; close all; clear global; clearvars;
 
-T = 1;
-Tc = T/4;
+T = 1;              % Symbol period
+Tc = T/4;           % upsampling period
+Q = T/Tc;           
 
-Q = T/Tc;
-
-alpha = 0.67;
+alpha = 0.67;       % filter coefficients
 beta = 0.7424;
 
-qc_num = [0 0 0 0 0 beta];
-qc_denom = [1 -alpha];
+qc_num = [0 0 0 0 0 beta];       % qc filter
+qc_denom = [1 - alpha];
 qc = impz(qc_num, qc_denom);
-
 E_qc = sum(qc.^2);
 
-x = PNSeq(1023);
+x = PNSeq(1023);     % generate a strem of 0 and 1 
 
 x_i = x(1:ceil(length(x)/2)-1);
 x_q = x(ceil(length(x)/2)+1:end);
