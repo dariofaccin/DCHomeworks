@@ -10,11 +10,11 @@ output = zeros(L,1);
 
 % Map each couple of values to the corresponding symbol
 for idx = 1:2:L-1
-    if (isequal(input(idx:idx+1), [0; 0] ))
+    if (isequal(input(idx:idx+1), [-1; -1] ))
         output(idx) = -1-1i;
-    elseif (isequal(input(idx:idx+1), [1; 0] ))
+    elseif (isequal(input(idx:idx+1), [1; -1] ))
         output(idx) = 1-1i;
-    elseif (isequal(input(idx:idx+1), [0; 1] ))
+    elseif (isequal(input(idx:idx+1), [-1; 1] ))
         output(idx) = -1+1i;
     elseif (isequal(input(idx:idx+1), [1; 1] ))
         output(idx) = +1+1i;
