@@ -1,4 +1,4 @@
-function [output, sigma_w] = channel_sim(x, snr, sigma_a)
+function [output, sigma_w, qc] = channel_sim(x, snr, sigma_a)
 
 T = 1;
 Tc = T/4;
