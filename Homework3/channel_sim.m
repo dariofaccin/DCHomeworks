@@ -15,14 +15,7 @@ E_qc = sum(qc.^2);
 
 sigma_w = sigma_a * E_qc / (4*snr);
 
-x_i = x(1:2:end);
-x_q = x(2:2:end-1);
-x_i = x_i(1:length(x_q));
-
-a_prime_i = upsample(x_i, Q);
-a_prime_q = upsample(x_q, Q);
-
-a_prime = a_prime_i + 1i*a_prime_q;
+a_prime = upsample(x,Q);
 
 s_c = filter(qc_num, qc_denom, a_prime);
 
