@@ -9,8 +9,17 @@ snr_lin = 10^(snr_db/10);
 % Matched filter
 q_mf = qc(end:-1:1);
 
-% Filtering through C
+% h
+h = conv(q_mf, qc);
+
+figure()
+stem(h);
+
+t0 = find(h==max(h));
+
 y = filter(q_mf,1,r_c);
+
+y = y(t0:end);
 y = downsample(y,4);
 
 detected = zeros(length(y),1);
@@ -20,8 +29,8 @@ for i=1:length(detected)
 end
 
 numerrs = 0;
-for i=1:length(detected)
-    if ( detected(i) ~= in_bits(i) )
+for i=t0:length(detected)
+    if ( detected(i) ~= in_bits(i-t0+1) )
         numerrs = numerrs + 1;
     end
 end
