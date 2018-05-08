@@ -36,6 +36,7 @@ r_c = s_c+noise;
 % save('rec_input.mat', 'in_bits', 'r_c', 'qc', 'E_qc');
 
 %% FIGURES
+
 abs_qc = abs(qc);
 
 figure()
@@ -48,4 +49,3 @@ xlim([1 length(abs_qc)]);
 figure()
 plot(f,10*log10(abs(Qc)/length(Qc)));
 xlim([0 2/T]);
-
