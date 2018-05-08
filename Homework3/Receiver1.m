@@ -3,58 +3,87 @@ clc; close all; clear global; clearvars;
 % Input signal
 load('rec_input.mat');
 T = 1;
+L = 1023;
 sigma_a = 2;
 
 snr_db = 10;
 snr_lin = 10^(snr_db/10);
 
 % Matched filter
-q_mf = qc(end:-1:1);
+gm = qc(end:-1:1);
 
 % h
-h = conv(q_mf, qc);
-
-figure()
-stem(h);
-
+h = conv(gm, qc);
+% sample h with period T
+h_T = downsample(h,4);
 t0 = find(h==max(h));
 
-%--------------------------------------------------------------
-% m_min = 0;
-% m_max = 30;
-% crossvec = zeros(m_max - m_min, 1);
-% for m = m_min : m_max
-%     r_part = r_c(m+1 : T : m+1+T*(L-1));  % pick L samples from r, spaced by T
-%     crossvec(m+1) = abs(sum(r_part.*conj(in_bits(1:L)))/L); % as in 7.269
-% end
-% 
-% [~, m_opt] = max(crossvec);
-% m_opt = m_opt - 1; % because of MATLAB indexing
-% init_offs = mod(m_opt, T);
-% delay = floor(m_opt / T);   % timing phase @T, that is the delay of the channel @T
-%-----------------------------------------------------------------
+figure()
+subplot(121), stem([-t0+1:1:length(h)-t0],h,'b');
+% xlabel('nT/4'), xlim([0 length(h)-1]), grid on
+subplot(122), stem([-4:1:4],h_T,'Color','red');
+% xlabel('nT'), xlim([0 length(h_T)-1]), grid on
 
-y = filter(q_mf,1,r_c);
+t0 = find(h==max(h));
+w_tilde = conv(wc,gm);
 
-y = y(t0:end);
-y = downsample(y,4);
+%% Adaptive LE pag. 639
+N1 = 2;          % precursors 
+N2 = 2;          % postcursors
+M2 = 0;
+M1 = 30;
+packet = in_bits;
+D = 5;
+est_sigmaw = sigma_w;
 
-detected = zeros(length(y),1);
+% Zero padding of the i.r.
+nb0 = 60;
+nf0 = 60;
+h_zero_ind = nb0+ N1 + 1;
+hi = [zeros(nb0,1); h; zeros(nf0,1)];
 
-for i=1:length(detected)
-    detected(i) = QPSK_detector(y(i));
+p = zeros(M1, 1);
+for i = 0:(M1 - 1)
+    p(i+1) = sigma_a * conj(hi(N1+nb0+1+D-i));
 end
-
-numerrs = 0;
-for i=t0:length(detected)
-    if ( detected(i) ~= in_bits(i-t0+1) )
-        numerrs = numerrs + 1;
+R = zeros(M1);
+for row = 0:(M1-1)
+    for col = 0:(M1-1)
+        first_sum = (hi((nb0+1):(N1+N2+nb0+1))).' * ...
+            conj(hi((nb0+1-(row-col)):(N1+N2+nb0+1-(row-col))));
+        second_sum = (hi((N1+nb0+1+1+D-col):(N1+nb0+1+M2+D-col))).' * ...
+            conj((hi((N1+nb0+1+1+D-row):(N1+nb0+1+M2+D-row))));
+        r_w = (row == col) * est_sigmaw; % This is a delta only if there is no g_M.
+        
+        R(row+1, col+1) = sigma_a * (first_sum - second_sum) + r_w;
+        
     end
 end
 
-%% reciver of page 622
-[Qc, f] = freqz(qc,1,4096,'whole');
-C = 
+c_opt = inv(R)*p
+
+
+
+
+
+
+
+
+% y = filter(q_mf,1,r_c);
+% y = y(t0:end);
+% y = downsample(y,4);
+% detected = zeros(length(y),1);
+% 
+% for i=1:length(detected)
+%     detected(i) = QPSK_detector(y(i));
+% end
+% numerrs = 0;
+% for i=t0:length(detected)
+%     if ( detected(i) ~= in_bits(i-t0+1) )
+%         numerrs = numerrs + 1;
+%     end
+% end
+
 
 
 

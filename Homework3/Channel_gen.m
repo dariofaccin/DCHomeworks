@@ -15,6 +15,10 @@ beta = 0.7424;
 qc_num = [0 0 0 0 0 beta];
 qc_denom = [1 -alpha];
 qc = impz(qc_num, qc_denom);
+% remove al components under max(qc/100)
+qc = qc([1:17]);
+stem([0:length(qc)-1],qc);
+
 E_qc = sum(qc.^2);
 
 % Input signal: from a PN sequence generate QPSK
@@ -26,14 +30,15 @@ in_bits = bitmap(x(1:length(x)-1));
 a_prime = upsample(in_bits,Q);
 
 % Noise
-sigma_w = sigma_a * E_qc / (4*snr);
+sigma_w = sigma_a * E_qc / (4*snr);     % N0
 
 % Output
 s_c = filter(qc_num, qc_denom, a_prime);
-noise = wgn(length(s_c),1,sigma_w);
-r_c = s_c+noise;
+wc = wgn(length(s_c),1,sigma_w);
+r_c = s_c+wc;
 
-% save('rec_input.mat', 'in_bits', 'r_c', 'qc', 'E_qc');
+save('rec_input.mat', 'in_bits', 'r_c', 'qc', 'E_qc', 'wc','sigma_w');
+
 
 %% FIGURES
 abs_qc = abs(qc);
