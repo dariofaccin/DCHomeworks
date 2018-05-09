@@ -15,10 +15,10 @@ beta = 0.7424;
 qc_num = [0 0 0 0 0 beta];
 qc_denom = [1 -alpha];
 qc = impz(qc_num, qc_denom);
-% remove al components under max(qc/100)
-find(qc>(max(qc)/100));
-qc = qc([1:(ans(end))+1]);
-stem([0:length(qc)-1],qc);
+% remove all components under max(qc/100)
+a = find(qc>(max(qc)/100));
+qc = qc(1:(a(end))+1);
+% stem(0:length(qc)-1,qc);
 E_qc = sum(qc.^2);              % Energy of the impulse response
 
 % Input signal: from a PN sequence generate QPSK
@@ -30,14 +30,14 @@ in_bits = bitmap(x(1:length(x)-1));
 a_prime = upsample(in_bits,Q);
 
 % Noise
-sigma_w = sigma_a * E_qc / (Q*snr);     % N0
+sigma_w = sigma_a * E_qc / snr;     % N0
 
 % Output
 s_c = filter(qc_num, qc_denom, a_prime);
 wc = wgn(length(s_c),1,sigma_w,'complex');
-r_c = s_c+wc;
+r_c = s_c;
 
-% save('rec_input.mat', 'in_bits', 'r_c', 'qc', 'E_qc', 'wc','sigma_w');
+save('rec_input.mat', 'in_bits', 'r_c', 'qc', 'E_qc', 'wc','sigma_w');
 
 
 %% FIGURES

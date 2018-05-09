@@ -28,47 +28,33 @@ h_T = downsample(h,4);
 
 r_c_prime = filter(gm,1,r_c);
 
-t0_bar = find(h_T==max(h_T));             % timing phase
+% t0_bar = find(h_T==max(h_T));             % timing phase
+t0_bar = length(gm);
 r_c_prime = r_c_prime(t0_bar:end);
 x = downsample(r_c_prime,4);
 
 r_gm = xcorr(gm,gm);                     % crosscorr ??
-rw_tilde = sigma_w*r_gm;
+rw_tilde = sigma_w/4 .* downsample(r_gm, 4);
 
 % save('Receiver_ab.mat')
 
 %% RECEIVER a
-clc; close all; clear global; clearvars;
-load('rec_input.mat')
-load('Receiver_ab.mat')
+%clc; close all; clear global; clearvars;
+% load('rec_input.mat')
+% load('Receiver_ab.mat')
 
 M1 = 5;
 M2 = 0;
-D = 5;
-[c_opt, Jmin] = Adaptive_DFE(h_T, rw_tilde, sigma_a, M1, M2, D);
-
-y = filter(c_opt,1,x);
-detected = zeros(length(y),1);
-
-scatterplot(y)
-
-for i=1:length(detected)
-    detected(i) = QPSK_detector(y(i));
-end
-
-detected = detected(D+1:end);
-
-numerrs = 0;
-for i=1:length(detected)
-    if ( detected(i) == in_bits(i))
-        numerrs = numerrs +1;
-    end
-end
-numerrs
-
-%% RECEIVER b
-M1 = 5;
-M2 = 3;
 D = 2;
 [c_opt, Jmin] = Adaptive_DFE(h_T, rw_tilde, sigma_a, M1, M2, D);
 
+detected = equalization_LE(x, c_opt, M1, D, max(conv(c_opt, h_T)));
+
+[Pe, errors] = SER(in_bits(1:length(detected)), detected);
+
+% %% RECEIVER b
+% M1 = 5;
+% M2 = 3;
+% D = 2;
+% [c_opt, Jmin] = Adaptive_DFE(h_T, rw_tilde, sigma_a, M1, M2, D);
+% 
