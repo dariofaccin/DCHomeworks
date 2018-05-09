@@ -1,7 +1,8 @@
 clc; close all; clear global; clearvars;
 
-% Input
+% Load input and noise
 load('in_bits.mat');
+load('noise.mat');
 
 % Channel SNR
 snr_db = 10;
@@ -12,9 +13,7 @@ sigma_a = 2;
 % Channel: NOISE IS ADDED AFTERWARDS
 [r_c, sigma_w, qc] = channel_sim(in_bits, snr_db, sigma_a);
 
-noise = wgn(2044,1,sigma_w,'complex');
-
-r_c = r_c + noise;
+r_c = r_c + w(:,3);
 
 % Matched filter
 gm = conj(qc(end:-1:1));
