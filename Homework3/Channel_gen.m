@@ -6,7 +6,8 @@ clc; close all; clear global; clearvars;
 T = 1;              % Symbol period
 Tc = T/4;           % upsampling period
 Q = T/Tc;           
-snr = 10;
+snr_db = 7;
+snr_lin = 10^(snr_db/10);
 sigma_a = 2;
 
 % Filter setup
@@ -30,12 +31,12 @@ in_bits = bitmap(x(1:length(x)-1));
 a_prime = upsample(in_bits,Q);
 
 % Noise
-sigma_w = sigma_a * E_qc / snr;     % N0
+sigma_w = sigma_a * E_qc / snr_lin;     % N0
 
 % Output
 s_c = filter(qc_num, qc_denom, a_prime);
 wc = wgn(length(s_c),1,sigma_w,'complex');
-r_c = s_c;
+r_c = s_c + wc;
 
 save('rec_input.mat', 'in_bits', 'r_c', 'qc', 'E_qc', 'wc','sigma_w');
 

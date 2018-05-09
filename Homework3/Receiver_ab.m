@@ -6,7 +6,7 @@ T = 1;
 L = 1023;
 sigma_a = 2;
 
-snr_db = 10;
+snr_db = 7;
 snr_lin = 10^(snr_db/10);
 
 % Matched filter
