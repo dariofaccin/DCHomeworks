@@ -10,7 +10,7 @@ snr_lin = 10^(snr_db/10);
 sigma_a = 2;
 
 % Channel: NOISE IS ADDED AFTERWARDS
-[r_c, sigma_w, qc] = channel_sim(in_bits, snr_db, sigma_a);
+[r_c, sigma_w, ~] = channel_sim(in_bits, snr_db, sigma_a);
 
 r_c = r_c + w(:,3);
 

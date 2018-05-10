@@ -22,6 +22,6 @@ for k = 0:length(x) - 1 + D
     y(k+1) = c.'*xconv / norm_fact;
     detected(k + 1) = QPSK_detector(y(k + 1));
 end
-scatterplot(y);
+% scatterplot(y);
 decisions = detected(D + 1:end);
 end

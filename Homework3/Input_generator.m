@@ -1,10 +1,17 @@
 clc; close all; clear global; clearvars;
 
-% CREATE INPUT QPSK AND NOISE
+% CREATE INPUT BITS, QC AND NOISE
+
+alpha = 0.67;
+beta = 0.7424;
+qc_num = [0 0 0 0 0 beta];
+qc_denom = [1 -alpha];
+qc = impz(qc_num, qc_denom);
+aaaaa = find(qc>(max(qc)/100));
+qc = qc(1:(aaaaa(end))+1);
+E_qc = sum(qc.^2);
 
 length_seq = 2^20-1;
-
-E_qc = 1;
 
 SNR_vect = 8:14;
 SNR_lin = 10.^(SNR_vect ./ 10);
@@ -26,4 +33,4 @@ in_bits = bitmap(in_seq);
 
 var(w);
 
-% save('Useful.mat', 'w', 'in_bits');
+save('Useful.mat', 'w', 'in_bits', 'qc');
