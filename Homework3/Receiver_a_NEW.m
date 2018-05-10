@@ -48,4 +48,7 @@ D = 2;
 
 detected = equalization_LE(x, c_opt, M1, D, max(conv(c_opt, h_T)));
 
-[Pe, errors] = SER(in_bits(1:length(detected)), detected);
+nerr = length(find(in_bits(1:length(detected))~=detected));
+Pe = nerr/length(in_bits(1:length(detected)));
+
+% [Pe, errors] = SER(in_bits(1:length(detected)), detected);

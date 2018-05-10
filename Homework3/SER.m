@@ -13,6 +13,7 @@ for i=1:length(sent)
     end
 end
 
+
 Pe = count_err/length(sent);
 
 end

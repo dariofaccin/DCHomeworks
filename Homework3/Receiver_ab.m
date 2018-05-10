@@ -14,8 +14,8 @@ gm = conj(qc(end:-1:1));
 
 % h
 h = conv(qc,gm);
-h = h(h>max(h)/100);
-h = h(3:end-2);
+h = h(h>max(h)/100);            % consider value over max(h)/100
+h = h(3:end-2);                 % cut to center the timing phase
 
 % sample h with period T
 h_T = downsample(h,4);
@@ -28,8 +28,8 @@ h_T = downsample(h,4);
 
 r_c_prime = filter(gm,1,r_c);
 
-% t0_bar = find(h_T==max(h_T));             % timing phase
-t0_bar = length(gm);
+t0_bar = find(h_T==max(h_T));             % timing phase
+% t0_bar = length(gm);
 r_c_prime = r_c_prime(t0_bar:end);
 x = downsample(r_c_prime,4);
 
