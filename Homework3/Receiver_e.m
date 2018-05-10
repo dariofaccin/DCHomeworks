@@ -54,10 +54,5 @@ title('$|c|$'), xlabel('n');
 subplot(122), stem(0:length(psi)-1,abs(psi)), grid on
 title('$|\psi|$'), xlabel('n');
 
-detected = equalization_LE(x, c_opt, M1, D, max(psi));
-
-nerr = length(find(in_bits(1:length(detected))~=detected));
-Pe = nerr/length(in_bits(1:length(detected)));
 
 
-% [Pe, errors] = SER(in_bits(1:length(detected)), detected);
