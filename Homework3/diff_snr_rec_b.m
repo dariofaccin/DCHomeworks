@@ -1,8 +1,7 @@
 clc; close all; clear global; clearvars;
 
 % Input
-load('in_bits.mat');
-load('noise.mat');
+load('Useful.mat');
 SNR_vect = [8 9 10 11 12 13 14];
 Pe_DFE = zeros(length(SNR_vect),1);
 errors = zeros(length(SNR_vect),1);
@@ -31,7 +30,7 @@ for i=1:length(SNR_vect)
     rw_tilde = sigma_w/4 .* downsample(r_gm, 4);
 
     M1 = 5;
-    M2 = 2;
+    M2 = 5;
     D = 2;
     [c_opt, Jmin] = Adaptive_DFE(h_T, rw_tilde, sigma_a, M1, M2, D);
 
@@ -40,4 +39,4 @@ for i=1:length(SNR_vect)
     [Pe_DFE(i), errors(i)] = SER(in_bits(1:length(detected)), detected);
 end
 
-% save('Pe_DFE.mat','Pe_DFE');
+save('Pe_DFE.mat','Pe_DFE');

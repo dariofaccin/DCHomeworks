@@ -1,8 +1,7 @@
 clc; close all; clear global; clearvars;
 
 % Load input and noise
-load('in_bits.mat');
-load('noise.mat');
+load('Useful.mat');
 
 % Channel SNR
 snr_db = 10;
@@ -46,9 +45,18 @@ M2 = 0;
 D = 2;
 [c_opt, Jmin] = Adaptive_DFE(h_T, rw_tilde, sigma_a, M1, M2, D);
 
-detected = equalization_LE(x, c_opt, M1, D, max(conv(c_opt, h_T)));
+psi = conv(c_opt, h_T);
+
+figure
+subplot(121), stem(0:length(c_opt)-1,abs(c_opt)), hold on, grid on
+title('|c|'), xlabel('n');
+subplot(122), stem(0:length(psi)-1,abs(psi)), grid on
+title('|\varpsi|'), xlabel('n');
+
+detected = equalization_LE(x, c_opt, M1, D, max(psi));
 
 nerr = length(find(in_bits(1:length(detected))~=detected));
 Pe = nerr/length(in_bits(1:length(detected)));
+
 
 % [Pe, errors] = SER(in_bits(1:length(detected)), detected);

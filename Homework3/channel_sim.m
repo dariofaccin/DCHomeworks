@@ -13,7 +13,8 @@ snr_lin = 10^(snr_db/10);
 qc_num = [0 0 0 0 0 beta];
 qc_denom = [1 -alpha];
 qc = impz(qc_num, qc_denom);
-
+aaaaa = find(qc>(max(qc)/100));
+qc = qc(1:(aaaaa(end))+1);
 E_qc = sum(qc.^2);
 
 sigma_w = sigma_a * E_qc / snr_lin;
@@ -24,6 +25,5 @@ s_c = filter(qc_num, qc_denom, a_prime);
 
 % noise = wgn(length(s_c),1,sigma_w,'complex');
 
-% r_c = s_c + noise;
 r_c = s_c;
 output = r_c;

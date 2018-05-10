@@ -1,8 +1,7 @@
 clc; close all; clear global; clearvars;
 
 % Input
-load('in_bits.mat');
-load('noise.mat');
+load('Useful.mat');
 SNR_vect = 8:14;
 Pe_LE = zeros(length(SNR_vect),1);
 errors = zeros(length(SNR_vect),1);
@@ -43,4 +42,4 @@ for i=1:length(SNR_vect)
     awgn_bound(i) = 4*(1-1/sqrt(M))*qfunc(sqrt(snr_lin/(sigma_a/2)));
 end
 
-% save('Pe_LE.mat','Pe_LE', 'awgn_bound');
+save('Pe_LE.mat','Pe_LE', 'awgn_bound');
