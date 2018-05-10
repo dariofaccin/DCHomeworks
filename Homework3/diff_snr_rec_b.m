@@ -2,6 +2,7 @@ clc; close all; clear global; clearvars;
 
 % Input
 load('Useful.mat');
+load('JminDFE.mat');
 SNR_vect = [8 9 10 11 12 13 14];
 Pe_DFE = zeros(length(SNR_vect),1);
 errors = zeros(length(SNR_vect),1);
@@ -30,9 +31,9 @@ for i=1:length(SNR_vect)
 
     rw_tilde = sigma_w/4 .* downsample(r_gm, 4);
     
-    M1 = 12;
-    M2 = 3;
-    D = 11;
+    M1 = idx_m1;
+    % M2 = 1;
+    D = idx_d;
     [c_opt, Jmin] = Adaptive_DFE(h_T, rw_tilde, sigma_a, M1, M2, D);
     
     psi = conv(c_opt, h_T);

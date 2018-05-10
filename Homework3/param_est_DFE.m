@@ -15,7 +15,7 @@ h_T = downsample(h,4);
 t0_bar = length(gm);
 r_gm = xcorr(gm,gm);
 
-N2 = 4;
+N2 = floor(length(h_T)/2);
 
 printmsg_delete = '';
 JminDFE = zeros(length(SNR_vect), 30, 30);
@@ -44,3 +44,5 @@ end
 [min, idx] = min(JminDFE(:));
 
 [idx_snr, idx_m1, idx_d] = ind2sub(size(JminDFE), idx);
+
+save('JminDFE.mat', 'JminDFE', 'idx_m1', 'idx_d', 'M2');

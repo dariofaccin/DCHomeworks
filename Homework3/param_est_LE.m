@@ -43,3 +43,4 @@ end
 
 [idx_snr, idx_m1, idx_d] = ind2sub(size(JminLE), idx);
 
+save('JminLE.mat', 'JminLE', 'idx_m1', 'idx_d');
