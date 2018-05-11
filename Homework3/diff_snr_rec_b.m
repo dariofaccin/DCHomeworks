@@ -46,4 +46,4 @@ for i=1:length(SNR_vect)
     Pe_DFE(i) = errors(i)/length(in_bits(1:length(detected)));
 end
 
-save('Pe_DFE.mat','Pe_DFE');
+% save('Pe_DFE.mat','Pe_DFE');
