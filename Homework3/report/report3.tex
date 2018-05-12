@@ -38,8 +38,64 @@
 \date{}
 \maketitle
 
-The following system was considered. A stream of QPSK symbols is upsampled with period T/4 and filtered with a filter $q_c$ which output is $s_c\left(n\frac{T}{4}\right)= \alpha s_c\left((n-1)\frac{T}{4}\right)+\beta a_{n-5}'$.This signal is transmitted through the channel, which introduces the noise component $w_c\left(n\frac{T}{4}\right)$ with PSD $\mathcal{P}_{w_c}(f) = N_0$. Note that noise components are iid with \textit{pmd} $\approx \mathcal{CN}(0,\sigma_{w_c}^2)$
+
+\section*{PROBLEM}
+The following system was considered. A stream of QPSK symbols is upsampled with period T/4 and filtered with a filter $q_c$ which output is $s_c\left(n\frac{T}{4}\right)= \alpha s_c\left((n-1)\frac{T}{4}\right)+\beta a_{n-5}'$. This signal is transmitted through the channel, which introduces the noise component $w_c\left(n\frac{T}{4}\right)$ with PSD $\mathcal{P}_{w_c}(f) = N_0$. Note that noise components are iid with \textit{pmd} $\sim \mathcal{CN}(0,\sigma_{w_c}^2)$. The SNR at the output of the system is therefore 
+\begin{equation*}
+\Gamma = \frac{M_{s_c}}{N_0\frac{1}{T}} = \frac{\sigma^2_a E_{q_c}}{\sigma_{w_c}^2)}
+\end{equation*}
+with $\sigma^2_a=2$ and $E_{q_c} = \sum_m | q_c \left(m\frac{T}{4}\right) |^2$.
+
+\vspace{3.em}
+Dario enjoy
+\vspace{3.em}
+
+The QPSK symbols are generated with a PN sequence of length $L=2^{20}-1$ in order to provide a stream of bits with spectral characteristics similar to those of a white noise signal. Two consecutive bits are then coupled and mapped into one of the possible constellations symbols, associating the first and second bit to the real and imaginary part respectively. \\
+The  $q_c$ filter in linear and frequency domain is given in Figures [\ref{qc}].
+
+\begin{figure}[H]
+	\centering
+	\subfloat{\includegraphics[width=9cm]{images/qc}}
+	\subfloat{\includegraphics[width=9cm]{images/Qc_f}}
+	\caption{Impulsive response (left) and Frequency response (rigth) of the filter $q_c$.}\label{qc}
+\end{figure}
+
+In the following, 6 different receiver configurations are studied. For each of this, an SNR value of $\Gamma = 10$ $dB$ was assumed.
 
 
+\clearpage
+\subsection*{Receiver a}
+The receiver filter consist of a match filter $g_M$ matched to the transmission filter $q_c$. From now on, we may refer to the global impulse response of the system at the input of the \textit{linear equalizer} $c$ as $h = g_c * g_M$. Since it is defined $@\frac{T}{4}$, a downsampling of a factor 4 is required between the output of $h$ and the input of $c$. \\
+The filter $c$ attempts to find the optimum trade-off between removing the ISI and enhancing the noise at the decision point. Since the LE can be seen as a particular case of a DFE, we evaluated the coefficients of the filters $c$ and $b$ (will be introduced from Receiver b) using the same algorithm which exploits the Wiener filter theory to determine the optimum coefficients. \\
+Let the filter $c$ and $b$ have length $M_1$ and $M_2$, with a delay $D$ intruduced by $c$. Then the LE can be seen as a DFE with $M_2=0$. The coefficients are computed using the MSE applied to the cost function
+\begin{equation}
+J = E \left[|a_{k-D}-y_k|^2\right]
+\end{equation}
+The optimum FF filter is given by
+\begin{equation*}
+\mathbf{c}_opt = \mathbf{R}^{-1}\mathbf{p}
+\end{equation*}
+where the matrices $\mathbf{R}$ and $\mathbf{p}$ are computed using
+\begin{equation}
+\mathbf{[R]}_{p,q} = \sigma_a^2 \left( \sum_{j=-N_1}^{N_2}h_jh^*_{j-(p-q)}-\sum_{j=1}^{M_2}h_{j+D-q}h^*_{j+d-p} \right) + r_{\tilde{w}}(p-q)
+\end{equation}
+\begin{equation}
+\mathbf{[p]}_p = \sigma_a^2 h^*_{D-p}, \quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad p,q = 0,1,\dots,M_1-1
+\end{equation}
+
+\clearpage
+\subsection*{Receiver b}
+
+\clearpage
+\subsection*{Receiver c}
+
+\clearpage
+\subsection*{Receiver d}
+
+\clearpage
+\subsection*{Receiver e}
+
+\clearpage
+\subsection*{Receiver f}
 
 \end{document}

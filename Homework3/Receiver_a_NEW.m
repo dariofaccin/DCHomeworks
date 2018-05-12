@@ -18,16 +18,16 @@ r_c = r_c + w(:,3);
 % Matched filter
 gm = conj(qc(end:-1:1));
 
-% Impulse response
+% Filtering received signal
+r_c_prime = filter(gm,1,r_c);
+
+% Impulse response of the system at the input of the FF filter
 h = conv(qc,gm);
 h = h(h>max(h)/100);
 h = h(3:end-2);
 
 % Downsampling impulse response
 h_T = downsample(h,4);
-
-% Filtering received signal
-r_c_prime = filter(gm,1,r_c);
 
 % Determining timing phase
 t0_bar = length(gm);

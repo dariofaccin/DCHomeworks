@@ -3,6 +3,7 @@ clc; close all; clear global; clearvars;
 % MUST BE USED ONCE TO GENERATE AN INPUT FOR
 % ALL RECEIVERS
 
+set(0,'defaultTextInterpreter','latex')    % latex format
 T = 1;              % Symbol period
 Tc = T/4;           % upsampling period
 Q = T/Tc;           
@@ -44,16 +45,24 @@ r_c = s_c + wc;
 %% FIGURES
 abs_qc = abs(qc);
 
-% figure()
-% stem(abs_qc);
-% xlabel('n T/4');
-% xlim([1 length(abs_qc)]);
+figure()
+stem(abs_qc);
+xlabel('$m\frac{T}{4}$');
+ylabel('$q_c$')
+xlim([1 length(abs_qc)]);
+grid on
 
-[Qc, f] = freqz(qc,1,4096,'whole');
+[Qc, f] = freqz(qc,1,1024,'whole');
+% f = f/(2*pi);
+f = linspace(0,4,length(f));
 
 figure()
-plot(f/(2*pi),10*log10(abs(Qc)));
-xlim([0 0.5]);
+plot(f,10*log10(abs(Qc)));
+xlim([0 2]);
+xlabel('f'), grid on
+ylabel('$| Q_c(f) |$ $[dB]$')
+
+grid on
 
 
-plot(abs(fft(crosscorr(s_c,s_c))));
+% plot(abs(fft(crosscorr(s_c,s_c))));

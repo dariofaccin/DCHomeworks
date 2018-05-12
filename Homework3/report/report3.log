@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.10.26)  10 MAY 2018 21:40
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.10.26)  12 MAY 2018 13:06
 entering extended mode
 **./report3.tex
 (report3.tex
@@ -1141,38 +1141,69 @@ File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 ) [1
 
 {C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}]
+<images/qc.png, id=34, 843.15pt x 632.3625pt>
+File: images/qc.png Graphic file (type png)
+ <use images/qc.png>
+Package pdftex.def Info: images/qc.png used on input line 58.
+(pdftex.def)             Requested size: 256.0748pt x 192.05493pt.
 
-Package caption Warning: Unused \captionsetup[figure] on input line 28.
-See the caption package documentation for explanation.
+<images/Qc_f.png, id=35, 843.15pt x 632.3625pt>
+File: images/Qc_f.png Graphic file (type png)
+ <use images/Qc_f.png>
+Package pdftex.def Info: images/Qc_f.png used on input line 59.
+(pdftex.def)             Requested size: 256.0748pt x 192.05493pt.
 
+Overfull \hbox (28.45273pt too wide) in paragraph at lines 58--60
+ [][][] 
+ []
+
+[1 <./images/qc.png (PNG copy)> <./images/Qc_f.png (PNG copy)>] [2
+
+] [3
+
+]
+[4
+
+] [5
+
+] [6
+
+]
 
 Package caption Warning: Unused \captionsetup[table] on input line 29.
 See the caption package documentation for explanation.
 
-[1] (report3.aux) ) 
+[7
+
+] (report3.aux) ) 
 Here is how much of TeX's memory you used:
- 18230 strings out of 493323
- 371631 string characters out of 3139065
- 448545 words of memory out of 3000000
- 21385 multiletter control sequences out of 15000+200000
- 14862 words of font info for 53 fonts, out of 3000000 for 9000
+ 18264 strings out of 493323
+ 372081 string characters out of 3139065
+ 451553 words of memory out of 3000000
+ 21408 multiletter control sequences out of 15000+200000
+ 18886 words of font info for 60 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,6n,82p,507b,192s stack positions out of 5000i,500n,10000p,200000b,50000s
- <C:\Users\giova\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jk
-nappen\ec\dpi600\ecti1200.pk> <C:\Users\giova\AppData\Local\MiKTeX\2.9\fonts\pk
-\ljfour\jknappen\ec\dpi600\ecrm1200.pk> <C:\Users\giova\AppData\Local\MiKTeX\2.
-9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1440.pk> <C:\Users\giova\AppData\Local
-\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm2074.pk><C:/Program Files/Mi
-KTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Program Files/MiKTeX 2.9
-/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Program Files/MiKTeX 2.9/fonts/t
-ype1/public/amsfonts/cm/cmmi6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/publ
-ic/amsfonts/cm/cmmi8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfon
-ts/cm/cmr12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr
-8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C
-:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on report3.pdf (2 pages, 106827 bytes).
+ 55i,7n,82p,555b,374s stack positions out of 5000i,500n,10000p,200000b,50000s
+ <C:\Users\giova\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jkna
+ppen\ec\dpi600\ecbx1440.pk> <C:\Users\giova\AppData\Local\MiKTeX\2.9\fonts\pk\l
+jfour\jknappen\ec\dpi600\ecbx1200.pk> <C:\Users\giova\AppData\Local\MiKTeX\2.9\
+fonts\pk\ljfour\jknappen\ec\dpi600\ecti1200.pk> <C:\Users\giova\AppData\Local\M
+iKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1200.pk> <C:\Users\giova\AppDa
+ta\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx1728.pk> <C:\Users\g
+iova\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1440.pk> <
+C:\Users\giova\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm
+2074.pk><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
+<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Prog
+ram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Program File
+s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Program Files/MiKTeX 
+2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Program Files/MiKTeX 2.9/fonts
+/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/pu
+blic/amsfonts/cm/cmr6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfo
+nts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cms
+y10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+Output written on report3.pdf (8 pages, 214300 bytes).
 PDF statistics:
- 158 PDF objects out of 1000 (max. 8388607)
+ 257 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 109 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 119 words of extra memory for PDF output out of 10000 (max. 10000000)
 

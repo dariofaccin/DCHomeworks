@@ -46,4 +46,4 @@ for i=1:length(SNR_vect)
     awgn_bound(i) = 4*(1-1/sqrt(M))*qfunc(sqrt(snr_lin/(sigma_a/2)));
 end
 
-save('Pe_LE.mat','Pe_LE', 'awgn_bound');
+% save('Pe_LE.mat','Pe_LE', 'awgn_bound');
