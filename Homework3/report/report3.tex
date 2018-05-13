@@ -87,24 +87,6 @@ In the following, 6 different receiver configurations are studied. For each of t
 
 \clearpage
 \subsection*{Receiver a}
-The receiver filter consist of a match filter $g_M$ matched to the transmission filter $q_c$. From now on, we may refer to the global impulse response of the system at the input of the \textit{linear equalizer} $c$ as $h = g_c * g_M$. Since it is defined $@\frac{T}{4}$, a downsampling of a factor 4 is required between the output of $h$ and the input of $c$. \\
-The filter $c$ attempts to find the optimum trade-off between removing the ISI and enhancing the noise at the decision point. Since the LE can be seen as a particular case of a DFE, we evaluated the coefficients of the filters $c$ and $b$ (will be introduced from Receiver b) using the same algorithm which exploits the Wiener filter theory to determine the optimum coefficients. \\
-Let the filter $c$ and $b$ have length $M_1$ and $M_2$, with a delay $D$ introduced by $c$. Then the LE can be seen as a DFE with $M_2=0$. The coefficients are computed using the MSE applied to the cost function
-\begin{equation}
-J = E \left[|a_{k-D}-y_k|^2\right]
-\end{equation}
-The optimum FF filter is given by
-\begin{equation*}
-\mathbf{c}_opt = \mathbf{R}^{-1}\mathbf{p}
-\end{equation*}
-where the matrices $\mathbf{R}$ and $\mathbf{p}$ are computed using
-\begin{equation}
-\mathbf{[R]}_{p,q} = \sigma_a^2 \left( \sum_{j=-N_1}^{N_2}h_jh^*_{j-(p-q)}-\sum_{j=1}^{M_2}h_{j+D-q}h^*_{j+d-p} \right) + r_{\tilde{w}}(p-q)
-\end{equation}
-\begin{equation}
-\mathbf{[p]}_p = \sigma_a^2 h^*_{D-p}, \quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad p,q = 0,1,\dots,M_1-1
-\end{equation}
-
 \begin{figure}[H]
 	\centering
 	\begin{tikzpicture}[auto,>=latex']
@@ -114,9 +96,9 @@ where the matrices $\mathbf{R}$ and $\mathbf{p}$ are computed using
 	\node [block, right = 1cm of start] (matchedf){$g_M$};
 	\node [coordinate, right = 0.75 cm of matchedf] (c0) {};
 	\node [coordinate, above = 0.5 cm of c0, label={[label distance=0.1cm]45:$t_0 + kT$} ] (c1) {};
-
+	
 	\node [coordinate, right = 1.2cm of matchedf] (c2) {};
-
+	
 	\node [block, right = 1cm of c2] (cfilter){$c$};
 	\node [block, right = 1cm of cfilter] (detector){$\amalg$};
 	
@@ -133,6 +115,34 @@ where the matrices $\mathbf{R}$ and $\mathbf{p}$ are computed using
 	\caption{Model for the receiver (a).}
 	\label{Receiver_a} 
 \end{figure}
+
+The receiver filter consist of a match filter $g_M$ matched to the transmission filter $q_c$. From now on, we may refer to the global impulse response of the system at the input of the \textit{linear equalizer} $c$ as $h = g_c * g_M$. Since it is defined $@\frac{T}{4}$, a downsampling of a factor 4 is required between the output of $h$ and the input of $c$. \\
+The filter $c$ attempts to find the optimum trade-off between removing the ISI and enhancing the noise at the decision point. Since the LE can be seen as a particular case of a DFE, we evaluated the coefficients of the filters $c$ and $b$ (will be introduced from Receiver b) using the same algorithm which exploits the Wiener filter theory to determine the optimum coefficients. \\
+Let the filter $c$ and $b$ have length $M_1$ and $M_2$, with a delay $D$ introduced by $c$. Then the LE can be seen as a DFE with $M_2=0$. The coefficients are computed using the MSE applied to the cost function
+\begin{equation}
+J = E \left[|a_{k-D}-y_k|^2\right]
+\end{equation}
+The optimum FF filter is given by
+\begin{equation*}
+\mathbf{c}_{opt} = \mathbf{R}^{-1}\mathbf{p}
+\end{equation*}
+where the matrices $\mathbf{R}$ and $\mathbf{p}$ are computed using
+\begin{equation}
+\mathbf{[R]}_{p,q} = \sigma_a^2 \left( \sum_{j=-N_1}^{N_2}h_jh^*_{j-(p-q)}-\sum_{j=1}^{M_2}h_{j+D-q}h^*_{j+d-p} \right) + r_{\tilde{w}}(p-q)
+\end{equation}
+\begin{equation}
+\mathbf{[p]}_p = \sigma_a^2 h^*_{D-p}, \quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad p,q = 0,1,\dots,M_1-1
+\end{equation}
+The optimum FB coefficients are given by
+\begin{equation}
+b_i = -\sum_{l=0}^{M_1-1}c_{opt,l}h_{i+D-l} \quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad i =1,2,\dots,M_2
+\end{equation}
+
+The minimum-cost function can be expressed in close form:
+\begin{equation}
+J_{min} = \sigma^2_a \left( 1-\sum_{l=0}^{M_1-1} c_{opt,l}h_{D-l}\right)
+\end{equation}
+
 
 \clearpage
 \subsection*{Receiver b}
