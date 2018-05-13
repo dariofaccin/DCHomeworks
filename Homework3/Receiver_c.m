@@ -54,12 +54,23 @@ rw_tilde = sigma_w/4*r_gm;
 M1 = 8;
 M2 = 2;
 D = 3;
+
+h = h';
+rw_tilde = rw_tilde';
 [c_opt, Jmin] = Adaptive_DFE(h, rw_tilde, sigma_a, M1, M2, D);
 
-psi = conv(c_opt, h_T);
+psi = conv(c_opt, h);
 psi = psi/max(psi);
 
+x = downsample(x, 2);
+
 b = - psi(end - M2 + 1:end);
+
+detected = equalization_DFE(x, c_opt, b, M1, M2, D);
+
+nerr = length(find(in_bits(1:length(detected))~=detected));
+Pe = nerr/length(in_bits(1:length(detected)));
+
 
 %% FIGURES
 [G_AA, f] = freqz(g_AA,1,1024,'whole');
@@ -71,8 +82,3 @@ xlim([0 2]);
 ylim([-40 10]);
 xlabel('f'), grid on
 ylabel('$| G_{AA}(f) |$ $[dB]$')
-
-
-
-
-
