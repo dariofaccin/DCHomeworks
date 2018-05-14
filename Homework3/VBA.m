@@ -11,6 +11,7 @@ if (L1 > N1) || (L2 > N2)
     return
 end
 
+printmsg_delete = '';
 
 % --- Setup
 
@@ -99,6 +100,11 @@ for k = 1 : length(r_c)
                 costnew(newstate) = newstate_cost;
                 pred(newstate) = state;
             end
+            
+            printmsg = sprintf('K = %d, state = %d, j = %d', k, state, j);
+            fprintf([printmsg_delete, printmsg]);
+            printmsg_delete = repmat(sprintf('\b'), 1, length(printmsg));
+            
         end
     end
     

@@ -40,9 +40,9 @@ r_gm = xcorr(gm,gm);
 rw_tilde = sigma_w/4 .* downsample(r_gm, 4);
 
 % Parameters for DFE
-M1 = 12;
+M1 = 5;
 M2 = 2;
-D = 2;
+D = 0;
 [c_opt, Jmin] = Adaptive_DFE(h_T, rw_tilde, sigma_a, M1, M2, D);
 
 psi = conv(c_opt, h_T);
