@@ -2,9 +2,9 @@ clc; close all; clear global; clearvars;
 
 % Input
 load('Useful.mat');
-load('JminLE.mat');
+% load('JminLE.mat');
 SNR_vect = 8:14;
-Pe_LE = zeros(length(SNR_vect),1);
+Pe_LE = zeros(16, length(SNR_vect));
 errors = zeros(length(SNR_vect),1);
 awgn_bound = zeros(length(SNR_vect),1);
 
@@ -19,7 +19,15 @@ h_T = downsample(h,4);
 t0_bar = length(gm);
 r_gm = xcorr(gm,gm);
 
+printmsg_delete = '';
+
+M1_vect = [5:1:20];
+for m = 1:length(M1_vect)
 for i=1:length(SNR_vect)
+    printmsg = sprintf('snr = %d, M1 = %d\n', SNR_vect(i), M1_vect(m));
+    fprintf([printmsg_delete, printmsg]);
+    printmsg_delete = repmat(sprintf('\b'), 1, length(printmsg));
+    
     snr_db = SNR_vect(i);
     snr_lin = 10^(snr_db/10);
     [r_c, sigma_w, qc] = channel_sim(in_bits, snr_db, sigma_a);
@@ -33,17 +41,23 @@ for i=1:length(SNR_vect)
 
     rw_tilde = sigma_w/4 .* downsample(r_gm, 4);
 
-    M1 = idx_m1;
+    M1 = M1_vect(m);
     M2 = 0;
-    D = idx_d;
+    D = 6;
     [c_opt, Jmin] = Adaptive_DFE(h_T, rw_tilde, sigma_a, M1, M2, D);
 
     detected = equalization_LE(x, c_opt, M1, D, max(conv(c_opt, h_T)));
 
     errors(i) = length(find(in_bits(1:length(detected))~=detected));
-    Pe_LE(i) = errors(i)/length(in_bits(1:length(detected)));
+    Pe_LE(m,i) = errors(i)/length(in_bits(1:length(detected)));
     
     awgn_bound(i) = 4*(1-1/sqrt(M))*qfunc(sqrt(snr_lin/(sigma_a/2)));
 end
+end
 
-% save('Pe_LE.mat','Pe_LE', 'awgn_bound');
+
+figure, semilogy(SNR_vect, Pe_LE, SNR_vect, awgn_bound,'r--');
+figure, semilogy(SNR_vect, Pe_LE(3,:), SNR_vect, awgn_bound,'r--');
+
+
+save('Pe_LE.mat','Pe_LE', 'awgn_bound');

@@ -79,7 +79,7 @@ The $q_c$ filter in linear and frequency domain is given in Figures [\ref{qc}].
 	\centering
 	\subfloat{\includegraphics[width=9cm]{images/qc}}
 	\subfloat{\includegraphics[width=9cm]{images/Qc_f}}
-	\caption{Impulsive response (left) and Frequency response (rigth) of the filter $q_c$.}\label{qc}
+	\caption{Impulse response (left) and Frequency response (right) of the filter $q_c$.}\label{qc}
 \end{figure}
 
 In the following, 6 different receiver configurations are studied. For each of this, an SNR value of $\Gamma = 10$ $dB$ was assumed.
@@ -116,7 +116,7 @@ In the following, 6 different receiver configurations are studied. For each of t
 	\label{Receiver_a} 
 \end{figure}
 
-The receiver filter consist of a match filter $g_M$ matched to the transmission filter $q_c$. From now on, we may refer to the global impulse response of the system at the input of the \textit{linear equalizer} $c$ as $h = g_c * g_M$. Since it is defined $@\frac{T}{4}$, a downsampling of a factor 4 is required between the output of $h$ and the input of $c$. \\
+The receiver filter consists of a filter $g_M$ matched to the transmission filter $q_c$. From now on, we may refer to the global impulse response of the system at the input of the \textit{linear equalizer} $c$ as $h = g_c * g_M$. Since it is defined @$\frac{T}{4}$, a downsampling of a factor 4 is required between the output of $h$ and the input of $c$. \\
 The filter $c$ attempts to find the optimum trade-off between removing the ISI and enhancing the noise at the decision point. Since the LE can be seen as a particular case of a DFE, we evaluated the coefficients of the filters $c$ and $b$ (will be introduced from Receiver b) using the same algorithm which exploits the Wiener filter theory to determine the optimum coefficients. \\
 Let the filter $c$ and $b$ have length $M_1$ and $M_2$, with a delay $D$ introduced by $c$. Then the LE can be seen as a DFE with $M_2=0$. The coefficients are computed using the MSE applied to the cost function
 \begin{equation}
@@ -142,6 +142,17 @@ The minimum-cost function can be expressed in close form:
 \begin{equation}
 J_{min} = \sigma^2_a \left( 1-\sum_{l=0}^{M_1-1} c_{opt,l}h_{D-l}\right)
 \end{equation}
+
+The equalizing filter $c$ and the overall impulse response $\psi_i=h*c_i$ are given in Figure [\ref{filters_a}].
+
+\begin{figure}[H]
+	\centering
+	\subfloat{\includegraphics[width=9cm]{images/RecA_c}}
+	\subfloat{\includegraphics[width=9cm]{images/RecA_psi}}
+	\caption{Coefficients of the Equalizer filter $c$ (left) and of the overall impulse response $\psi_i$ (right).}\label{filters_a}
+\end{figure}
+
+ 
 
 
 \clearpage

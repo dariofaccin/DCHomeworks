@@ -25,30 +25,33 @@ dens  = 20;              % Density Factor
 [N, Fo, Ao, W] = firpmord([Fpass, Fstop], [1 0], [Dpass, Dstop]);
 % Calculate the coefficients using the FIRPM function.
 g_AA  = firpm(N, Fo, Ao, W, {dens});
-% G_AA = dfilt.dffir(g_AA);
 
 % Filtering received signal
 r_c_prime = filter(g_AA,1,r_c);
-t0_bar = length(g_AA);
+g = conv(qc, g_AA);
+t0_bar = find(g==max(g));
+% t0_bar = length(g_AA);
 
 % Remove "transient" and downsample received signal
 r_c_prime = r_c_prime(t0_bar:end);
 x = downsample(r_c_prime,2);
 
 % Matched filter
-g = conv(qc, g_AA);
 gm = conj(g(end:-1:1));
-gm = downsample(gm,2);
+% gm = downsample(gm,2);
 
 % Impulse response of the system at the input of the FF filter
-h = conv(g,gm);
+% h = conv(downsample(g,2),gm);
+h = downsample(conv(g,gm), 2);
 h = h(h>max(h)/100);
 
 x = filter(gm,1,x);
+x = x(length(gm):end);
 
 % Filter autocorrelation
-r_gm = xcorr(gm,gm);
+r_gm = xcorr(conv(g_AA,gm));
 rw_tilde = sigma_w/4*r_gm;
+rw_tilde = downsample(rw_tilde,2);
 
 % Parameters for DFE
 M1 = 8;
@@ -57,19 +60,24 @@ D = 3;
 
 h = h';
 rw_tilde = rw_tilde';
-[c_opt, Jmin] = Adaptive_DFE(h, rw_tilde, sigma_a, M1, M2, D);
+[c_opt, Jmin] = WienerC_frac(h, rw_tilde, sigma_a, M1, M2, D, 15, 18);
+
+% c_opt = downsample(c_opt,2);
 
 psi = conv(c_opt, h);
 psi = psi/max(psi);
 
-x = downsample(x, 2);
+% x = downsample(x, 2);
 
 b = - psi(end - M2 + 1:end);
 
 detected = equalization_DFE(x, c_opt, b, M1, M2, D);
+detected = downsample(detected(2:end),2);
 
 nerr = length(find(in_bits(1:length(detected))~=detected));
-Pe = nerr/length(in_bits(1:length(detected)));
+Pe = nerr/length(in_bits(1:length(detected)))
+% i=i+1;
+
 
 
 %% FIGURES

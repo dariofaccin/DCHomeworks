@@ -41,23 +41,24 @@ r_gm = xcorr(gm,gm);
 rw_tilde = sigma_w/4 .* downsample(r_gm, 4);
 
 % Parameters for Linear Equalizer
-M1 = 5;
+M1 = 6;
 M2 = 0;
-D = 2;
+D = 4;
 [c_opt, Jmin] = Adaptive_DFE(h_T, rw_tilde, sigma_a, M1, M2, D);
 
 psi = conv(c_opt, h_T);
 
 figure
 subplot(121), stem(0:length(c_opt)-1,abs(c_opt)), hold on, grid on
-title('$|c|$'), xlabel('n');
+ylabel('$|c|$'), xlabel('n');
 subplot(122), stem(0:length(psi)-1,abs(psi)), grid on
-title('$|\psi|$'), xlabel('n');
+ylabel('$|\psi|$'), xlabel('n');
 
 detected = equalization_LE(x, c_opt, M1, D, max(psi));
 
 nerr = length(find(in_bits(1:length(detected))~=detected));
 Pe = nerr/length(in_bits(1:length(detected)));
+
 
 
 % [Pe, errors] = SER(in_bits(1:length(detected)), detected);
