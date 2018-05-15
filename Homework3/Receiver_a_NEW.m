@@ -18,6 +18,13 @@ r_c = r_c + w(:,3);
 % Matched filter
 gm = conj(qc(end:-1:1));
 
+figure()
+stem(abs(gm));
+xlabel('$m\frac{T}{4}$');
+ylabel('$g_m$')
+xlim([1 length(gm)]);
+grid on
+
 % Filtering received signal
 r_c_prime = filter(gm,1,r_c);
 

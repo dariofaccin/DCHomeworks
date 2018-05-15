@@ -3,8 +3,8 @@ clc; close all; clear global; clearvars;
 SNR_vect = 8:14;
 load('Pe_LE.mat');
 load('Pe_DFE.mat');
-load('Pe_FBA.mat');
-load('Pe_AWGN_sim.mat');
+% load('Pe_FBA.mat');
+% load('Pe_AWGN_sim.mat');
 
 figure()
 semilogy(SNR_vect, Pe_LE, 'b--');

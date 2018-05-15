@@ -88,5 +88,24 @@ figure()
 plot(f,10*log10(abs(G_AA)));
 xlim([0 2]);
 ylim([-40 10]);
-xlabel('f'), grid on
+xlabel('f/T'), grid on
 ylabel('$| G_{AA}(f) |$ $[dB]$')
+
+[G_M, f] = freqz(gm,1,1024,'whole');
+f = linspace(0,2,length(f));
+
+figure()
+plot(f,10*log10(abs(G_M)));
+xlim([0 2]);
+ylim([-40 10]);
+xlabel('$f/T$');
+ylabel('$| G_M(f) |$ $[dB]$')
+grid on
+
+figure
+subplot(131), stem(0:length(c_opt)-1,abs(c_opt)), hold on, grid on
+title('$|c|$'), xlabel('n');
+subplot(132), stem(0:length(psi)-1,abs(psi)), grid on
+title('$|\psi|$'), xlabel('n'), xlim([0 length(psi)-1]);
+subplot(133), stem(0:length(b)-1,abs(b)), grid on
+title('|b|'), xlabel('n');

@@ -16,7 +16,7 @@
 \DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
 % Argmax/Argmin notation
 \DeclareMathOperator*{\argmax}{argmax} 
-\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmin}{argmin} 
 % Modified margins
 \usepackage[margin=2cm]{geometry}
 % This avoids hypenation
@@ -116,16 +116,16 @@ In the following, 6 different receiver configurations are studied. For each of t
 	\label{Receiver_a} 
 \end{figure}
 
-The receiver filter consists of a filter $g_M$ matched to the transmission filter $q_c$. From now on, we may refer to the global impulse response of the system at the input of the \textit{linear equalizer} $c$ as $h = g_c * g_M$. Since it is defined @$\frac{T}{4}$, a downsampling of a factor 4 is required between the output of $h$ and the input of $c$. \\
+The receiver filter consists of a filter $g_M$ matched to the transmission filter $q_c$ followed by a \textit{linear equalizer filter} $c$. The matched filter is simply computed as $g_m(t) = q^*_c(t_0+t)$, where $t_0$ is the timing phase. It is given in Figure [\ref{gm_a}]. From now on, we may refer to the global impulse response of the system at the input of  $c$ as $h = g_c * g_M$. Since it is defined @$\frac{T}{4}$, a downsampling of a factor 4 is required between the output of $h$ and the input of $c$. \\
 The filter $c$ attempts to find the optimum trade-off between removing the ISI and enhancing the noise at the decision point. Since the LE can be seen as a particular case of a DFE, we evaluated the coefficients of the filters $c$ and $b$ (will be introduced from Receiver (b)) using the same algorithm which exploits the Wiener filter theory to determine the optimum coefficients. \\
 Let the filter $c$ and $b$ have length $M_1$ and $M_2$, with a delay $D$ introduced by $c$. Then the LE can be seen as a DFE with $M_2=0$. The coefficients are computed using the MSE applied to the cost function
 \begin{equation}
 J = E \left[|a_{k-D}-y_k|^2\right]
 \end{equation}
 The optimum FF filter is given by
-\begin{equation*}
+\begin{equation}\label{c}
 \mathbf{c}_{opt} = \mathbf{R}^{-1}\mathbf{p}
-\end{equation*}
+\end{equation}
 where the matrices $\mathbf{R}$ and $\mathbf{p}$ are computed using
 \begin{equation}
 \mathbf{[R]}_{p,q} = \sigma_a^2 \left( \sum_{j=-N_1}^{N_2}h_jh^*_{j-(p-q)}-\sum_{j=1}^{M_2}h_{j+D-q}h^*_{j+d-p} \right) + r_{\tilde{w}}(p-q)
@@ -151,12 +151,19 @@ y_k &= x_{FF,k} + x_{FB,k} \\
 \end{split}
 \end{equation}
 
+\clearpage
 The equalizing filter $c$ and the overall impulse response $\psi_i=h*c_i$ for an SNR of $\Gamma = 10$ dB are given in Figure [\ref{filters_a}]. 
 
 \begin{figure}[H]
 	\centering
-	\subfloat{\includegraphics[width=9cm]{images/RecA_c}}
-	\subfloat{\includegraphics[width=9cm]{images/RecA_psi}}
+	\includegraphics[width=9cm]{images/RecA_gm}
+	\caption{Matched filter $g_m$ of the receiver filter.}\label{gm_a}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\subfloat{\includegraphics[width=8cm]{images/RecA_c}}
+	\subfloat{\includegraphics[width=8cm]{images/RecA_psi}}
 	\caption{Coefficients of the Equalizer filter $c$ (left) and of the overall impulse response $\psi_i$ (right).}\label{filters_a}
 \end{figure}
 
@@ -185,7 +192,6 @@ Note that the actual transmitted symbol at time $k$ is detected at time $k+D$ be
 
 \clearpage
 \subsection*{Receiver b}
-The only difference with Receiver (a) is that here the \textit{Decision Filter Equalizer} introduces a feedback filter to remove the postcursors of the impulse response $h$ at the input of the FF filter. Using the algorithm described in the previous section, we obtained the filters given as follow.
 
 \begin{figure}[H]
 	\centering
@@ -231,13 +237,30 @@ The only difference with Receiver (a) is that here the \textit{Decision Filter E
 	\label{Receiver_b} 
 \end{figure}
 
+The only difference with Receiver (a) is that here the \textit{Decision Filter Equalizer} introduces a feedback filter to remove the postcursors of the impulse response $h$ at the input of the FF filter. Using the algorithm described in the previous section, we obtained the filters given as follow.
+
 \begin{figure}[H]
 	\centering
-	\subfloat{\includegraphics[width=9cm]{images/RecB_c}}
-	\subfloat{\includegraphics[width=9cm]{images/RecB_psi}}\quad
-	\subfloat{\includegraphics[width=9cm]{images/RecB_b}}
-	\caption{Coefficients of the Equalizer filter $c$ (left) and of the overall impulse response $\psi_i$ (right).}\label{filters_b}
+	\subfloat{\includegraphics[width=8cm]{images/RecB_c}}
+	\subfloat{\includegraphics[width=8cm]{images/RecB_psi}}\quad
+	\subfloat{\includegraphics[width=8cm]{images/RecB_b}}
+	\subfloat{\includegraphics[width=8cm]{images/RecB_gm}}
+	\caption{Coefficients of the FF filter $c$, of the overall impulse response $\psi_i$, of the FB filter $b$ and of the matched filter $g_m$. Note that $g_m$ is the same as for receiver (a).}\label{filters_b}
 \end{figure}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{c c c c}
+		\toprule
+		$\mathbf{\bar{t}_0}$ & $\mathbf{M_1}$ & $\mathbf{M_2}$ & \textbf{D}     \\
+		\midrule
+		1 & 1 & 1 & 1 \\
+		\bottomrule			
+	\end{tabular}
+	\caption{Parameters of the Receiver (b).}
+	\label{Tab_a}
+\end{table}
+
 \clearpage
 \subsection*{Receiver c}
 
@@ -287,6 +310,39 @@ The only difference with Receiver (a) is that here the \textit{Decision Filter E
 	\caption{Model for the receiver (c).}
 	\label{Receiver_c} 
 \end{figure}
+
+In this case the analog filter is replaced by a digital \textit{anti-aliasing} filter $g_{AA}$. The signal at the output is downsampled of a factor 2, then a cascade of a matched filter and a DFE  filter processes the signal and produces the output symbols $\hat{a}_{k-D}$. The filter $g_m$ is needed in order to allow the equalizing filter defined in equation \ref{c} to act as a match filter. Note also that the filter $c$ is followed by a downsampling of a factor 2. \\
+The anti-aliasing and the matched filters are given in Figure [\ref{filters_c}].
+
+\begin{figure}[H]
+	\centering
+	\subfloat{\includegraphics[width=8cm]{images/RecC_GAA}}
+	\subfloat{\includegraphics[width=8cm]{images/RecC_GM}}
+	\caption{Anti-aliasing and matched filters of the Receiver (c).}\label{filters_c}
+\end{figure}
+
+The remaining filters are given in Figure [\ref{rec_c}].
+\begin{table}[H]
+	\centering
+	\begin{tabular}{c c c c}
+		\toprule
+		$\mathbf{\bar{t}_0}$ & $\mathbf{M_1}$ & $\mathbf{M_2}$ & \textbf{D}     \\
+		\midrule
+		1 & 1 & 1 & 1 \\
+		\bottomrule			
+	\end{tabular}
+	\caption{Parameters of the Receiver (c).}
+	\label{Tab_a}
+\end{table}
+
+\begin{figure}[H]
+	\centering
+	\subfloat{\includegraphics[width=8cm]{images/RecB_c}}
+	\subfloat{\includegraphics[width=8cm]{images/RecB_psi}}\quad
+	\subfloat{\includegraphics[width=9cm]{images/RecB_b}}
+	\caption{Coefficients of the FF filter $c$, of the overall impulse response $\psi_i$ and of the FB filter $b$.}\label{rec_c}
+\end{figure}
+
 
 \clearpage
 \subsection*{Receiver d}
@@ -398,5 +454,31 @@ The only difference with Receiver (a) is that here the \textit{Decision Filter E
 	\caption{Model for the receiver (f).}
 	\label{Receiver_f} 
 \end{figure}
+Still using the channel as given in the previous section, the signal at the output of the $c$ filter is now processed by a \textit{Forward-Backward algorithm} exploiting the Max-Log-MAP to detect the received symbols $\hat{a}_k$. For each instants $k=0,1,\dots,K-1$, the algorithm performs the computation of five metrics, respectively:
+
+\begin{enumerate}
+	\item The channel transition metric, $c_k(i,j)$, $i,j=1,\dots,N_s$;
+	\item The Backward metric, $\tilde{b}_k(i)$, $i=1,\dots,N_s$;
+	\item The Forward metric, $\tilde{f}_k(j)$, $j=1,\dots,N_s$;
+	\item The State metric, $\tilde{v}_k(i)$, $i=1,\dots,N_s$;
+	\item The Log-Likelyhood function of the isolated symbol $\tilde{l}_k(\beta)= \max_{i\in[1,\dots,N_s], [\sigma_i]_1=\beta}=\tilde{v}_k(i)$.
+\end{enumerate}
+
+The detected symbol is then evaluated using the following decision rule:
+
+\begin{equation}
+\hat{a}_{k+L_1} = \argmax_{\beta \in \mathcal{A}} \tilde{l}_k(\beta)
+\end{equation}
+
+\clearpage
+\section*{BER comparison}
+For each of the different receiver configurations previously described, the symbol error probability is evaluated by simulations with different values of the SNR $\Gamma$. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=12cm]{images/PevsGamma}
+	\caption{Siimulated BER for the different receivers at different SNR values.}\label{Pe}
+\end{figure}
+
 
 \end{document}
