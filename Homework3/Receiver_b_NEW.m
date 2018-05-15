@@ -40,9 +40,9 @@ r_gm = xcorr(gm,gm);
 rw_tilde = sigma_w/4 .* downsample(r_gm, 4);
 
 % Parameters for DFE
-M1 = 5;
-M2 = 2;
-D = 0;
+M1 = 15;
+M2 = 10;
+D = 5;
 [c_opt, Jmin] = Adaptive_DFE(h_T, rw_tilde, sigma_a, M1, M2, D);
 
 psi = conv(c_opt, h_T);
@@ -51,10 +51,12 @@ psi = psi/max(psi);
 b = - psi(end - M2 + 1:end);
 
 figure
-subplot(121), stem(0:length(c_opt)-1,abs(c_opt)), hold on, grid on
+subplot(131), stem(0:length(c_opt)-1,abs(c_opt)), hold on, grid on
 title('$|c|$'), xlabel('n');
-subplot(122), stem(0:length(psi)-1,abs(psi)), grid on
+subplot(132), stem(0:length(psi)-1,abs(psi)), grid on
 title('$|\psi|$'), xlabel('n');
+subplot(133), stem(0:length(b)-1,abs(b)), grid on
+title('|b|'), xlabel('n');
 
 detected = equalization_DFE(x, c_opt, b, M1, M2, D);
 

@@ -117,7 +117,7 @@ In the following, 6 different receiver configurations are studied. For each of t
 \end{figure}
 
 The receiver filter consists of a filter $g_M$ matched to the transmission filter $q_c$. From now on, we may refer to the global impulse response of the system at the input of the \textit{linear equalizer} $c$ as $h = g_c * g_M$. Since it is defined @$\frac{T}{4}$, a downsampling of a factor 4 is required between the output of $h$ and the input of $c$. \\
-The filter $c$ attempts to find the optimum trade-off between removing the ISI and enhancing the noise at the decision point. Since the LE can be seen as a particular case of a DFE, we evaluated the coefficients of the filters $c$ and $b$ (will be introduced from Receiver b) using the same algorithm which exploits the Wiener filter theory to determine the optimum coefficients. \\
+The filter $c$ attempts to find the optimum trade-off between removing the ISI and enhancing the noise at the decision point. Since the LE can be seen as a particular case of a DFE, we evaluated the coefficients of the filters $c$ and $b$ (will be introduced from Receiver (b)) using the same algorithm which exploits the Wiener filter theory to determine the optimum coefficients. \\
 Let the filter $c$ and $b$ have length $M_1$ and $M_2$, with a delay $D$ introduced by $c$. Then the LE can be seen as a DFE with $M_2=0$. The coefficients are computed using the MSE applied to the cost function
 \begin{equation}
 J = E \left[|a_{k-D}-y_k|^2\right]
@@ -138,12 +138,20 @@ The optimum FB coefficients are given by
 b_i = -\sum_{l=0}^{M_1-1}c_{opt,l}h_{i+D-l} \quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad i =1,2,\dots,M_2
 \end{equation}
 
-The minimum-cost function can be expressed in close form:
+The minimum-cost function can be expressed in close form as:
 \begin{equation}
 J_{min} = \sigma^2_a \left( 1-\sum_{l=0}^{M_1-1} c_{opt,l}h_{D-l}\right)
 \end{equation}
 
-The equalizing filter $c$ and the overall impulse response $\psi_i=h*c_i$ are given in Figure [\ref{filters_a}].
+The output signal is 
+\begin{equation}
+\begin{split}
+y_k &= x_{FF,k} + x_{FB,k} \\
+	&= \sum_{i=0}^{M_1-1}c_ix_{k-i} + \sum_{j=1}^{M_2}b_ja_{k-D-j}
+\end{split}
+\end{equation}
+
+The equalizing filter $c$ and the overall impulse response $\psi_i=h*c_i$ for an SNR of $\Gamma = 10$ dB are given in Figure [\ref{filters_a}]. 
 
 \begin{figure}[H]
 	\centering
@@ -152,11 +160,32 @@ The equalizing filter $c$ and the overall impulse response $\psi_i=h*c_i$ are gi
 	\caption{Coefficients of the Equalizer filter $c$ (left) and of the overall impulse response $\psi_i$ (right).}\label{filters_a}
 \end{figure}
 
- 
+The parameters we obtained are reported in Table [\ref{Tab_a}].
 
+\begin{table}[H]
+	\centering
+	\begin{tabular}{c c c c}
+		\toprule
+		$\mathbf{\bar{t}_0}$ & $\mathbf{M_1}$ & $\mathbf{M_2}$ & \textbf{D}     \\
+		\midrule
+		1 & 1 & 1 & 1 \\
+		\bottomrule			
+	\end{tabular}
+	\caption{Parameters of the Receiver (a).}
+	\label{Tab_a}
+\end{table}
+
+The final signal at the output of the equalizer filter is processed by a threshold detector, which maps each received symbol according to the following rule:
+
+\begin{equation*}
+\tilde{a}_k \mapsto \hat{a}_k = \text{sgn}(\Re[\tilde{a}_k ]) +i \cdot \text{sgn}(\Im[\tilde{a}_k ])
+\end{equation*}
+ 
+Note that the actual transmitted symbol at time $k$ is detected at time $k+D$ because of the delay introduced by the filter $c$. This detection configuration will be used also for receivers $b$, $c$ and $d$. 
 
 \clearpage
 \subsection*{Receiver b}
+The only difference with Receiver (a) is that here the \textit{Decision Filter Equalizer} introduces a feedback filter to remove the postcursors of the impulse response $h$ at the input of the FF filter. Using the algorithm described in the previous section, we obtained the filters given as follow.
 
 \begin{figure}[H]
 	\centering
@@ -202,6 +231,13 @@ The equalizing filter $c$ and the overall impulse response $\psi_i=h*c_i$ are gi
 	\label{Receiver_b} 
 \end{figure}
 
+\begin{figure}[H]
+	\centering
+	\subfloat{\includegraphics[width=9cm]{images/RecB_c}}
+	\subfloat{\includegraphics[width=9cm]{images/RecB_psi}}\quad
+	\subfloat{\includegraphics[width=9cm]{images/RecB_b}}
+	\caption{Coefficients of the Equalizer filter $c$ (left) and of the overall impulse response $\psi_i$ (right).}\label{filters_b}
+\end{figure}
 \clearpage
 \subsection*{Receiver c}
 

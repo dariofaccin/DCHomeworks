@@ -67,6 +67,12 @@ end
 
 for k = 1 : length(r_c)
     
+    if mod(k,10000)==0
+        printmsg = sprintf('K = %d\n', k);
+        fprintf([printmsg_delete, printmsg]);
+        printmsg_delete = repmat(sprintf('\b'), 1, length(printmsg));
+    end
+    
     % Initialize the costs of the new states to -1
     costnew = - ones(Ns, 1);
     
@@ -99,12 +105,7 @@ for k = 1 : length(r_c)
                     || costnew(newstate) > newstate_cost  % ...found path with lower cost
                 costnew(newstate) = newstate_cost;
                 pred(newstate) = state;
-            end
-            
-            printmsg = sprintf('K = %d, state = %d, j = %d', k, state, j);
-            fprintf([printmsg_delete, printmsg]);
-            printmsg_delete = repmat(sprintf('\b'), 1, length(printmsg));
-            
+            end            
         end
     end
     

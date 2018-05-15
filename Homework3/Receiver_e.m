@@ -5,7 +5,7 @@ set(0,'defaultTextInterpreter','latex')    % latex format
 load('Useful.mat');
 
 % Channel SNR
-snr_db = 14;
+snr_db = 10;
 snr_lin = 10^(snr_db/10);
 
 sigma_a = 2;
@@ -40,9 +40,9 @@ r_gm = xcorr(gm,gm);
 rw_tilde = sigma_w/4 .* downsample(r_gm, 4);
 
 % Parameters for DFE
-M1 = 5;
-N2 = floor(length(h)/2);
-D = 0;
+M1 = 4;
+N2 = 2;
+D = 2;
 M2 = N2 + M1 - 1 - D;
 [c_opt, Jmin] = Adaptive_DFE(h_T, rw_tilde, sigma_a, M1, M2, D);
 
@@ -57,9 +57,12 @@ title('$|c|$'), xlabel('n');
 subplot(122), stem(0:length(psi)-1,abs(psi)), grid on
 title('$|\psi|$'), xlabel('n');
 
-y = equalization_LE(x, c_opt, M1, D, max(psi));
-
-detected = VBA(y, psi, 0, M2-6, 2, N2 - 2);
+y = conv(x, c_opt);
+y = y/max(psi);
+detected = VBA(y, psi, 0, 3, 4, 3);
+in_bits  =  in_bits(1+4-0 : end-3+3);
+detected = detected';
+detected = detected(D+1:end);
 
 nerr = length(find(in_bits(1:length(detected))~=detected));
 Pe = nerr/length(in_bits(1:length(detected)));
