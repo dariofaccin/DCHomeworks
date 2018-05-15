@@ -1,19 +1,11 @@
-function [ Pe, count_err ] = SER( sent, detected )
-% Computes the BER, it accepts symbols
-
-if (length(sent) ~= length(detected))
-    disp('Error in IBMAP, the sequences do not have the same length')
-    return
-end
-
-count_err = 0;
+function [Pe, count_errors] = SER(sent, detected)
+% Computes the symbol-error rate, it accepts QPSK symbols
+count_errors = 0;
 for i=1:length(sent)
-    if sent(i)~=detected(i)
-        count_err = count_err + 1;
+    if sent(i) ~= detected(i)
+        count_errors = count_errors + 1;
     end
 end
-
-
-Pe = count_err/length(sent);
-
+% count_errors = sum((sent-detected)~=0);
+Pe = count_errors/length(sent);
 end

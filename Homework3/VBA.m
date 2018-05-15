@@ -11,8 +11,6 @@ if (L1 > N1) || (L2 > N2)
     return
 end
 
-printmsg_delete = '';
-
 % --- Setup
 
 M = 4;
@@ -43,10 +41,10 @@ u_mat = zeros(Ns, M);
 for state = 1:Ns
     
     % Set value of the current element of u_mat
-    for j = 1:M
-        lastsymbols = [symb(statevec + 1), symb(j)]; % symbols, from the oldest to the newest
-        u_mat(state, j) = lastsymbols * flipud(hi);
-    end
+%     for j = 1:M
+%         lastsymbols = [symb(statevec + 1), symb(j)]; % symbols, from the oldest to the newest
+%         u_mat(state, j) = lastsymbols * flipud(hi);
+%     end
     
     % Update statevec
     statevec(statelength) = statevec(statelength) + 1;
@@ -66,13 +64,6 @@ end
 % -----------------
 
 for k = 1 : length(r_c)
-    
-    if mod(k,10000)==0
-        printmsg = sprintf('K = %d\n', k);
-        fprintf([printmsg_delete, printmsg]);
-        printmsg_delete = repmat(sprintf('\b'), 1, length(printmsg));
-    end
-    
     % Initialize the costs of the new states to -1
     costnew = - ones(Ns, 1);
     

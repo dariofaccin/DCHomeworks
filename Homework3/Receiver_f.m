@@ -59,10 +59,11 @@ title('$|\psi|$'), xlabel('n');
 
 y = conv(x, c_opt);
 y = y/max(psi);
-detected = VBA(y, psi, 0, 3, 4, 3);
-in_bits  =  in_bits(1+4-0 : end-3+3);
-detected = detected';
-detected = detected(D+1:end);
+
+L1 = 2; L2 = 2;
+indexD = find(psi == max(psi));
+
+detected = FBA(y, psi(indexD-L1:indexD+L2), L1, L2);
 
 nerr = length(find(in_bits(1:length(detected))~=detected));
 Pe = nerr/length(in_bits(1:length(detected)));
