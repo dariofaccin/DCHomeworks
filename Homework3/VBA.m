@@ -1,4 +1,4 @@
-function [detected] = VBA (r_c, hi, L1, L2, N1, N2)
+function [detected] = VBA(r_c, hi, L1, L2, N1, N2)
 
 %VITERBI
 
@@ -10,6 +10,7 @@ if (L1 > N1) || (L2 > N2)
     disp('The considered precursors and postcursors cannot be more that the actual ones!')
     return
 end
+
 
 % --- Setup
 
@@ -41,10 +42,10 @@ u_mat = zeros(Ns, M);
 for state = 1:Ns
     
     % Set value of the current element of u_mat
-%     for j = 1:M
-%         lastsymbols = [symb(statevec + 1), symb(j)]; % symbols, from the oldest to the newest
-%         u_mat(state, j) = lastsymbols * flipud(hi);
-%     end
+    for j = 1:M
+        lastsymbols = [symb(statevec + 1), symb(j)]; % symbols, from the oldest to the newest
+        u_mat(state, j) = lastsymbols * flipud(hi);
+    end
     
     % Update statevec
     statevec(statelength) = statevec(statelength) + 1;
@@ -64,6 +65,7 @@ end
 % -----------------
 
 for k = 1 : length(r_c)
+    
     % Initialize the costs of the new states to -1
     costnew = - ones(Ns, 1);
     
@@ -96,7 +98,7 @@ for k = 1 : length(r_c)
                     || costnew(newstate) > newstate_cost  % ...found path with lower cost
                 costnew(newstate) = newstate_cost;
                 pred(newstate) = state;
-            end            
+            end
         end
     end
     
