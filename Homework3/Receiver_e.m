@@ -42,7 +42,7 @@ rw_tilde = sigma_w/4 .* downsample(r_gm, 4);
 % Parameters for DFE
 M1 = 4;
 N2 = 2;
-D = 2;
+D = 5;
 M2 = N2 + M1 - 1 - D;
 [c_opt, Jmin] = Adaptive_DFE(h_T, rw_tilde, sigma_a, M1, M2, D);
 
@@ -64,7 +64,7 @@ in_bits  =  in_bits(1+4-0 : end-3+3);
 detected = detected';
 detected = detected(D+1:end);
 
-nerr = length(find(in_bits(1:length(detected))~=detected));
-Pe = nerr/length(in_bits(1:length(detected)));
+% nerr = length(find(in_bits(1:length(detected))~=detected));
+[Pe,~] = SER(in_bits(1:length(detected)), detected);
 
 % [Pe, errors] = SER(in_bits(1:length(detected)), detected);

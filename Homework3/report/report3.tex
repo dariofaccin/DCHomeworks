@@ -84,8 +84,63 @@ The $q_c$ filter in linear and frequency domain is given in Figures [\ref{qc}].
 
 In the following, 6 different receiver configurations are studied. For each of this, an SNR value of $\Gamma = 10$ $dB$ was assumed.
 
-
 \clearpage
+
+\subsection*{Channel equalization}
+Receivers (a), (b), (c) and (d) implement a technique called \textit{Decision feedback equalizer} (DFE) which attempts to reduce the intersymbol interference (ISI).\\
+The desired signal at the receiver input is
+\begin{equation*}
+x_k = \sum_{i=-\infty}^{\infty} a_i h_{k-i} + \tilde{w}_k
+\end{equation*}
+where $h_n = h_{Tx}*g_C * g_M(t)$. Assuming $\{h_n\}$ has finite duration and support $[-N_1, -N_1+1, \dots, N_2-\, N_2]$, we define postcursors the samples with positive index and precursors those with negative index.\\
+Writing $x_k$ explicitly we can see that it depends both on previous and future symbols.\\
+The DFE is composed by two filters:
+\begin{enumerate}
+	\item \textit{Feedforward (FF) filter c}, with $M_1$ coefficients:
+	\begin{equation}
+	x_{FF,k} = \sum_{i=0}^{M_1-1}c_ix_{k-i}
+	\end{equation}\label{eq:ff_filter}
+	\item \textit{Feedback (FB) filter b}, with $M_2$ coefficients:
+	\begin{equation}
+	x_{FB,k} = \sum_{i=1}^{M_2}b_i a_{k-i-D}
+	\end{equation}\label{eq:fb_filter}
+\end{enumerate}
+
+Ideally the task of the FF filter is to obtain an overall impulse response $\{\psi_n = h * c_n\}$ with small precursors, while the FB filter cancels almost all the ISI.\\
+The output of the DFE can be written as
+\begin{equation}
+	\begin{split}
+	y_k &= x_{FF,k} + x_{FB,k} \\
+	&= \sum_{i=0}^{M_1-1}c_ix_{k-i} + \sum_{j=1}^{M_2}b_ja_{k-D-j}
+	\end{split} 
+\end{equation}
+
+The Wiener filter theory can be exploited to determine the optimum coefficients, which minimize the cost function
+\begin{equation}
+J = E \left[|a_{k-D}-y_k|^2\right]
+\end{equation}
+The optimum FF filter $c$ is given by
+\begin{equation}\label{c}
+\mathbf{c}_{opt} = \mathbf{R}^{-1}\mathbf{p}
+\end{equation}
+where the matrices $\mathbf{R}$ and $\mathbf{p}$ are computed using
+\begin{equation}
+\mathbf{[R]}_{p,q} = \sigma_a^2 \left( \sum_{j=-N_1}^{N_2}h_jh^*_{j-(p-q)}-\sum_{j=1}^{M_2}h_{j+D-q}h^*_{j+d-p} \right) + r_{\tilde{w}}(p-q)
+\end{equation}
+\begin{equation}
+\mathbf{[p]}_p = \sigma_a^2 h^*_{D-p}, \quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad p,q = 0,1,\dots,M_1-1
+\end{equation}
+
+The optimum FB coefficients $\{b_i\}$ are given by
+\begin{equation}
+b_i = -\sum_{l=0}^{M_1-1}c_{opt,l}h_{i+D-l} \quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad i =1,2,\dots,M_2
+\end{equation}
+
+The minimum-cost function can be expressed in close form as:
+\begin{equation}
+J_{min} = \sigma^2_a \left( 1-\sum_{l=0}^{M_1-1} c_{opt,l}h_{D-l}\right)
+\end{equation}
+
 \subsection*{Receiver a}
 \begin{figure}[H]
 	\centering
@@ -116,42 +171,8 @@ In the following, 6 different receiver configurations are studied. For each of t
 	\label{Receiver_a} 
 \end{figure}
 
-The receiver filter consists of a filter $g_M$ matched to the transmission filter $q_c$ followed by a \textit{linear equalizer filter} $c$. The matched filter is simply computed as $g_m(t) = q^*_c(t_0+t)$, where $t_0$ is the timing phase. It is given in Figure [\ref{gm_a}]. From now on, we may refer to the global impulse response of the system at the input of  $c$ as $h = g_c * g_M$. Since it is defined @$\frac{T}{4}$, a downsampling of a factor 4 is required between the output of $h$ and the input of $c$. \\
-The filter $c$ attempts to find the optimum trade-off between removing the ISI and enhancing the noise at the decision point. Since the LE can be seen as a particular case of a DFE, we evaluated the coefficients of the filters $c$ and $b$ (will be introduced from Receiver (b)) using the same algorithm which exploits the Wiener filter theory to determine the optimum coefficients. \\
-Let the filter $c$ and $b$ have length $M_1$ and $M_2$, with a delay $D$ introduced by $c$. Then the LE can be seen as a DFE with $M_2=0$. The coefficients are computed using the MSE applied to the cost function
-\begin{equation}
-J = E \left[|a_{k-D}-y_k|^2\right]
-\end{equation}
-The optimum FF filter is given by
-\begin{equation}\label{c}
-\mathbf{c}_{opt} = \mathbf{R}^{-1}\mathbf{p}
-\end{equation}
-where the matrices $\mathbf{R}$ and $\mathbf{p}$ are computed using
-\begin{equation}
-\mathbf{[R]}_{p,q} = \sigma_a^2 \left( \sum_{j=-N_1}^{N_2}h_jh^*_{j-(p-q)}-\sum_{j=1}^{M_2}h_{j+D-q}h^*_{j+d-p} \right) + r_{\tilde{w}}(p-q)
-\end{equation}
-\begin{equation}
-\mathbf{[p]}_p = \sigma_a^2 h^*_{D-p}, \quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad p,q = 0,1,\dots,M_1-1
-\end{equation}
-The optimum FB coefficients are given by
-\begin{equation}
-b_i = -\sum_{l=0}^{M_1-1}c_{opt,l}h_{i+D-l} \quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad i =1,2,\dots,M_2
-\end{equation}
-
-The minimum-cost function can be expressed in close form as:
-\begin{equation}
-J_{min} = \sigma^2_a \left( 1-\sum_{l=0}^{M_1-1} c_{opt,l}h_{D-l}\right)
-\end{equation}
-
-The output signal is 
-\begin{equation}
-\begin{split}
-y_k &= x_{FF,k} + x_{FB,k} \\
-	&= \sum_{i=0}^{M_1-1}c_ix_{k-i} + \sum_{j=1}^{M_2}b_ja_{k-D-j}
-\end{split}
-\end{equation}
-
-\clearpage
+The receiver filter consists of a filter $g_M$ matched to the transmission filter $q_c$ followed by a \textit{Linear Equalizer (LE) filter} $c$. The matched filter is simply computed as $g_m(t) = q^*_c(t_0+t)$, where $t_0$ is the timing phase. It is given in Figure [\ref{gm_a}]. From now on, we may refer to the global impulse response of the system at the input of  $c$ as $h = g_c * g_M$. Since it is defined @$\frac{T}{4}$, a downsampling of a factor 4 is required between the output of $h$ and the input of $c$. \\
+The filter $c$ corresponds to the Feedforward (FF) filter $c$ of Equation (\ref{eq:ff_filter}). Since the LE can be seen as a particular case of a DFE where $M_2 =0$, we developed the general DFE algorithm and set $\{b_i\}=0$ in this case. \\
 The equalizing filter $c$ and the overall impulse response $\psi_i=h*c_i$ for an SNR of $\Gamma = 10$ dB are given in Figure [\ref{filters_a}]. 
 
 \begin{figure}[H]
@@ -162,8 +183,8 @@ The equalizing filter $c$ and the overall impulse response $\psi_i=h*c_i$ for an
 
 \begin{figure}[H]
 	\centering
-	\subfloat{\includegraphics[width=8cm]{images/RecA_c}}
-	\subfloat{\includegraphics[width=8cm]{images/RecA_psi}}
+	\subfloat{\includegraphics[width=7cm]{images/RecA_c}}
+	\subfloat{\includegraphics[width=7cm]{images/RecA_psi}}
 	\caption{Coefficients of the Equalizer filter $c$ (left) and of the overall impulse response $\psi_i$ (right).}\label{filters_a}
 \end{figure}
 
@@ -191,6 +212,7 @@ The final signal at the output of the equalizer filter is processed by a thresho
 Note that the actual transmitted symbol at time $k$ is detected at time $k+D$ because of the delay introduced by the filter $c$. This detection configuration will be used also for receivers $b$, $c$ and $d$. 
 
 \clearpage
+
 \subsection*{Receiver b}
 
 \begin{figure}[H]
@@ -237,7 +259,7 @@ Note that the actual transmitted symbol at time $k$ is detected at time $k+D$ be
 	\label{Receiver_b} 
 \end{figure}
 
-The only difference with Receiver (a) is that here the \textit{Decision Filter Equalizer} introduces a feedback filter to remove the postcursors of the impulse response $h$ at the input of the FF filter. Using the algorithm described in the previous section, we obtained the filters given as follow.
+The only difference with respect to Receiver (a) is that now the DFE has both the FF filter $c$ of Equation (\ref{eq:ff_filter}) and the FB filter $b$ of Equation (\ref{eq:fb_filter}). Using the same algorithm as previous case, we obtained the following filters.
 
 \begin{figure}[H]
 	\centering
@@ -258,7 +280,7 @@ The only difference with Receiver (a) is that here the \textit{Decision Filter E
 		\bottomrule			
 	\end{tabular}
 	\caption{Parameters of the Receiver (b).}
-	\label{Tab_a}
+	\label{Tab_b}
 \end{table}
 
 \clearpage
@@ -332,7 +354,7 @@ The remaining filters are given in Figure [\ref{rec_c}].
 		\bottomrule			
 	\end{tabular}
 	\caption{Parameters of the Receiver (c).}
-	\label{Tab_a}
+	\label{Tab_c}
 \end{table}
 
 \begin{figure}[H]
@@ -390,6 +412,19 @@ The remaining filters are given in Figure [\ref{rec_c}].
 	\caption{Model for the receiver (d).}
 	\label{Receiver_d} 
 \end{figure}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{c c c c}
+		\toprule
+		$\mathbf{\bar{t}_0}$ & $\mathbf{M_1}$ & $\mathbf{M_2}$ & \textbf{D}     \\
+		\midrule
+		1 & 1 & 1 & 1 \\
+		\bottomrule			
+	\end{tabular}
+	\caption{Parameters of the Receiver (d).}
+	\label{Tab_d}
+\end{table}
 
 \clearpage
 \subsection*{Receiver e}
@@ -454,14 +489,14 @@ The remaining filters are given in Figure [\ref{rec_c}].
 	\caption{Model for the receiver (f).}
 	\label{Receiver_f} 
 \end{figure}
-Still using the channel as given in the previous section, the signal at the output of the $c$ filter is now processed by a \textit{Forward-Backward algorithm} exploiting the Max-Log-MAP to detect the received symbols $\hat{a}_k$. For each instants $k=0,1,\dots,K-1$, the algorithm performs the computation of five metrics, respectively:
+Still using the channel as given in the previous section, the signal at the output of the $c$ filter is now processed by a \textit{Forward-Backward algorithm} exploiting the Max-Log-MAP to detect the received symbols $\hat{a}_k$. For each instant $k=0,1,\dots,K-1$, the algorithm performs the computation of five metrics, respectively:
 
 \begin{enumerate}
 	\item The channel transition metric, $c_k(i,j)$, $i,j=1,\dots,N_s$;
 	\item The Backward metric, $\tilde{b}_k(i)$, $i=1,\dots,N_s$;
 	\item The Forward metric, $\tilde{f}_k(j)$, $j=1,\dots,N_s$;
 	\item The State metric, $\tilde{v}_k(i)$, $i=1,\dots,N_s$;
-	\item The Log-Likelyhood function of the isolated symbol $\tilde{l}_k(\beta)= \max\limits_{\overset{i\in[1,\dots,N_s],} {[\sigma_i]_1=\beta}}=\tilde{v}_k(i)$.
+	\item The Log-Likelihood function of the isolated symbol $\tilde{l}_k(\beta)= \max\limits_{\overset{i\in[1,\dots,N_s],} {[\sigma_i]_1=\beta}}=\tilde{v}_k(i)$.
 \end{enumerate}
 
 The detected symbol is then evaluated using the following decision rule:
@@ -477,7 +512,7 @@ For each of the different receiver configurations previously described, the symb
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=12cm]{images/PevsGamma}
-	\caption{Siimulated BER for the different receivers at different SNR values.}\label{Pe}
+	\caption{Simulated BER for the different receivers at different SNR values.}\label{Pe}
 \end{figure}
 
 
