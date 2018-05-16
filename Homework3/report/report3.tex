@@ -175,7 +175,7 @@ The parameters we obtained are reported in Table [\ref{Tab_a}].
 		\toprule
 		$\mathbf{\bar{t}_0}$ & $\mathbf{M_1}$ & $\mathbf{M_2}$ & \textbf{D}     \\
 		\midrule
-		1 & 1 & 1 & 1 \\
+		1 & 7 & 0 & 6 \\
 		\bottomrule			
 	\end{tabular}
 	\caption{Parameters of the Receiver (a).}
@@ -461,7 +461,7 @@ Still using the channel as given in the previous section, the signal at the outp
 	\item The Backward metric, $\tilde{b}_k(i)$, $i=1,\dots,N_s$;
 	\item The Forward metric, $\tilde{f}_k(j)$, $j=1,\dots,N_s$;
 	\item The State metric, $\tilde{v}_k(i)$, $i=1,\dots,N_s$;
-	\item The Log-Likelyhood function of the isolated symbol $\tilde{l}_k(\beta)= \max_{i\in[1,\dots,N_s], [\sigma_i]_1=\beta}=\tilde{v}_k(i)$.
+	\item The Log-Likelyhood function of the isolated symbol $\tilde{l}_k(\beta)= \max\limits_{\overset{i\in[1,\dots,N_s],} {[\sigma_i]_1=\beta}}=\tilde{v}_k(i)$.
 \end{enumerate}
 
 The detected symbol is then evaluated using the following decision rule:
