@@ -19,6 +19,9 @@ gm = conj(qc(end:-1:1));
 
 % Impulse response
 h = conv(qc,gm);
+% Determining timing phase
+t0_bar = find(h == max(h));
+
 h = h(h>max(h)/100);
 h = h(3:end-2);
 
@@ -27,9 +30,6 @@ h_T = downsample(h,4);
 
 % Filtering received signal
 r_c_prime = filter(gm,1,r_c);
-
-% Determining timing phase
-t0_bar = length(gm);
 
 % Remove "transient" and downsample received signal
 r_c_prime = r_c_prime(t0_bar:end);
@@ -40,9 +40,9 @@ r_gm = xcorr(gm,gm);
 rw_tilde = sigma_w/4 .* downsample(r_gm, 4);
 
 % Parameters for DFE
-M1 = 4;
+M1 = 5;
 N2 = 2;
-D = 5;
+D = 2;
 M2 = N2 + M1 - 1 - D;
 [c_opt, Jmin] = Adaptive_DFE(h_T, rw_tilde, sigma_a, M1, M2, D);
 
@@ -59,12 +59,12 @@ title('$|\psi|$'), xlabel('n');
 
 y = conv(x, c_opt);
 y = y/max(psi);
-detected = VBA(y, psi, 0, 3, 4, 3);
-in_bits  =  in_bits(1+4-0 : end-3+3);
-detected = detected';
+detected = VBA(y, psi, 0, 4, 4, 4);
+in_bits_2  =  in_bits(1+4-0 : end-4+4-2);
+% detected = detected';
 detected = detected(D+1:end);
 
 % nerr = length(find(in_bits(1:length(detected))~=detected));
-[Pe,~] = SER(in_bits(1:length(detected)), detected);
+[Pe,errors] = SER(in_bits_2(1:length(detected)), detected);
 
 % [Pe, errors] = SER(in_bits(1:length(detected)), detected);
