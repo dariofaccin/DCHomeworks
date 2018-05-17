@@ -12,13 +12,13 @@ load('Pe_AWGN_sim.mat');
 
 
 figure()
-semilogy(SNR_vect, Pe_LE, 'b--');
+semilogy(SNR_vect, Pe_LE, 'b--', 'Marker', '*');
 hold on;
 grid on;
-semilogy(SNR_vect, Pe_DFE, 'b');
+semilogy(SNR_vect, Pe_DFE,'b', 'Marker', '^');
 semilogy(SNR_vect, Pe_AA_GM, 'k--');
 semilogy(SNR_vect, Pe_AA_NOGM, 'k');
-semilogy(SNR_vect, Pe_VA, 'r--');
+semilogy(SNR_vect, Pe_VA, 'r--', 'Marker', 's');
 semilogy(SNR_vect, Pe_FBA, 'r');
 semilogy(SNR_vect, Pe_AWGN_sim, 'g--');
 semilogy(SNR_vect, awgn_bound, 'g');

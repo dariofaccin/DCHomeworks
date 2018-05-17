@@ -40,16 +40,15 @@ r_gm = xcorr(gm,gm);
 rw_tilde = sigma_w/4 .* downsample(r_gm, 4);
 
 % Parameters for DFE
-M1 = 5;
+M1 = 3;
 N2 = 2;
 D = 2;
-M2 = N2 + M1 - 1 - D;
+% M2 = N2 + M1 - 1 - D;
+M2 = 2;
 [c_opt, Jmin] = Adaptive_DFE(h_T, rw_tilde, sigma_a, M1, M2, D);
 
 psi = conv(c_opt, h_T);
 psi = psi/max(psi);
-
-b = zeros(M2,1);
 
 figure
 subplot(121), stem(0:length(c_opt)-1,abs(c_opt)), hold on, grid on
@@ -59,8 +58,8 @@ title('$|\psi|$'), xlabel('n');
 
 y = conv(x, c_opt);
 y = y/max(psi);
-detected = VBA(y, psi, 0, 4, 4, 4);
-in_bits_2  =  in_bits(1+4-0 : end-4+4-2);
+detected = VBA(y, psi, 0, 2, 4, 2);
+in_bits_2  =  in_bits(1+4-0 : end-2+2);
 % detected = detected';
 detected = detected(D+1:end);
 

@@ -31,7 +31,7 @@ for i=1:length(SNR_vect)
     r_c_prime = r_c_prime(t0_bar:end);
     x = downsample(r_c_prime,4);
     rw_tilde = sigma_w/4 .* downsample(r_gm, 4);
-    M1 = 5;
+    M1 = 3;
 	N2 = 2;
 	D = 2;
 	M2 = N2 + M1 - 1 - D;
@@ -43,9 +43,9 @@ for i=1:length(SNR_vect)
 	y = conv(x, c_opt);
 	y = y/max(psi);
 	
-	detected = VBA(y, psi, 0, 4, 4, 4);
+	detected = VBA(y, psi, 0, 2, 4, 2);
+	in_bits_2  =  in_bits(1+4-0 : end-2+2);
 	detected = detected(D+1:end);
-
 	[Pe_VA(i),errors(i)] = SER(in_bits_2(1:length(detected)), detected);
 end
 
@@ -54,4 +54,4 @@ figure();
 semilogy(SNR_vect, Pe_VA, 'r--');
 hold on; grid on;
 
-save('Pe_VA.mat','Pe_VA'),
+% save('Pe_VA.mat','Pe_VA'),
