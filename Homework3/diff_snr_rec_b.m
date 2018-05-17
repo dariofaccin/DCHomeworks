@@ -31,7 +31,7 @@ for i=1:length(SNR_vect)
 
     rw_tilde = sigma_w/4 .* downsample(r_gm, 4);
     
-    M1 = 5;
+    M1 = 4;
     M2 = 2;
     D = 2;
     [c_opt, Jmin] = Adaptive_DFE(h_T, rw_tilde, sigma_a, M1, M2, D);
@@ -46,6 +46,9 @@ for i=1:length(SNR_vect)
     Pe_DFE(i) = errors(i)/length(in_bits(1:length(detected)));
 end
 
-figure, semilogy(SNR_vect, Pe_DFE);
+figure();
+semilogy(SNR_vect, Pe_DFE, 'b'); grid on;
+ylim([10^-4 10^-1]); xlim([8 14]);
+legend('MF+DFE@T'); set(legend,'Interpreter','latex');
 
 % save('Pe_DFE.mat','Pe_DFE');

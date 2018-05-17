@@ -48,8 +48,8 @@ end
 
 
 figure();
-semilogy(SNR_vect, Pe_LE);
-hold on; grid on;
-semilogy(SNR_vect, awgn_bound,'r--');
+semilogy(SNR_vect, Pe_LE, 'b--'); hold on; grid on;
+ylim([10^-4 10^-1]); xlim([8 14]);
+semilogy(SNR_vect, awgn_bound, 'g');
 
-% save('Pe_LE.mat','Pe_LE', 'awgn_bound');
+save('Pe_LE.mat','Pe_LE', 'awgn_bound');

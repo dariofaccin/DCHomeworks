@@ -7,8 +7,7 @@ beta = 0.7424;
 qc_num = [0 0 0 0 0 beta];
 qc_denom = [1 -alpha];
 qc = impz(qc_num, qc_denom);
-aaaaa = find(qc>(max(qc)/100));
-qc = qc(1:(aaaaa(end))+1);
+qc = [0; 0; 0; 0; 0; qc(qc >=max(qc)/100)];
 E_qc = sum(qc.^2);
 
 length_seq = 2^20-1;
@@ -33,4 +32,4 @@ in_bits = bitmap(in_seq);
 
 var(w);
 
-save('Useful.mat', 'w', 'in_bits', 'qc');
+% save('Useful.mat', 'w', 'in_bits', 'qc');

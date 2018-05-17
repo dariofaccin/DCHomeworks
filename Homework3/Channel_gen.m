@@ -7,7 +7,7 @@ set(0,'defaultTextInterpreter','latex')    % latex format
 T = 1;              % Symbol period
 Tc = T/4;           % upsampling period
 Q = T/Tc;           
-snr_db = 7;
+snr_db = 10;
 snr_lin = 10^(snr_db/10);
 sigma_a = 2;
 
@@ -17,6 +17,8 @@ beta = 0.7424;
 qc_num = [0 0 0 0 0 beta];
 qc_denom = [1 -alpha];
 qc = impz(qc_num, qc_denom);
+q_c = impz(qc_num, qc_denom);
+q_c = [0; 0; 0; 0; 0; q_c( q_c >= max(q_c)*10^(-2) )]; 
 % remove all components under max(qc/100)
 aaaaa = find(qc>(max(qc)/100));
 qc = qc(1:(aaaaa(end))+1);

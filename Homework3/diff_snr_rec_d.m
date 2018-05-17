@@ -26,12 +26,11 @@ qg_up = conv(qc, g_AA);
 qg_up = qg_up.';
 t0_bar = find(qg_up == max(qg_up));
 
-qg = downsample(qg_up(1:end), 2);
+qg = downsample(qg_up, 2);
 
 h = qg;
 
-r_g = xcorr(g_AA, g_AA);
-
+r_g = xcorr(g_AA);
 
 for i=1:length(SNR_vect)
     snr_db = SNR_vect(i);
@@ -44,18 +43,17 @@ for i=1:length(SNR_vect)
 	x = downsample(r_c_prime(t0_bar:end), 2);
 
 	x_prime = x;
-% 	x_prime = x_prime(13:end);
-
+	
 	%% Equalization and symbol detection
 
 	N0 = (sigma_a * 1) / (4 * snr_lin);
 	r_w = N0 * downsample(r_g, 2);
 
 	N1 = floor(length(h)/2);
-	N2 = N1;
+	N2 = 11;
 
 	M1 = 5;
-	D = 1;
+	D = 2;
 	M2 = N2 + M1 - 1 - D;
 
 	[c, Jmin] = WienerC_frac(h, r_w, sigma_a, M1, M2, D, N1, N2);
@@ -66,9 +64,12 @@ for i=1:length(SNR_vect)
 
 	detected = equalization_pointC(x_prime, c, b, D);
 	
-    [Pe_AA_NOGM(i), errors(i)] = SER(in_bits(1:length(detected)-1), detected(2:end));
+    [Pe_AA_NOGM(i), errors(i)] = SER(in_bits(1:length(detected)), detected(1:end));
 end
 
-figure, semilogy(SNR_vect, Pe_AA_NOGM); grid on;
+figure();
+semilogy(SNR_vect, Pe_AA_NOGM, 'k'); grid on;
+ylim([10^-4 10^-1]); xlim([8 14]);
+legend('AAF+DFE@$\frac{T}{2}$'); set(legend,'Interpreter','latex');
 
-save('Pe_AA_NOGM.mat','Pe_AA_NOGM');
+% save('Pe_AA_NOGM.mat','Pe_AA_NOGM');

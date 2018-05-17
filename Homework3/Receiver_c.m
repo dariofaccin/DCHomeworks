@@ -84,4 +84,4 @@ figure, stem(b), title('b'), xlabel('nT')
 decisions = equalization_pointC(x_prime, c, b, D);
 %decisions = downsample(decisions(1:end),2);
 %detection
-[Pe_c, errors] = SER(in_bits(6:length(decisions)), decisions);
+[Pe_c, errors] = SER(in_bits(4:length(decisions)), decisions);

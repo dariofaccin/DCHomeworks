@@ -5,7 +5,7 @@ set(0,'defaultTextInterpreter','latex')    % latex format
 load('Useful.mat');
 
 % Channel SNR
-snr_db = 14;
+snr_db = 10;
 snr_lin = 10^(snr_db/10);
 
 sigma_a = 2;
@@ -13,7 +13,7 @@ sigma_a = 2;
 % Channel: NOISE IS ADDED AFTERWARDS
 [r_c, sigma_w, ~] = channel_sim(in_bits, snr_db, sigma_a);
 s_c = r_c;                  % Useful noise
-r_c = r_c + w(:,7);
+r_c = r_c + w(:,3);
 
 %% AA filter
 
@@ -58,10 +58,10 @@ figure, stem(r_w), title('$r_w$'), xlabel('nT/2')
 figure, stem(r_g), title('$r_g$'), xlabel('nT/2')
 
 N1 = floor(length(h)/2);
-N2 = N1;
+N2 = 12;
 
 M1 = 5;
-D = 1;
+D = 2;
 M2 = N2 + M1 - 1 - D;
 
 [c, Jmin] = WienerC_frac(h, r_w, sigma_a, M1, M2, D, N1, N2);
@@ -76,4 +76,4 @@ b = -psi_down(find(psi_down == max(psi_down)) + 1:end);
 figure, stem(b), title('b'), xlabel('nT')
 decisions = equalization_pointC(x_prime, c, b, D);
 
-[Pe_d, errors] = SER(in_bits(1:length(decisions)-1), decisions(2:end));
+[Pe_d, errors] = SER(in_bits(1:length(decisions)), decisions);

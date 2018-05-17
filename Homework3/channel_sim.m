@@ -13,8 +13,7 @@ snr_lin = 10^(snr_db/10);
 qc_num = [0 0 0 0 0 beta];
 qc_denom = [1 -alpha];
 qc = impz(qc_num, qc_denom);
-aaaaa = find(qc>(max(qc)/100));
-qc = qc(1:(aaaaa(end))+1);
+qc = [0; 0; 0; 0; 0; qc(qc >=max(qc)*10^(-2))];
 E_qc = sum(qc.^2);
 
 sigma_w = sigma_a * E_qc / snr_lin;

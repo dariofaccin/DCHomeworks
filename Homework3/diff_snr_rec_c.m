@@ -66,12 +66,14 @@ for i=1:length(SNR_vect)
 	psi_down = downsample(psi(2:end),2); % The b filter act at T
 	b = -psi_down(find(psi_down == max(psi_down)) + 1:end); 
 
-	figure, stem(b), title('b'), xlabel('nT')
 	detected = equalization_pointC(x_prime, c, b, D);
 	
-    [Pe_AA_GM(i), errors(i)] = SER(in_bits(6:length(detected)), detected);
+    [Pe_AA_GM(i), errors(i)] = SER(in_bits(4:length(detected)), detected);
 end
 
-figure, semilogy(SNR_vect, Pe_AA_GM); grid on;
+figure();
+semilogy(SNR_vect, Pe_AA_GM, 'k--'); grid on;
+ylim([10^-4 10^-1]); xlim([8 14]);
+legend('AAF+MF+DFE@$\frac{T}{2}$'); set(legend,'Interpreter','latex');
 
-save('Pe_AA_GM.mat','Pe_AA_GM');
+% save('Pe_AA_GM.mat','Pe_AA_GM');
