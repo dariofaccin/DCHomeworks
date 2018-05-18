@@ -359,9 +359,9 @@ The remaining filters are given in Figure [\ref{rec_c}].
 
 \begin{figure}[H]
 	\centering
-	\subfloat{\includegraphics[width=8cm]{images/RecB_c}}
-	\subfloat{\includegraphics[width=8cm]{images/RecB_psi}}\quad
-	\subfloat{\includegraphics[width=9cm]{images/RecB_b}}
+	\subfloat{\includegraphics[width=8cm]{images/RecC_c}}
+	\subfloat{\includegraphics[width=8cm]{images/RecC_psi}}\quad
+	\subfloat{\includegraphics[width=9cm]{images/RecC_b}}
 	\caption{Coefficients of the FF filter $c$, of the overall impulse response $\psi_i$ and of the FB filter $b$.}\label{rec_c}
 \end{figure}
 
@@ -411,6 +411,17 @@ The remaining filters are given in Figure [\ref{rec_c}].
 	\end{tikzpicture}
 	\caption{Model for the receiver (d).}
 	\label{Receiver_d} 
+\end{figure}
+
+The same configuration of receiver (c) is here simulated without the match filter at the input of the DFE. In this case we expect lower performances with respect to the previous configuration, since the equalizing filter is not matched with the impulsive response at its input.\\
+The following filters were computed.
+
+\begin{figure}[H]
+	\centering
+	\subfloat{\includegraphics[width=8cm]{images/RecD_c}}
+	\subfloat{\includegraphics[width=8cm]{images/RecD_psi}}\quad
+	\subfloat{\includegraphics[width=9cm]{images/RecD_b}}
+	\caption{Coefficients of the FF filter $c$, of the overall impulse response $\psi_i$ and of the FB filter $b$.}\label{rec_d}
 \end{figure}
 
 \begin{table}[H]

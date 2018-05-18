@@ -35,7 +35,7 @@ r_c_prime = filter(g_AA , 1, r_c);
 qg_up = conv(qc, g_AA);
 qg_up = qg_up.';
 %freqz(qg_up, 1,'whole');
-figure, stem(qg_up), title('convolution of $g_{AA}$ and $q_c$'), xlabel('nT/4')
+figure, stem(abs(qg_up)), title('convolution of $g_{AA}$ and $q_c$'), xlabel('nT/4')
 
 %% Timing phase and decimation
 
@@ -54,8 +54,8 @@ r_g = xcorr(g_AA);
 N0 = (sigma_a * 1) / (4 * snr_lin);
 r_w = N0 * downsample(r_g, 2);
 
-figure, stem(r_w), title('$r_w$'), xlabel('nT/2')
-figure, stem(r_g), title('$r_g$'), xlabel('nT/2')
+% figure, stem(r_w), title('$r_w$'), xlabel('nT/2')
+% figure, stem(r_g), title('$r_g$'), xlabel('nT/2')
 
 N1 = floor(length(h)/2);
 N2 = 12;
@@ -67,13 +67,13 @@ M2 = N2 + M1 - 1 - D;
 [c, Jmin] = WienerC_frac(h, r_w, sigma_a, M1, M2, D, N1, N2);
 psi = conv(h,c);
 
-figure, stem(c), title('c'), xlabel('nT/2')
-figure, stem(abs(psi)), title('|$\psi$|'), xlabel('nT/2')
+figure, stem(abs(c)), title('c'), xlabel('nT/2'), grid on
+figure, stem(abs(psi)), title('|$\psi$|'), xlabel('nT/2'), grid on
 
 psi_down = downsample(psi(2:end),2); % The b filter act at T
 b = -psi_down(find(psi_down == max(psi_down)) + 1:end); 
 
-figure, stem(b), title('b'), xlabel('nT')
+figure, stem(abs(b)), title('b'), xlabel('nT'), grid on
 decisions = equalization_pointC(x_prime, c, b, D);
 
 [Pe_d, errors] = SER(in_bits(1:length(decisions)), decisions);
