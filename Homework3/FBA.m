@@ -1,33 +1,30 @@
-function [decisions] = FBA(y, psiD, L1, L2 )
-% This function executes the Max-Log-MAP Algorithm.
-% packet: The originally sent data
-% r: The received data
-% hi: The estimated channel IR
-% L1: The number of precursors for each symbol
-% L2: The number of postcursors for each symbol
+function [detected] = FBA(y, psiD, L1, L2)
+% y: the data after filter c (hopefully no effect of the precursors)
+% psiD: overall system impulse response after the cancellation 
+% of precursors by filter c
+% L1: number of considered precursors for each symbol
+% L2: number of considered precursors for each symbol
 
-%%%%%%%%%%%%%%%%
-% Initialization
-%%%%%%%%%%%%%%%%
-M = 4;              % Number of symbols
-Ns = M^(L1+L2);     % Number of states
-K = length(y);      % Length of the sequence
-symb = [1+1i, 1-1i, -1+1i, -1-1i]; % Possible transmitted symbols (QPSK)
+M = 4;              % cardinality of the constellation
+Ns = M^(L1+L2);     % # of states
+K = length(y);      
+%QPSK symbols
+symb = [1+1i, 1-1i, -1+1i, -1-1i]; 
 
-tStart = tic;   % Use a variable to avoid conflict with parallel calls to tic/toc
-% -- Define u_mat matrix
+tStart = tic;   
+
+% initialize matrix with the input data U
 states_symbols = zeros(Ns, M);
-statelength = L1 + L2; % number of digits of the state, i.e. its length in base M=4
-statevec = zeros(1, statelength); % symbol index, from the oldest to the newest
-u_mat = zeros(Ns, M);
+statelength = L1 + L2; 
+statevec = zeros(1, statelength);
+U = zeros(Ns, M);
 for state = 1:Ns
-    % Set value of the current element of u_mat
     for j = 1:M
-        lastsymbols = [symb(statevec + 1), symb(j)]; % symbols, from the oldest to the newest
-        u_mat(state, j) = lastsymbols * flipud(psiD);
+        lastsymbols = [symb(statevec + 1), symb(j)]; 
+        U(state, j) = lastsymbols * flipud(psiD);
     end    
     states_symbols(state,:) = lastsymbols(1:M); 
-    % Update statevec
+    % update statevec
     statevec(statelength) = statevec(statelength) + 1;
     i = statelength;
     while (statevec(i) >= M && i > 1)
@@ -37,58 +34,53 @@ for state = 1:Ns
     end
 end
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Channel transition metrics computation
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+%computation of matrix C (3D)
 c = zeros(M, Ns, K+1);
-%fprintf('channel transition metric...')
+
 for k = 1:K
-    c(:, :, k) = (-abs(y(k) - u_mat).^2).';
+    c(:, :, k) = (-abs(y(k) - U).^2).';
 end
 c(:,:,K+1) = 0;
-%fprintf('done\n')
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Backward metric computation
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-b = zeros(Ns, K+1);   % This will also initialize the last state
-%fprintf('bck...')
+
+% backward metric 
+b = zeros(Ns, K+1);   %matrix
+
+% the index has to go backwards
 for k = K:-1:1      
     for i = 1:Ns
-        % Index of the new state: it's mod(state-1, M^(L1+L2-1)) * M + j
-        first_poss_state = mod(i-1, M^(L1 + L2 - 1))*M + 1;
-        b(i, k) = max(b(first_poss_state:first_poss_state+M-1, k+1) + c(:, i, k+1));
+        % the index of the state is computed with the following
+        % expression
+        possible_state = mod(i-1, M^(L1 + L2 - 1))*M + 1;
+        % the value of b is computed from b(k+1)
+        b(i, k) = max(b(possible_state:possible_state+M-1, k+1) ...
+            + c(:, i, k+1));
     end
 end
-%fprintf('done\n')
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Forward metric, state metric, log-like func computations
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% f_old represents the forward metric at time k-1, also initializes k = -1
+
+% forward metric, state metric, log-likelihood function 
+% f_old is set to -1
 f_old = zeros(Ns, 1);   
-f_new = zeros(Ns, 1);   % f_new represents the fwd metric at time k
-l = zeros(M, 1);
-decisions = zeros(K, 1);
+f_new = zeros(Ns, 1); 
+%will contain the symbols from which we select the one with the highest
+%likelihood
+likely = zeros(M, 1);
+detected = zeros(K, 1);
 row_step = (0:M-1)*M^(L1+L2-1);
-%fprintf('fwd...')
-for k = 1:K   % F_(-1) is the initial condition!
+for k = 1:K   
     for j = 1:Ns       
-        % Only keep the maximum among the fwd metrics
-        % The state l from which I can go to j are ceil(j/M) +
-        % r*M^(L1+L2-1), r = 0, 1, .... , M-1
         in_vec = ceil(j/M) + row_step;
         f_new(j) = max(f_old(in_vec) + c(mod(j-1, 4)+1, in_vec, k).');
     end
     v = f_new + b(:, k);
     for beta = 1:M
-        ind = find(states_symbols(:,M) == symb(beta));
-        l(beta) = max(v(ind));
+        ind = states_symbols(:,M) == symb(beta);
+        likely(beta) = max(v(ind));
     end
-    [~, maxind] = max(l);
-    decisions(k) = symb(maxind); 
+    [~, maxind] = max(likely);
+    detected(k) = symb(maxind); 
     f_old = f_new;
 end
 

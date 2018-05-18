@@ -40,7 +40,7 @@ r_gm = xcorr(gm,gm);
 rw_tilde = sigma_w/4 .* downsample(r_gm, 4);
 
 % Parameters for DFE
-M1 = 4;
+M1 = 3;
 N2 = 2;
 D = 2;
 M2 = N2 + M1 - 1 - D;
@@ -60,7 +60,8 @@ title('$|\psi|$'), xlabel('n');
 y = conv(x, c_opt);
 y = y/max(psi);
 
-L1 = 2; L2 = 2;
+L1 = 2;
+L2 = 2;
 indexD = find(psi == max(psi));
 
 detected = FBA(y, psi(indexD-L1:indexD+L2), L1, L2);

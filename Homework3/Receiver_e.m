@@ -43,8 +43,7 @@ rw_tilde = sigma_w/4 .* downsample(r_gm, 4);
 M1 = 3;
 N2 = 2;
 D = 2;
-% M2 = N2 + M1 - 1 - D;
-M2 = 2;
+M2 = N2 + M1 - 1 - D;
 [c_opt, Jmin] = Adaptive_DFE(h_T, rw_tilde, sigma_a, M1, M2, D);
 
 psi = conv(c_opt, h_T);
@@ -58,8 +57,8 @@ title('$|\psi|$'), xlabel('n');
 
 y = conv(x, c_opt);
 y = y/max(psi);
-detected = VBA(y, psi, 0, 2, 4, 2);
-in_bits_2  =  in_bits(1+4-0 : end-2+2);
+detected = VBA(y, psi, 0, M2, 4, M2);
+in_bits_2  =  in_bits(1+4-0 : end-(M2)+(M2));
 % detected = detected';
 detected = detected(D+1:end);
 

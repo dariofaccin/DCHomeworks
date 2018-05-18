@@ -2,15 +2,11 @@ clc; close all; clear global; clearvars;
 
 % Input
 load('Useful.mat');
-% load('JminLE.mat');
+
 SNR_vect = 8:14;
 Pe_LE = zeros(length(SNR_vect),1);
 errors = zeros(length(SNR_vect),1);
-awgn_bound = zeros(length(SNR_vect),1);
-
 sigma_a = 2;
-M = 4;
-
 gm = conj(qc(end:-1:1));
 h = conv(qc,gm);
 h = h(h>max(h)/100);
@@ -42,14 +38,10 @@ for i=1:length(SNR_vect)
 
     errors(i) = length(find(in_bits(1:length(detected))~=detected));
     Pe_LE(i) = errors(i)/length(in_bits(1:length(detected)));
-    
-    awgn_bound(i) = 4*(1-1/sqrt(M))*qfunc(sqrt(snr_lin/(sigma_a/2)));
 end
 
-
 figure();
-semilogy(SNR_vect, Pe_LE, 'b--'); hold on; grid on;
+semilogy(SNR_vect, Pe_LE, 'b--'); grid on;
 ylim([10^-4 10^-1]); xlim([8 14]);
-semilogy(SNR_vect, awgn_bound, 'g');
 
-save('Pe_LE.mat','Pe_LE', 'awgn_bound');
+save('Pe_LE.mat','Pe_LE');
