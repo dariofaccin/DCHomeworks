@@ -46,4 +46,4 @@ semilogy(SNR_vect, Pe_DFE_avg, 'b');
 grid on;
 ylim([10^-4 10^-1]); xlim([8 14]);
 
-% save('PE_DFE_avgs.mat', 'Pe_DFE_avg');
+save('PE_DFE_avgs.mat', 'Pe_DFE_avg');

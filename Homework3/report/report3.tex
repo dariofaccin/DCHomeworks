@@ -333,7 +333,15 @@ The only difference with respect to Receiver (a) is that now the DFE has both th
 	\label{Receiver_c} 
 \end{figure}
 
-In this case the analog filter is replaced by a digital \textit{anti-aliasing} filter $g_{AA}$. The signal at the output is downsampled of a factor 2, then a cascade of a matched filter and a DFE  filter processes the signal and produces the output symbols $\hat{a}_{k-D}$. The filter $g_m$ is needed in order to allow the equalizing filter defined in equation \ref{c} to act as a match filter. Note also that the filter $c$ is followed by a downsampling of a factor 2. \\
+In this case the analog filter is replaced by a digital \textit{anti-aliasing} filter $g_{AA}$. The signal at the output is downsampled of a factor 2, then a cascade of a matched filter and a DFE  filter processes the signal and produces the output symbols $\hat{a}_{k-D}$. The filter $g_m$ is needed in order to allow the equalizing filter defined in equation \ref{c} to act as a match filter. Note also that the filter $c$ is now works at T/2, such that the new formulas to compute $\mathbf{c}_{opt}$ are now:
+
+\begin{equation}
+\mathbf{[R]}_{p,q} = \sigma_a^2 \left( \sum_{n=-\infty}^{+\infty}h_{2n-q}h^*_{2n-p}-\sum_{j=1}^{M_2}h_{j+D-q}h^*_{2(j+D)-p} \right) + r_{\tilde{w}}(p-q)
+\end{equation}
+\begin{equation}
+\mathbf{[p]}_p = \sigma_a^2 h^*_{2D-p}, \quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad p,q = 0,1,\dots,M_1-1
+\end{equation}
+
 The anti-aliasing and the matched filters are given in Figure [\ref{filters_c}].
 
 \begin{figure}[H]
@@ -469,6 +477,22 @@ The following filters were computed.
 	\label{Receiver_e} 
 \end{figure}
 
+Here the receiver uses the channel as given by $\psi_D$,$\psi_{D+1}$,\dots,$\psi_{D+M_2}$ of Receiver (b), and performs the maximum likelihood detection through the Viterbi algorithm. \\
+The state of the \textit{finite state machine} associated with the algorithm at time $k=0,\dots,K-1$ is 
+
+\begin{equation}
+\textbf{s}_k = a_{k+L_1},a_{k+L_1-1},\dots,a_{k},\dots,a_{k-L_2+1} 
+\end{equation}
+
+where $K$ is the length of the input sequence, therefore the total number of states is $N_s = M^{L_1+L_2}$.The set of the states $\mathcal{S}$ is the set of the possible values of $\textbf{s}_k$, such that $\mathbf{s}_k \in \{ \mathbf{\sigma}_1,\mathbf{\sigma}_2,\dots,\mathbf{\sigma}_{N_s} \}$. With each state $\mathbf{\sigma}_j$, at instant $k$ the algorithm computes the following quantities:
+
+\begin{enumerate}
+	\item The path metric, $\Gamma(\mathbf{s}_k=\mathbf{\sigma}_j)$;
+	\item The survivor sequence, $\mathcal{L}(\mathbf{s}_k=\mathbf{\sigma}_j)$.
+\end{enumerate}
+
+These quantities are computed recursively. Starting from $k=0$, the procedure is repeated until $k=K-1$. The optimum sequence of states is given by the survivor sequence $\mathcal{L}(\mathbf{s}_{K-1}=\mathbf{\sigma}_{j,opt})$ associated with $\mathbf{s}_{K-1}=\mathbf{\sigma}_{j,opt}$ having minimum cost.
+
 \clearpage
 \subsection*{Receiver f}
 
@@ -510,7 +534,19 @@ Still using the channel as given in the previous section, the signal at the outp
 	\item The Log-Likelihood function of the isolated symbol $\tilde{l}_k(\beta)= \max\limits_{\overset{i\in[1,\dots,N_s],} {[\sigma_i]_1=\beta}}=\tilde{v}_k(i)$.
 \end{enumerate}
 
-The detected symbol is then evaluated using the following decision rule:
+The actual state metric in linear domain is defined as $V_k(i) = P[\mathbf{s}_k=\mathbf{\sigma}_i|\mathbf{z}^{K-1}_0=\mathbf{\rho}^{K-1}_0]$ and expresses the probability of being in state $\mathbf{\sigma}_i$ at instant $k$, given the whole observation $\mathbf{\rho}^{K-1}_0$. In the LOG-MAP criterion, the logarithmic variables are indicated with the corresponding lower-case vector, such that $v_k(i)=\ln V_k(i)$. The \textit{log-likelihood} function is then computed as
+
+\begin{equation}
+l_k(\beta) = \ln L_k(\beta) = \ln\left(\sum_{\overset{i=1}{[\sigma_i]_1=\beta}}^{N_s}e^{v_k(i)}\right)\simeq \max\limits_{\overset{i\in[1,\dots,N_s],} {[\sigma_i]_1=\beta}}v_k(i)
+\end{equation}
+
+from which if follows the approximated likelihood function
+
+\begin{equation}
+\tilde{l}_k(\beta) = \max\limits_{\overset{i\in[1,\dots,N_s],} {[\sigma_i]_1=\beta}}v_k(i)
+\end{equation}
+
+The detected symbol is then evaluated using the MAX-LOG-MAP criterion:
 
 \begin{equation}
 \hat{a}_{k+L_1} = \argmax_{\beta \in \mathcal{A}} \tilde{l}_k(\beta)

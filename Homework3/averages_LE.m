@@ -43,4 +43,4 @@ semilogy(SNR_vect, Pe_LE_avg, 'b--');
 grid on;
 ylim([10^-4 10^-1]); xlim([8 14]);
 
-% save('PE_LE_avgs.mat', 'Pe_LE_avg');
+save('PE_LE_avgs.mat', 'Pe_LE_avg');

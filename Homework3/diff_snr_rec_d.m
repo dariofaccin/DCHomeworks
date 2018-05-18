@@ -72,4 +72,4 @@ semilogy(SNR_vect, Pe_AA_NOGM, 'k'); grid on;
 ylim([10^-4 10^-1]); xlim([8 14]);
 legend('AAF+DFE@$\frac{T}{2}$'); set(legend,'Interpreter','latex');
 
-% save('Pe_AA_NOGM.mat','Pe_AA_NOGM');
+save('Pe_AA_NOGM.mat','Pe_AA_NOGM');

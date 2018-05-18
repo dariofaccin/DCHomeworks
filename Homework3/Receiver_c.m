@@ -45,6 +45,13 @@ x = downsample(r_c_prime(t0_bar:end), 2);
 qg = downsample(qg_up(1:end), 2);
 g_m = conj(flipud(qg));
 
+[GM ff] =  freqz(g_m,1,'whole');
+figure, plot(2*ff/(pi),20*log10(abs(GM))), xlim([0 2]),
+ylabel('$|G_M|$ [dB]')
+ylim([-40 10]);
+xlabel('f/T')
+grid on;
+
 figure, stem(g_m), title('$g_m$'), xlabel('nT/2')
 
 x_prime = filter(g_m, 1, x);
