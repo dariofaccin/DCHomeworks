@@ -1,26 +1,23 @@
 clc; close all; clear global; clearvars;
-set(0,'defaultTextInterpreter','latex')    % latex format
+set(0,'defaultTextInterpreter','latex')
 
-% Load input, noise and filter
+% Load input and noise
 load('Useful.mat');
-load('GAA_filter.mat');
 
 % Channel SNR
 snr_db = 10;
 snr_lin = 10^(snr_db/10);
 
-sigma_a = 2;
+sigma_a = 2;	% Input variance
 
-% Channel: NOISE IS ADDED AFTERWARDS
 [r_c, sigma_w, ~] = channel_sim(in_bits, snr_db, sigma_a);
-s_c = r_c;                  % Useful noise
 r_c = r_c + w(:,3);
 
-r_c_prime = filter(g_AA , 1, r_c);
+r_c_prime = filter(g_AA , 1, r_c);	% Filtering using antialiasing
 
 qg_up = conv(qc, g_AA);
 qg_up = qg_up.';
-%freqz(qg_up, 1,'whole');
+
 figure, stem(qg_up), title('convolution of $g_AA$ and $q_c$'), xlabel('nT/4')
 
 %% Timing phase and decimation
@@ -57,7 +54,6 @@ figure, stem(r_g), title('$r_g$'), xlabel('nT/2')
 
 N1 = floor(length(h)/2);
 N2 = N1;
-
 M1 = 5;
 D = 4;
 M2 = N2 + M1 - 1 - D;

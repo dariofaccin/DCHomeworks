@@ -3,11 +3,10 @@ clc; close all; clear global; clearvars;
 load('Useful.mat', 'in_bits', 'qc');
 
 SNR_vect = 8:14;
-sigma_a = 2;	% Input variance
-M = 4;			% Constellation cardinality
+sigma_a = 2;
 
-gm = conj(qc(end:-1:1));		% Matched filter: complex conjugate of qc
-h = conv(qc,gm);				% Impulse response
+gm = conj(qc(end:-1:1));		
+h = conv(qc,gm);
 
 t0_bar = find(h == max(h));		% Timing phase: peak of h
 h = h(h>max(h)/100);

@@ -1,5 +1,5 @@
 clc; close all; clear global; clearvars;
-set(0,'defaultTextInterpreter','latex')    % latex format
+set(0,'defaultTextInterpreter','latex')
 
 % Load input and noise
 load('Useful.mat');
@@ -8,15 +8,12 @@ load('Useful.mat');
 snr_db = 10;
 snr_lin = 10^(snr_db/10);
 
-sigma_a = 2;
+sigma_a = 2;	% Input variance
 
-% Channel: NOISE IS ADDED AFTERWARDS
 [r_c, sigma_w, ~] = channel_sim(in_bits, snr_db, sigma_a);
-
 r_c = r_c + w(:,3);
 
-% Matched filter
-gm = conj(qc(end:-1:1));
+gm = conj(qc(end:-1:1));	% Matched filter: complex conjugate of qc
 
 figure()
 stem(abs(gm));
@@ -25,27 +22,18 @@ ylabel('$g_m$')
 xlim([1 length(gm)]);
 grid on
 
-% Filtering received signal
-r_c_prime = filter(gm,1,r_c);
-
-% Impulse response of the system at the input of the FF filter
-h = conv(qc,gm);
-
-% Determining timing phase
-t0_bar = find(h == max(h));
-
+h = conv(qc,gm);			% Impulse response
 h = h(h>max(h)/100);
 h = h(3:end-2);
 
-% Downsampling impulse response
-h_T = downsample(h,4);
+h_T = downsample(h,4);		% Downsampling impulse response
+r_c_prime = filter(gm,1,r_c);	% Filtering received signal
+t0_bar = find(h == max(h));		% Determining timing phase
 
-% Remove "transient" and downsample received signal
-r_c_prime = r_c_prime(t0_bar:end);
-x = downsample(r_c_prime,4);
+r_c_prime = r_c_prime(t0_bar:end);	% Remove "transient"
+x = downsample(r_c_prime,4);		% Downsample received signal
 
-% Filter autocorrelation
-r_gm = xcorr(gm,gm);
+r_gm = xcorr(gm,gm);			% Filter autocorrelation
 rw_tilde = sigma_w/4 .* downsample(r_gm, 4);
 
 % Parameters for Linear Equalizer
@@ -54,7 +42,7 @@ M2 = 0;
 D = 6;
 [c_opt, Jmin] = Adaptive_DFE(h_T, rw_tilde, sigma_a, M1, M2, D);
 
-psi = conv(c_opt, h_T);
+psi = conv(c_opt, h_T);	% Overall impulse response
 
 figure
 subplot(121), stem(0:length(c_opt)-1,abs(c_opt)), hold on, grid on
