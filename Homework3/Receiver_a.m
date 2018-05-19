@@ -66,7 +66,3 @@ detected = equalization_LE(x, c_opt, M1, D, max(psi));
 
 nerr = length(find(in_bits(1:length(detected))~=detected));
 Pe = nerr/length(in_bits(1:length(detected)));
-
-
-
-% [Pe, errors] = SER(in_bits(1:length(detected)), detected);

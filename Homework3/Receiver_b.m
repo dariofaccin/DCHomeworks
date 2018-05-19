@@ -71,5 +71,3 @@ detected = equalization_DFE(x, c_opt, b, M1, M2, D);
 
 nerr = length(find(in_bits(1:length(detected))~=detected));
 Pe = nerr/length(in_bits(1:length(detected)));
-
-% [Pe, errors] = SER(in_bits(1:length(detected)), detected);

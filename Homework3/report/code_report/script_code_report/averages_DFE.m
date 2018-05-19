@@ -41,7 +41,8 @@ for i=1:length(SNR_vect)
 		psi = psi/max(psi);
 		b = - psi(end - M2 + 1:end);
 		detected = equalization_DFE(x, c_opt, b, M1, M2, D);
-		[Pe_DFE(k),~] = SER(in_bits(1:length(detected)), detected);
+		nerr = length(find(in_bits(1:length(detected))~=detected));
+		Pe_DFE(k) = nerr/length(detected);
 	end
 	Pe_DFE_avg(i) = sum(Pe_DFE)/length(Pe_DFE);
 end

@@ -17,11 +17,15 @@ r_c = r_c + w(:,3);
 % Matched filter
 gm = conj(qc(end:-1:1));
 
+figure()
+stem(abs(gm));
+xlabel('$m\frac{T}{4}$');
+ylabel('$g_m$')
+xlim([1 length(gm)]);
+grid on
+
 % Impulse response
 h = conv(qc,gm);
-% Determining timing phase
-t0_bar = find(h == max(h));
-
 h = h(h>max(h)/100);
 h = h(3:end-2);
 
@@ -30,6 +34,9 @@ h_T = downsample(h,4);
 
 % Filtering received signal
 r_c_prime = filter(gm,1,r_c);
+
+% Determining timing phase
+t0_bar = length(gm);
 
 % Remove "transient" and downsample received signal
 r_c_prime = r_c_prime(t0_bar:end);
@@ -40,27 +47,27 @@ r_gm = xcorr(gm,gm);
 rw_tilde = sigma_w/4 .* downsample(r_gm, 4);
 
 % Parameters for DFE
-M1 = 3;
-N2 = 2;
-D = 2;
+N1 = floor(length(h_T)/2);
+N2 = N1;
+M1 = 5;
+D = 4;
 M2 = N2 + M1 - 1 - D;
 [c_opt, Jmin] = Adaptive_DFE(h_T, rw_tilde, sigma_a, M1, M2, D);
 
 psi = conv(c_opt, h_T);
 psi = psi/max(psi);
 
+b = - psi(end - M2 + 1:end);
+
 figure
-subplot(121), stem(0:length(c_opt)-1,abs(c_opt)), hold on, grid on
+subplot(131), stem(0:length(c_opt)-1,abs(c_opt)), hold on, grid on
 title('$|c|$'), xlabel('n');
-subplot(122), stem(0:length(psi)-1,abs(psi)), grid on
+subplot(132), stem(0:length(psi)-1,abs(psi)), grid on
 title('$|\psi|$'), xlabel('n');
+subplot(133), stem(0:length(b)-1,abs(b)), grid on
+title('|b|'), xlabel('n');
 
-y = conv(x, c_opt);
-y = y/max(psi);
-detected = VBA(y, psi, 0, M2, 4, M2);
-in_bits_2  =  in_bits(1+4-0 : end-(M2)+(M2));
-% detected = detected';
-detected = detected(D+1:end);
+detected = equalization_DFE(x, c_opt, b, M1, M2, D);
 
-nerr = length(find(in_bits_2(1:length(detected))~=detected));
+nerr = length(find(in_bits(1:length(detected))~=detected));
 Pe = nerr/length(detected);

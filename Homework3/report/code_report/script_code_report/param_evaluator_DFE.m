@@ -1,26 +1,20 @@
 clc; close all; clear global; clearvars;
 
 load('Useful.mat');
-load('GAA_filter.mat');
+
 sigma_a = 2;
 sigma_w = sigma_a / 10;
 M = 4;
 
-qg_up = conv(qc, g_AA);
-qg_up = qg_up.';
-t0_bar = find(qg_up == max(qg_up));
-
-qg = downsample(qg_up(1:end), 2);
-g_m = conj(flipud(qg));
-
-h = conv(qg, g_m);
-h = h(h ~= 0);
-N0 = (sigma_a * 1) / (4 * 10);
-
-r_g = xcorr(conv(g_AA, g_m));
-r_w = N0 * downsample(r_g, 2);
-
-N2 = floor(length(h)/2);
+gm = conj(qc(end:-1:1));
+h = conv(qc,gm);
+h = h(h>max(h)/100);
+h = h(3:end-2);
+h_T = downsample(h,4);
+t0_bar = length(gm);
+r_gm = xcorr(gm,gm);
+rw_tilde = sigma_w/4 .* downsample(r_gm, 4);
+N2 = floor(length(h_T)/2);
 N1 = N2;
 
 M1_span = 2:20;
@@ -32,13 +26,13 @@ for k=1:length(M1_span)
         M1 = M1_span(k);
         D = D_span(l);
         M2 = N2 + M1 - 1 - D;
-        [c, Jmin] = WienerC_frac(h, r_w, sigma_a, M1, M2, D, N1, N2);
+        [c, Jmin] = Adaptive_DFE(h_T, rw_tilde, sigma_a, M1, M2, D);
         Jvec(k,l) = Jmin;
     end
 end
 
 figure, mesh(2:20, 2:20, reshape((Jvec(:, :)), size(Jvec(:, :), 2), size(Jvec(:, :), 2)))
-title('Jmin for AA+GM');
+title('Jmin for DFE');
 xlabel('D'), ylabel('M1'), zlabel('Jmin [dB]')
 
 [min, idx] = min(Jvec(:));
