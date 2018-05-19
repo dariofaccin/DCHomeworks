@@ -47,9 +47,11 @@ r_gm = xcorr(gm,gm);
 rw_tilde = sigma_w/4 .* downsample(r_gm, 4);
 
 % Parameters for DFE
-M1 = 15;
-M2 = 10;
-D = 5;
+N1 = floor(length(h_T)/2);
+N2 = N1;
+M1 = 5;
+D = 4;
+M2 = N2 + M1 - 1 - D;
 [c_opt, Jmin] = Adaptive_DFE(h_T, rw_tilde, sigma_a, M1, M2, D);
 
 psi = conv(c_opt, h_T);

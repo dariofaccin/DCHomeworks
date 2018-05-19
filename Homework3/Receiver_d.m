@@ -60,8 +60,8 @@ r_w = N0 * downsample(r_g, 2);
 N1 = floor(length(h)/2);
 N2 = 12;
 
-M1 = 5;
-D = 2;
+M1 = 9;
+D = 4;
 M2 = N2 + M1 - 1 - D;
 
 [c, Jmin] = WienerC_frac(h, r_w, sigma_a, M1, M2, D, N1, N2);

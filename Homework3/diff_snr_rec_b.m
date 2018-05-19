@@ -15,7 +15,11 @@ h = h(3:end-2);
 h_T = downsample(h,4);
 t0_bar = length(gm);
 r_gm = xcorr(gm,gm);
-
+N1 = floor(length(h_T)/2);
+N2 = N1;
+M1 = 6;
+D = 4;
+M2 = N2 + M1 - 1 - D;
 
 for i=1:length(SNR_vect)
     snr_db = SNR_vect(i);
@@ -31,10 +35,7 @@ for i=1:length(SNR_vect)
 
     rw_tilde = sigma_w/4 .* downsample(r_gm, 4);
     
-    M1 = 4;
-    M2 = 2;
-    D = 2;
-    [c_opt, Jmin] = Adaptive_DFE(h_T, rw_tilde, sigma_a, M1, M2, D);
+	[c_opt, Jmin] = Adaptive_DFE(h_T, rw_tilde, sigma_a, M1, M2, D);
     
     psi = conv(c_opt, h_T);
     psi = psi/max(psi);

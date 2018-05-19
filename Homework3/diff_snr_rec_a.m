@@ -14,6 +14,9 @@ h = h(3:end-2);
 h_T = downsample(h,4);
 t0_bar = length(gm);
 r_gm = xcorr(gm,gm);
+M1 = 6;
+M2 = 0;
+D = 4;
 
 for i=1:length(SNR_vect)
     snr_db = SNR_vect(i);
@@ -28,10 +31,6 @@ for i=1:length(SNR_vect)
     x = downsample(r_c_prime,4);
 
     rw_tilde = sigma_w/4 .* downsample(r_gm, 4);
-
-    M1 = 7;
-    M2 = 0;
-    D = 6;
     [c_opt, Jmin] = Adaptive_DFE(h_T, rw_tilde, sigma_a, M1, M2, D);
 
     detected = equalization_LE(x, c_opt, M1, D, max(conv(c_opt, h_T)));

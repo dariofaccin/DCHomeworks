@@ -22,6 +22,11 @@ r_g = xcorr(conv(g_AA, g_m));
 realizations = 1:10;
 Pe_AA_GM_avg = zeros(length(SNR_vect),1);
 Pe_AA_GM = zeros(length(realizations),1);
+N1 = floor(length(h)/2);
+N2 = N1;
+M1 = 5;
+D = 4;
+M2 = N2 + M1 - 1 - D;
 
 for i=1:length(SNR_vect)
 	Pe_AA_GM = zeros(length(SNR_vect),1);
@@ -36,17 +41,12 @@ for i=1:length(SNR_vect)
 		x_prime = filter(g_m, 1, x);
 		x_prime = x_prime(13:end);
 		r_w = sigma_w/4 .* downsample(r_g, 2);
-		N1 = floor(length(h)/2);
-		N2 = N1;
-		M1 = 5;
-		D = 4;
-		M2 = N2 + M1 - 1 - D;
 		[c, Jmin] = WienerC_frac(h, r_w, sigma_a, M1, M2, D, N1, N2);
 		psi = conv(h,c);
 		psi_down = downsample(psi(2:end),2); % The b filter act at T
 		b = -psi_down(find(psi_down == max(psi_down)) + 1:end); 
 		detected = equalization_pointC(x_prime, c, b, D);
-		[Pe_AA_GM(k),~] = SER(in_bits(4:length(detected)), detected);
+		[Pe_AA_GM(k),~] = SER(in_bits(D:length(detected)), detected);
 	end
 	Pe_AA_GM_avg(i) = sum(Pe_AA_GM)/length(Pe_AA_GM);
 end

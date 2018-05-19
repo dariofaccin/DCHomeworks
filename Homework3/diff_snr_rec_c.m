@@ -2,7 +2,7 @@ clc; close all; clear global; clearvars;
 
 % Input
 load('Useful.mat');
-SNR_vect = [8 9 10 11 12 13 14];
+SNR_vect = 8:14;
 Pe_AA_GM = zeros(length(SNR_vect),1);
 errors = zeros(length(SNR_vect),1);
 sigma_a = 2;
@@ -34,6 +34,12 @@ h = h(h ~= 0);
 
 r_g = xcorr(conv(g_AA, g_m));
 
+N1 = floor(length(h)/2);
+N2 = N1;
+M1 = 5;
+D = 4;
+M2 = N2 + M1 - 1 - D;
+
 
 for i=1:length(SNR_vect)
     snr_db = SNR_vect(i);
@@ -52,14 +58,6 @@ for i=1:length(SNR_vect)
 
 	N0 = (sigma_a * 1) / (4 * snr_lin);
 	r_w = N0 * downsample(r_g, 2);
-
-	N1 = floor(length(h)/2);
-	N2 = N1;
-
-	M1 = 5;
-	D = 4;
-	M2 = N2 + M1 - 1 - D;
-
 	[c, Jmin] = WienerC_frac(h, r_w, sigma_a, M1, M2, D, N1, N2);
 	psi = conv(h,c);
 
@@ -68,7 +66,7 @@ for i=1:length(SNR_vect)
 
 	detected = equalization_pointC(x_prime, c, b, D);
 	
-    [Pe_AA_GM(i), errors(i)] = SER(in_bits(4:length(detected)), detected);
+    [Pe_AA_GM(i), errors(i)] = SER(in_bits(D:length(detected)), detected);
 end
 
 figure();

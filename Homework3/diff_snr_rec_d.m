@@ -31,6 +31,11 @@ qg = downsample(qg_up, 2);
 h = qg;
 
 r_g = xcorr(g_AA);
+N1 = floor(length(h)/2);
+N2 = 12;
+M1 = 9;
+D = 4;
+M2 = N2 + M1 - 1 - D;
 
 for i=1:length(SNR_vect)
     snr_db = SNR_vect(i);
@@ -49,13 +54,6 @@ for i=1:length(SNR_vect)
 	N0 = (sigma_a * 1) / (4 * snr_lin);
 	r_w = N0 * downsample(r_g, 2);
 
-	N1 = floor(length(h)/2);
-	N2 = 11;
-
-	M1 = 5;
-	D = 2;
-	M2 = N2 + M1 - 1 - D;
-
 	[c, Jmin] = WienerC_frac(h, r_w, sigma_a, M1, M2, D, N1, N2);
 	psi = conv(h,c);
 
@@ -72,4 +70,4 @@ semilogy(SNR_vect, Pe_AA_NOGM, 'k'); grid on;
 ylim([10^-4 10^-1]); xlim([8 14]);
 legend('AAF+DFE@$\frac{T}{2}$'); set(legend,'Interpreter','latex');
 
-save('Pe_AA_NOGM.mat','Pe_AA_NOGM');
+% save('Pe_AA_NOGM.mat','Pe_AA_NOGM');

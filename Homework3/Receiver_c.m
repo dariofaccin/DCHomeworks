@@ -13,7 +13,7 @@ sigma_a = 2;
 % Channel: NOISE IS ADDED AFTERWARDS
 [r_c, sigma_w, ~] = channel_sim(in_bits, snr_db, sigma_a);
 s_c = r_c;                  % Useful noise
-r_c = r_c + w(:,3);
+% r_c = r_c + w(:,3);
 
 %% AA filter
 
@@ -45,7 +45,7 @@ x = downsample(r_c_prime(t0_bar:end), 2);
 qg = downsample(qg_up(1:end), 2);
 g_m = conj(flipud(qg));
 
-[GM ff] =  freqz(g_m,1,'whole');
+[GM, ff] =  freqz(g_m,1,'whole');
 figure, plot(2*ff/(pi),20*log10(abs(GM))), xlim([0 2]),
 ylabel('$|G_M|$ [dB]')
 ylim([-40 10]);

@@ -6,15 +6,23 @@ sigma_a = 2;
 sigma_w = sigma_a / 10;
 M = 4;
 
-gm = conj(qc(end:-1:1));
-h = conv(qc,gm);
-h = h(h>max(h)/100);
-h = h(3:end-2);
-h_T = downsample(h,4);
-t0_bar = length(gm);
-r_gm = xcorr(gm,gm);
-rw_tilde = sigma_w/4 .* downsample(r_gm, 4);
-N2 = floor(length(h_T)/2);
+Fpass = 0.2;
+Fstop = 0.3;
+Dpass = 0.057501127785;
+Dstop = 0.01;
+dens  = 20;
+[N, Fo, Ao, W] = firpmord([Fpass, Fstop], [1 0], [Dpass, Dstop]);
+g_AA  = firpm(N, Fo, Ao, W, {dens});
+Hd = dfilt.dffir(g_AA);
+qg_up = conv(qc, g_AA);
+qg_up = qg_up.';
+t0_bar = find(qg_up == max(qg_up));
+qg = downsample(qg_up, 2);
+h = qg;
+r_g = xcorr(g_AA);
+N0 = (sigma_a * 1) / (4 * 10);
+r_w = N0 * downsample(r_g, 2);
+N2 = floor(length(h)/2);
 N1 = N2;
 
 M1_span = 2:20;
@@ -26,13 +34,13 @@ for k=1:length(M1_span)
         M1 = M1_span(k);
         D = D_span(l);
         M2 = N2 + M1 - 1 - D;
-        [c, Jmin] = Adaptive_DFE(h_T, rw_tilde, sigma_a, M1, M2, D);
+        [c, Jmin] = WienerC_frac(h, r_w, sigma_a, M1, M2, D, N1, N2);
         Jvec(k,l) = Jmin;
     end
 end
 
 figure, mesh(2:20, 2:20, reshape((Jvec(:, :)), size(Jvec(:, :), 2), size(Jvec(:, :), 2)))
-title('Jmin for DFE');
+title('Jmin for AA without GM');
 xlabel('D'), ylabel('M1'), zlabel('Jmin [dB]')
 
 [min, idx] = min(Jvec(:));
