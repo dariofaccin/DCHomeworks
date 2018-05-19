@@ -22,11 +22,8 @@ ylabel('$g_m$')
 xlim([1 length(gm)]);
 grid on
 
-h = conv(qc,gm);			% Impulse response
-h = h(h>max(h)/100);
-h = h(3:end-2);
-
-h_T = downsample(h,4);		% Downsampling impulse response
+h = conv(qc,gm);				% Impulse response
+h_T = downsample(h,4);			% Downsampling impulse response
 r_c_prime = filter(gm,1,r_c);	% Filtering received signal
 t0_bar = find(h == max(h));		% Determining timing phase
 
@@ -37,15 +34,14 @@ r_gm = xcorr(gm,gm);			% Filter autocorrelation
 rw_tilde = sigma_w/4 .* downsample(r_gm, 4);
 
 % Parameters for DFE
-N1 = floor(length(h_T)/2);
-N2 = N1;
+N2 = floor(length(h_T)/2);
 M1 = 5;
 D = 4;
 M2 = N2 + M1 - 1 - D;
 [c_opt, Jmin] = Adaptive_DFE(h_T, rw_tilde, sigma_a, M1, M2, D);
 
-psi = conv(c_opt, h_T);	% Overall impulse response
-psi = psi/max(psi);	% Normalization
+psi = conv(c_opt, h_T);		% Overall impulse response
+psi = psi/max(psi);			% Normalization
 
 b = - psi(end - M2 + 1:end);	% Feedback coefficients
 

@@ -9,14 +9,12 @@ load('GAA_filter.mat');
 snr_db = 10;
 snr_lin = 10^(snr_db/10);
 
-sigma_a = 2;
+sigma_a = 2;	% Input variance
 
-% Channel: NOISE IS ADDED AFTERWARDS
 [r_c, sigma_w, ~] = channel_sim(in_bits, snr_db, sigma_a);
-s_c = r_c;                  % Useful noise
 r_c = r_c + w(:,3);
 
-r_c_prime = filter(g_AA , 1, r_c);
+r_c_prime = filter(g_AA , 1, r_c);	% Filtering using antialiasing
 
 qg_up = conv(qc, g_AA);
 qg_up = qg_up.';

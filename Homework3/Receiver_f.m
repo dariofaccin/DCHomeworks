@@ -41,7 +41,7 @@ rw_tilde = sigma_w/4 .* downsample(r_gm, 4);
 
 % Parameters for DFE
 M1 = 3;
-N2 = 2;
+N2 = floor(length(h_T)/2);
 D = 2;
 M2 = N2 + M1 - 1 - D;
 [c_opt, Jmin] = Adaptive_DFE(h_T, rw_tilde, sigma_a, M1, M2, D);

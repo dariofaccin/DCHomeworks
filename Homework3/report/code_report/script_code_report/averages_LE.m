@@ -4,12 +4,9 @@ load('Useful.mat', 'in_bits', 'qc');
 
 SNR_vect = 8:14;
 sigma_a = 2;
-M = 4;
 gm = conj(qc(end:-1:1));
 h = conv(qc,gm);
 t0_bar = find(h == max(h));
-h = h(h>max(h)/100);
-h = h(3:end-2);
 h_T = downsample(h,4);
 r_gm = xcorr(gm,gm);
 realizations = 1:10;

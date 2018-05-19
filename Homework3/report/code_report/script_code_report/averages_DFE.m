@@ -4,22 +4,17 @@ load('Useful.mat', 'in_bits', 'qc');
 
 SNR_vect = 8:14;
 sigma_a = 2;
-
 gm = conj(qc(end:-1:1));		
 h = conv(qc,gm);
-
-t0_bar = find(h == max(h));		% Timing phase: peak of h
-h = h(h>max(h)/100);
-h = h(3:end-2);
+t0_bar = find(h == max(h));
 h_T = downsample(h,4);
-
-r_gm = xcorr(gm,gm);			% Matched filter autocorrelation
+r_gm = xcorr(gm,gm);
 realizations = 1:10;
 Pe_DFE_avg = zeros(length(SNR_vect),1);
 Pe_DFE = zeros(length(realizations),1);
 N2 = floor(length(h_T)/2);
 N1 = N2;
-M1 = 6;
+M1 = 5;
 D = 4;
 M2 = N2 + M1 - 1 - D;
 

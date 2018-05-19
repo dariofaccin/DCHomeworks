@@ -20,7 +20,7 @@ Pe_DFE_avg = zeros(length(SNR_vect),1);
 Pe_DFE = zeros(length(realizations),1);
 N2 = floor(length(h_T)/2);
 N1 = N2;
-M1 = 6;
+M1 = 5;
 D = 4;
 M2 = N2 + M1 - 1 - D;
 

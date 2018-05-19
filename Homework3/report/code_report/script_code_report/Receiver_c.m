@@ -1,8 +1,9 @@
 clc; close all; clear global; clearvars;
 set(0,'defaultTextInterpreter','latex')
 
-% Load input and noise
+% Load input, noise and filter
 load('Useful.mat');
+load('GAA_filter.mat');
 
 % Channel SNR
 snr_db = 10;
@@ -41,7 +42,7 @@ x_prime = filter(g_m, 1, x);
 x_prime = x_prime(13:end);
 
 h = conv(qg, g_m);
-h = h(h ~= 0);
+% h = h(h ~= 0);
 
 %% Equalization and symbol detection
 
