@@ -48,4 +48,4 @@ semilogy(SNR_vect, Pe_AA_NOGM_avg, 'k');
 grid on;
 ylim([10^-4 10^-1]); xlim([8 14]);
 
-% save('PE_AA_NOGM_avgs.mat', 'Pe_AA_NOGM_avg');
+save('PE_AA_NOGM_avgs.mat', 'Pe_AA_NOGM_avg');

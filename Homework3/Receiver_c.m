@@ -5,6 +5,14 @@ set(0,'defaultTextInterpreter','latex')
 load('Useful.mat');
 load('GAA_filter.mat');
 
+% Anti aliasing filter
+[G_AA, f] =  freqz(g_AA,1,'whole');
+figure, plot(2*f/(pi),20*log10(abs(G_AA))), xlim([0 2]),
+ylabel('$|G_{AA}|$ [dB]')
+ylim([-40 10]);
+xlabel('f/T')
+grid on;
+
 % Channel SNR
 snr_db = 10;
 snr_lin = 10^(snr_db/10);
@@ -19,7 +27,7 @@ r_c_prime = filter(g_AA , 1, r_c);	% Filtering using antialiasing
 qg_up = conv(qc, g_AA);
 qg_up = qg_up.';
 
-figure, stem(qg_up), title('convolution of $g_AA$ and $q_c$'), xlabel('nT/4')
+% figure, stem(qg_up), title('convolution of $g_AA$ and $q_c$'), xlabel('nT/4')
 
 %% Timing phase and decimation
 
@@ -36,7 +44,7 @@ ylim([-40 10]);
 xlabel('f/T')
 grid on;
 
-figure, stem(g_m), title('$g_m$'), xlabel('nT/2')
+% figure, stem(g_m), title('$g_m$'), xlabel('nT/2')
 
 x_prime = filter(g_m, 1, x);
 x_prime = x_prime(13:end);
@@ -50,26 +58,38 @@ r_g = xcorr(conv(g_AA, g_m));
 N0 = (sigma_a * 1) / (4 * snr_lin);
 r_w = N0 * downsample(r_g, 2);
 
-figure, stem(r_w), title('$r_w$'), xlabel('nT/2')
-figure, stem(r_g), title('$r_g$'), xlabel('nT/2')
+% figure, stem(r_w), title('$r_w$'), xlabel('nT/2')
+% figure, stem(r_g), title('$r_g$'), xlabel('nT/2')
 
 N1 = floor(length(h)/2);
 N2 = N1;
 M1 = 5;
 D = 4;
-M2 = N2 + M1 - 1 - D;
+M2 = 19;
 
-[c, Jmin] = WienerC_frac(h, r_w, sigma_a, M1, M2, D, N1, N2);
-psi = conv(h,c);
+[c_opt, Jmin] = WienerC_frac(h, r_w, sigma_a, M1, M2, D, N1, N2);
+psi = conv(h,c_opt);
 
-figure, stem(c), title('c'), xlabel('nT/2')
-figure, stem(abs(psi)), title('|$\psi$|'), xlabel('nT/2')
+% figure, stem(c), title('c'), xlabel('nT/2')
+% figure, stem(abs(psi)), title('|$\psi$|'), xlabel('nT/2')
 
 psi_down = downsample(psi(2:end),2); % The b filter act at T
 b = -psi_down(find(psi_down == max(psi_down)) + 1:end); 
 
-figure, stem(b), title('b'), xlabel('nT')
-detected = equalization_pointC(x_prime, c, b, D);
+% figure, stem(b), title('b'), xlabel('nT')
+detected = equalization_pointC(x_prime, c_opt, b, D);
 
 nerr = length(find(in_bits(D:length(detected)+D-1)~=detected));
 Pe = nerr/length(detected);
+
+%% C
+figure, stem(0:length(c_opt)-1,abs(c_opt)), hold on, grid on
+ylabel('$|c|$'), xlabel('$n\frac{T}{2}$'); xlim([0 length(c_opt)-1]);
+%% B
+figure, stem(0:length(b)-1,abs(b)), hold on, grid on
+ylabel('$|b|$'), xlabel('n'); xlim([0 length(b)-1]);
+%% PSI
+figure
+stem(-(find(psi==max(psi))-D)+1:length(psi)-(find(psi==max(psi))-D+1)+1,abs(psi))
+xlim([-(find(psi==max(psi))-D)+1 length(psi)-(find(psi==max(psi))-D+1)+1]), grid on
+ylabel('$|\psi|$'), xlabel('$n\frac{T}{2}$'); 
