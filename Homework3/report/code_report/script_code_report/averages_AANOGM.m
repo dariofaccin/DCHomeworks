@@ -1,6 +1,7 @@
 clc; close all; clear global; clearvars;
+set(0,'defaultTextInterpreter','latex');
 
-load('Useful.mat', 'in_bits', 'qc');
+load('Useful.mat', 'in_bits', 'qc', 'E_qc');
 load('GAA_filter.mat');
 SNR_vect = 8:14;
 sigma_a = 2;
@@ -30,10 +31,11 @@ for i=1:length(SNR_vect)
 		r_c_prime = filter(g_AA , 1, r_c);
 		x = downsample(r_c_prime(t0_bar:end), 2);
 		x_prime = x;
-		r_w = sigma_w/4 .* downsample(r_g, 2);
-		[c, Jmin] = WienerC_frac(h, r_w, sigma_a, M1, M2, D, N1, N2);
+		N0 = (sigma_a * E_qc) / (4 * snr_lin);
+		rw_tilde = N0 .* downsample(r_g, 2);
+		[c, Jmin] = WienerC_frac(h, rw_tilde, sigma_a, M1, M2, D, N1, N2);
 		psi = conv(h,c);
-		psi_down = downsample(psi(2:end),2);
+		psi_down = downsample(psi(2:end),2); % The b filter act at T
 		b = -psi_down(find(psi_down == max(psi_down)) + 1:end); 
 		detected = equalization_pointC(x_prime, c, b, D);
 		detected = detected(1:end-D);

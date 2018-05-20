@@ -1,5 +1,5 @@
 clc; close all; clear global; clearvars;
-set(0,'defaultTextInterpreter','latex')
+set(0,'defaultTextInterpreter','latex');
 
 % Load input and noise
 load('Useful.mat');
@@ -34,8 +34,8 @@ r_c_prime = r_c_prime(t0_bar:end);	% Remove "transient"
 x = downsample(r_c_prime,4);		% Downsample received signal
 
 r_gm = xcorr(gm,gm);			% Filter autocorrelation
-rw_tilde = sigma_w/4 .* downsample(r_gm, 4);
-
+N0 = (sigma_a * E_qc) / (4 * snr_lin);
+rw_tilde = N0 .* downsample(r_g, 2);
 % Parameters for Linear Equalizer
 M1 = 7;
 M2 = 0;

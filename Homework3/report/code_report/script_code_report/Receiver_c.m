@@ -1,5 +1,5 @@
 clc; close all; clear global; clearvars;
-set(0,'defaultTextInterpreter','latex')
+set(0,'defaultTextInterpreter','latex');
 
 % Load input, noise and filter
 load('Useful.mat');
@@ -19,57 +19,34 @@ r_c_prime = filter(g_AA , 1, r_c);	% Filtering using antialiasing
 qg_up = conv(qc, g_AA);
 qg_up = qg_up.';
 
-figure, stem(qg_up), title('convolution of $g_AA$ and $q_c$'), xlabel('nT/4')
-
-%% Timing phase and decimation
-
-t0_bar = find(qg_up == max(qg_up));
+t0_bar = find(qg_up == max(qg_up));				% Timing phase
 x = downsample(r_c_prime(t0_bar:end), 2);
-
 qg = downsample(qg_up(1:end), 2);
-g_m = conj(flipud(qg));
-
-[GM, ff] =  freqz(g_m,1,'whole');
-figure, plot(2*ff/(pi),20*log10(abs(GM))), xlim([0 2]),
-ylabel('$|G_M|$ [dB]')
-ylim([-40 10]);
-xlabel('f/T')
-grid on;
-
-figure, stem(g_m), title('$g_m$'), xlabel('nT/2')
+g_m = conj(flipud(qg));							% Matched filter
 
 x_prime = filter(g_m, 1, x);
 x_prime = x_prime(13:end);
 
 h = conv(qg, g_m);
-% h = h(h ~= 0);
 
-%% Equalization and symbol detection
+r_g = xcorr(conv(g_AA, g_m));		% AA and MF crosscorrelation
+N0 = (sigma_a * E_qc) / (4 * snr_lin);
+rw_tilde = N0 .* downsample(r_g, 2);
 
-r_g = xcorr(conv(g_AA, g_m));
-N0 = (sigma_a * 1) / (4 * snr_lin);
-r_w = N0 * downsample(r_g, 2);
-
-figure, stem(r_w), title('$r_w$'), xlabel('nT/2')
-figure, stem(r_g), title('$r_g$'), xlabel('nT/2')
-
+% Parameters for Equalizer
 N1 = floor(length(h)/2);
 N2 = N1;
 M1 = 5;
 D = 4;
 M2 = N2 + M1 - 1 - D;
 
-[c, Jmin] = WienerC_frac(h, r_w, sigma_a, M1, M2, D, N1, N2);
-psi = conv(h,c);
-
-figure, stem(c), title('c'), xlabel('nT/2')
-figure, stem(abs(psi)), title('|$\psi$|'), xlabel('nT/2')
-
+[c, Jmin] = WienerC_frac(h, rw_tilde, sigma_a, M1, M2, D, N1, N2);
+psi = conv(h,c);					% Overall impulse response
 psi_down = downsample(psi(2:end),2); % The b filter act at T
 b = -psi_down(find(psi_down == max(psi_down)) + 1:end); 
-
-figure, stem(b), title('b'), xlabel('nT')
-detected = equalization_pointC(x_prime, c, b, D);
-
-nerr = length(find(in_bits(D:length(detected)+D-1)~=detected));
-Pe = nerr/length(detected);
+x_prime = x_prime/max(psi);			% Normalization
+detected = equalization_pointC(x_prime, c_opt, b, D);
+detected = detected(1:end-D);
+in_bits_2 = in_bits(1:length(detected));
+errors = length(find(in_bits_2~=detected(1:length(in_bits_2))));
+Pe = errors/length(in_bits_2);

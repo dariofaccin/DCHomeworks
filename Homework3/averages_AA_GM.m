@@ -38,6 +38,7 @@ for i=1:length(SNR_vect)
 		psi = conv(h,c);
 		psi_down = downsample(psi(2:end),2); % The b filter act at T
 		b = -psi_down(find(psi_down == max(psi_down)) + 1:end); 
+		x_prime = x_prime/max(psi);
 		detected = equalization_pointC(x_prime, c, b, D);
 		detected = detected(1:end-D);
 		in_bits_2 = in_bits(1:length(detected));

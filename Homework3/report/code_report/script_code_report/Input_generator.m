@@ -28,4 +28,4 @@ end
 in_seq = PNSeq(length_seq);
 in_seq = in_seq(1:end-1);
 in_bits = bitmap(in_seq);
-% save('Useful.mat', 'w', 'in_bits', 'qc');
+% save('Useful.mat', 'w', 'in_bits', 'qc', 'E_qc');

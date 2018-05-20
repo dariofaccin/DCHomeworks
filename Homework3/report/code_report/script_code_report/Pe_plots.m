@@ -1,5 +1,5 @@
 clc; close all; clear global; clearvars;
-set(0,'defaultTextInterpreter','latex')    % latex format
+set(0,'defaultTextInterpreter','latex');
 
 SNR_vect = 8:14;
 load('Pe_LE_avgs.mat');

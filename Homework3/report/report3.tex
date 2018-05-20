@@ -351,7 +351,8 @@ As in previous configuration we can see that for values greater than $M_1=6$ and
 	\label{Receiver_c} 
 \end{figure}
 
-In this case the analog filter is replaced by a digital \textit{anti-aliasing} filter $g_{AA}$. The signal at the output is downsampled of a factor 2, then a cascade of a matched filter and a DFE  filter processes the signal and produces the output symbols $\hat{a}_{k-D}$. The filter $g_m$ is needed in order to allow the equalizing filter defined in equation \ref{c} to act as a match filter. Note also that the filter $c$ is now works at T/2, such that the new formulas to compute $\mathbf{c}_{opt}$ are now:
+In this case the analog filter is replaced by a digital \textit{anti-aliasing} filter $g_{AA}$. The signal at the output is downsampled by a factor 2, then a cascade of a matched filter and a DFE  filter processes the signal and produces the output symbols $\hat{a}_{k-D}$. The filter $g_m$ is needed in order to allow the equalizer filter defined in Equation (\ref{c}) to act as a matched filter.\\
+Note also that the filter $c$ is now works at T/2, so the new formulas to compute $\mathbf{c}_{opt}$ are now:
 
 \begin{equation}
 \mathbf{[R]}_{p,q} = \sigma_a^2 \left( \sum_{n=-\infty}^{+\infty}h_{2n-q}h^*_{2n-p}-\sum_{j=1}^{M_2}h_{j+D-q}h^*_{2(j+D)-p} \right) + r_{\tilde{w}}(p-q)
@@ -359,8 +360,27 @@ In this case the analog filter is replaced by a digital \textit{anti-aliasing} f
 \begin{equation}
 \mathbf{[p]}_p = \sigma_a^2 h^*_{2D-p}, \quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad p,q = 0,1,\dots,M_1-1
 \end{equation}
+\\
+In the following Table [\ref{gaa}] are reported the parameters for the low-pass filter.\\
+Since input signal frequency is periodic, the anti-aliasing filter will delete useful information, hence we expect worse performances than previous receivers.
 
-The anti-aliasing and the matched filters are given in Figure [\ref{filters_c}].
+\begin{table}[H]
+	\centering
+	\begin{tabular}{c | c}
+		\toprule
+		Parameter & Value \\
+		\midrule
+		Passband frequency $F_{p}$ & 0.45\\
+		Stopband frequency $F_{s}$ & 0.55\\
+		Passband ripple $\delta_{p}$ & 0.05\\
+		Stopband ripple $\delta_{s}$ & 0.01\\
+		\bottomrule			
+	\end{tabular}
+	\caption{Parameters of the anti-aliasing filter.}
+	\label{gaa}
+\end{table}
+
+Frequency response of the anti-aliasing and of the matched filter are given in Figure [\ref{filters_c}].
 
 \begin{figure}[H]
 	\centering
@@ -372,7 +392,7 @@ The anti-aliasing and the matched filters are given in Figure [\ref{filters_c}].
 The remaining filters are given in Figure [\ref{rec_c}].
 
 As before, to choose the parameters $M_1$, $M_2$ and $D$ we evaluated $J_{min}$ according to Equation (\ref{jmincf}).\\
-As in previous configuration we can see that for values greater than $M_1=10$ and $D=4$ there is no noticeable improvement in the cost function, so we decided to use these parameters.
+For values greater than $M_1=10$ and $D=4$ there is no noticeable improvement in the cost function, so we decided to use these parameters.
 
 \begin{figure}[H]
 	\centering
@@ -386,7 +406,7 @@ As in previous configuration we can see that for values greater than $M_1=10$ an
 		\toprule
 		$\mathbf{\bar{t}_0}$ & $\mathbf{M_1}$ & $\mathbf{M_2}$ & \textbf{D}     \\
 		\midrule
-		21 & 10 & 16 & 4 \\
+		21 & 10 & 24 & 4 \\
 		\bottomrule			
 	\end{tabular}
 	\caption{Parameters of the Receiver (c).}
@@ -474,7 +494,7 @@ For this receiver we used the same parameters the previous one, since the cost f
 		\toprule
 		$\mathbf{\bar{t}_0}$ & $\mathbf{M_1}$ & $\mathbf{M_2}$ & \textbf{D}     \\
 		\midrule
-		21 & 10 & 16 & 4 \\
+		21 & 10 & 17 & 4 \\
 		\bottomrule			
 	\end{tabular}
 	\caption{Parameters of the Receiver (d).}
@@ -590,7 +610,8 @@ The detected symbol is then evaluated using the MAX-LOG-MAP criterion:
 
 \clearpage
 \section*{BER comparison}
-For each of the different receiver configurations previously described, the symbol error probability is evaluated by simulations with different values of the SNR $\Gamma$. 
+For each of the different receiver configurations previously described, the symbol error probability is evaluated by simulations with different values of the SNR $\Gamma$.\\
+The results given are obtained taking the average over 10 independent realizations of the noise.
 
 \begin{figure}[H]
 	\centering

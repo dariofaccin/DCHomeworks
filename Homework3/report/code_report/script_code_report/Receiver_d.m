@@ -1,5 +1,5 @@
 clc; close all; clear global; clearvars;
-set(0,'defaultTextInterpreter','latex')    % latex format
+set(0,'defaultTextInterpreter','latex');
 
 % Load input, noise and filter
 load('Useful.mat');
@@ -18,46 +18,32 @@ r_c_prime = filter(g_AA , 1, r_c);	% Filtering using antialiasing
 
 qg_up = conv(qc, g_AA);
 qg_up = qg_up.';
-%freqz(qg_up, 1,'whole');
-figure, stem(abs(qg_up)), title('convolution of $g_{AA}$ and $q_c$'), xlabel('nT/4')
 
-%% Timing phase and decimation
-
-t0_bar = find(qg_up == max(qg_up));
+t0_bar = find(qg_up == max(qg_up));		% Timing phase
 x = downsample(r_c_prime(t0_bar:end), 2);
 
 qg = downsample(qg_up, 2);
 x_prime = x;
-
 h = qg;
-% h = h(h ~= 0);
 
-%% Equalization and symbol detection
-
-r_g = xcorr(g_AA);
-N0 = (sigma_a * 1) / (4 * snr_lin);
-r_w = N0 * downsample(r_g, 2);
-
-% figure, stem(r_w), title('$r_w$'), xlabel('nT/2')
-% figure, stem(r_g), title('$r_g$'), xlabel('nT/2')
+r_g = xcorr(g_AA);						% AA autocorrelation
+N0 = (sigma_a * E_qc) / (4 * snr_lin);
+rw_tilde = N0 * downsample(r_g, 2);
 
 N1 = floor(length(h)/2);
 N2 = 12;
-
-M1 = 9;
+M1 = 10;
 D = 4;
 M2 = N2 + M1 - 1 - D;
 
-[c, Jmin] = WienerC_frac(h, r_w, sigma_a, M1, M2, D, N1, N2);
-psi = conv(h,c);
-
-figure, stem(abs(c)), title('c'), xlabel('nT/2'), grid on
-figure, stem(abs(psi)), title('|$\psi$|'), xlabel('nT/2'), grid on
-
-psi_down = downsample(psi(2:end),2); % The b filter act at T
-b = -psi_down(find(psi_down == max(psi_down)) + 1:end); 
-
-figure, stem(abs(b)), title('b'), xlabel('nT'), grid on
-decisions = equalization_pointC(x_prime, c, b, D);
-
-[Pe_d, errors] = SER(in_bits(1:length(decisions)), decisions);
+[c_opt, Jmin] = WienerC_frac(h, rw_tilde, sigma_a, M1, M2, D, N1, N2);
+psi = conv(h,c_opt);					% Overall impulse response
+psi = psi/max(psi);
+psi_down = downsample(psi(2:end),2);	% The b filter act at T
+b = -psi_down(find(psi_down == max(psi_down)) + 1:end);
+x = x/max(psi);							% Normalization
+detected = equalization_pointC(x, c_opt, b, D);
+detected = detected(2:end-D);
+in_bits_2 = in_bits(1:length(detected));
+errors = length(find(in_bits_2~=detected(1:length(in_bits_2))));
+Pe = errors/length(in_bits_2);

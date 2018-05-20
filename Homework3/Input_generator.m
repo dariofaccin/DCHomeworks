@@ -32,4 +32,4 @@ in_bits = bitmap(in_seq);
 
 var(w);
 
-% save('Useful.mat', 'w', 'in_bits', 'qc');
+% save('Useful.mat', 'w', 'in_bits', 'qc', 'E_qc');

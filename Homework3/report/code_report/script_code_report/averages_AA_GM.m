@@ -1,6 +1,7 @@
 clc; close all; clear global; clearvars;
+set(0,'defaultTextInterpreter','latex');
 
-load('Useful.mat', 'in_bits', 'qc');
+load('Useful.mat', 'in_bits', 'qc', 'E_qc');
 load('GAA_filter.mat');
 SNR_vect = 8:14;
 sigma_a = 2;
@@ -17,7 +18,7 @@ Pe_AA_GM_avg = zeros(length(SNR_vect),1);
 Pe_AA_GM = zeros(length(realizations),1);
 N1 = floor(length(h)/2);
 N2 = N1;
-M1 = 5;
+M1 = 10;
 D = 4;
 M2 = N2 + M1 - 1 - D;
 
@@ -33,13 +34,18 @@ for i=1:length(SNR_vect)
 		x = downsample(r_c_prime(t0_bar:end), 2);
 		x_prime = filter(g_m, 1, x);
 		x_prime = x_prime(13:end);
-		r_w = sigma_w/4 .* downsample(r_g, 2);
-		[c, Jmin] = WienerC_frac(h, r_w, sigma_a, M1, M2, D, N1, N2);
+		N0 = (sigma_a * E_qc) / (4 * snr_lin);
+		rw_tilde = N0 .* downsample(r_g, 2);
+		[c, Jmin] = WienerC_frac(h, rw_tilde, sigma_a, M1, M2, D, N1, N2);
 		psi = conv(h,c);
-		psi_down = downsample(psi(2:end),2);
+		psi_down = downsample(psi(2:end),2); % The b filter act at T
 		b = -psi_down(find(psi_down == max(psi_down)) + 1:end); 
+		x_prime = x_prime/max(psi);
 		detected = equalization_pointC(x_prime, c, b, D);
-		[Pe_AA_GM(k),~] = SER(in_bits(D:length(detected)), detected);
+		detected = detected(1:end-D);
+		in_bits_2 = in_bits(1:length(detected));
+		errors = length(find(in_bits_2~=detected(1:length(in_bits_2))));
+		Pe_AA_GM(k) = errors/length(in_bits_2);
 	end
 	Pe_AA_GM_avg(i) = sum(Pe_AA_GM)/length(Pe_AA_GM);
 end
@@ -49,4 +55,4 @@ semilogy(SNR_vect, Pe_AA_GM_avg, 'k--');
 grid on;
 ylim([10^-4 10^-1]); xlim([8 14]);
 
-save('PE_AA_GM_avgs.mat', 'Pe_AA_GM_avg');
+% save('PE_AA_GM_avgs.mat', 'Pe_AA_GM_avg');

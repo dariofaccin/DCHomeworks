@@ -1,9 +1,11 @@
 clc; close all; clear global; clearvars;
+set(0,'defaultTextInterpreter','latex');
 
-load('Useful.mat', 'in_bits', 'qc');
+load('Useful.mat', 'in_bits', 'qc', 'E_qc');
 
 SNR_vect = 8:14;
 sigma_a = 2;
+M = 4;
 gm = conj(qc(end:-1:1));
 h = conv(qc,gm);
 t0_bar = find(h == max(h));
@@ -15,7 +17,7 @@ Pe_VA_avg = zeros(length(SNR_vect),1);
 Pe_VA = zeros(length(realizations),1);
 M1 = 5;
 N2 = floor(length(h_T)/2);
-D = 4;
+D = 2;
 M2 = N2 + M1 - 1 - D;
 
 for i=1:length(SNR_vect)
@@ -35,12 +37,11 @@ for i=1:length(SNR_vect)
 		psi = psi/max(psi);
 		y = conv(x, c_opt);
 		y = y/max(psi);
-		detected = Viterbi(y, psi, 0, 2, 4, 2);
+		detected = VBA(y, psi, 0, 2, 4, 2);
 		in_bits_2  =  in_bits(1+4-0 : end-2+2);
 		detected = detected.';
 		detected = detected(D+1:end);
-		nerr = length(find(in_bits_2(1:length(detected))~=detected));
-		Pe_VA(k) = nerr/length(detected);
+		[Pe_VA(k),~] = SER(in_bits_2(1:length(detected)), detected);
 	end
 	Pe_VA_avg(i) = sum(Pe_VA)/length(Pe_VA);
 end

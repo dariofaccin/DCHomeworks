@@ -1,6 +1,7 @@
 clc; close all; clear global; clearvars;
+set(0,'defaultTextInterpreter','latex');
 
-load('Useful.mat', 'in_bits', 'qc');
+load('Useful.mat', 'in_bits', 'qc', 'E_qc');
 
 SNR_vect = 8:14;
 sigma_a = 2;
@@ -22,8 +23,7 @@ for i=1:length(SNR_vect)
 		for l=1:length(in_bits)
 		detected(l) = QPSK_detector(r_c(l));
 		end
-		nerr = length(find(in_bits(1:length(detected))~=detected));
-		Pe_AWGN_SIM(k) = nerr/length(detected);
+		[Pe_AWGN_SIM(k),~] = SER(in_bits(1:length(detected)), detected);
 	end
 	Pe_AWGN_SIM_avg(i) = sum(Pe_AWGN_SIM)/length(Pe_AWGN_SIM);
 	awgn_bound(i) = 4*(1-1/sqrt(M))*qfunc(sqrt(snr_lin/(sigma_a/2)));

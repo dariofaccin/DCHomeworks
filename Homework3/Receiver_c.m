@@ -7,9 +7,9 @@ load('GAA_filter.mat');
 
 % Anti aliasing filter
 [G_AA, f] =  freqz(g_AA,1,'whole');
-figure, plot(2*f/(pi),20*log10(abs(G_AA))), xlim([0 2]),
+figure, plot(f/(2*pi),20*log10(abs(G_AA))), xlim([0 1]),
 ylabel('$|G_{AA}|$ [dB]')
-ylim([-40 10]);
+ylim([-45 5]);
 xlabel('f/T')
 grid on;
 
@@ -38,9 +38,9 @@ qg = downsample(qg_up(1:end), 2);
 g_m = conj(flipud(qg));
 
 [GM, ff] =  freqz(g_m,1,'whole');
-figure, plot(2*ff/(pi),20*log10(abs(GM))), xlim([0 2]),
+figure, plot(ff/(2*pi),20*log10(abs(GM))), xlim([0 1]),
 ylabel('$|G_M|$ [dB]')
-ylim([-40 10]);
+ylim([-15 10]);
 xlabel('f/T')
 grid on;
 
@@ -70,13 +70,9 @@ M2 = N2 + M1 - 1 - D;
 [c_opt, Jmin] = WienerC_frac(h, r_w, sigma_a, M1, M2, D, N1, N2);
 psi = conv(h,c_opt);
 
-% figure, stem(c), title('c'), xlabel('nT/2')
-% figure, stem(abs(psi)), title('|$\psi$|'), xlabel('nT/2')
-
 psi_down = downsample(psi(2:end),2); % The b filter act at T
 b = -psi_down(find(psi_down == max(psi_down)) + 1:end); 
-
-% figure, stem(b), title('b'), xlabel('nT')
+x_prime = x_prime/max(psi);
 detected = equalization_pointC(x_prime, c_opt, b, D);
 detected = detected(1:end-D);
 in_bits_2 = in_bits(1:length(detected));
@@ -94,3 +90,4 @@ figure
 stem(-(find(psi==max(psi))-D)+1:length(psi)-(find(psi==max(psi))-D+1)+1,abs(psi))
 xlim([-(find(psi==max(psi))-D)+1 length(psi)-(find(psi==max(psi))-D+1)+1]), grid on
 ylabel('$|\psi|$'), xlabel('$n\frac{T}{2}$'); 
+xlim([-10 15]);

@@ -1,12 +1,16 @@
 clc; close all; clear global; clearvars;
+set(0,'defaultTextInterpreter','latex');
 
-load('Useful.mat', 'in_bits', 'qc');
+load('Useful.mat', 'in_bits', 'qc', 'E_qc');
 
 SNR_vect = 8:14;
 sigma_a = 2;
+M = 4;
 gm = conj(qc(end:-1:1));
 h = conv(qc,gm);
 t0_bar = find(h == max(h));
+h = h(h>max(h)/100);
+h = h(3:end-2);
 h_T = downsample(h,4);
 r_gm = xcorr(gm,gm);
 realizations = 1:10;
@@ -27,7 +31,8 @@ for i=1:length(SNR_vect)
 		r_c_prime = filter(gm,1,r_c);
 		r_c_prime = r_c_prime(t0_bar:end);
 		x = downsample(r_c_prime,4);
-		rw_tilde = sigma_w/4 .* downsample(r_gm, 4);
+		N0 = (sigma_a * E_qc) / (4 * snr_lin);
+		rw_tilde = N0 .* downsample(r_g, 2);
 		[c_opt, Jmin] = Adaptive_DFE(h_T, rw_tilde, sigma_a, M1, M2, D);
 		detected = equalization_LE(x, c_opt, M1, D, max(conv(c_opt, h_T)));
 		nerr = length(find(in_bits(1:length(detected))~=detected));
