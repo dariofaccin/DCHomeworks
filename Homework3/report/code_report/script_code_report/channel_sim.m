@@ -21,9 +21,5 @@ sigma_w = sigma_a * E_qc / snr_lin;
 a_prime = upsample(x,Q);
 
 s_c = filter(qc_num, qc_denom, a_prime);
-
-% to be added later
-% noise = wgn(length(s_c),1,sigma_w,'complex');
-
 r_c = s_c;
 output = r_c;

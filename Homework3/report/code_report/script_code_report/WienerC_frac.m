@@ -1,4 +1,4 @@
-function [c_opt, Jmin] = WienerC_frac(h, r_w, sigma_a, M1, M2, D, N1, N2)
+function [c_opt, Jmin] = WienerC_frac(h, r_w, sigma_a, M1, M2, D, N1, ~)
 
 padding = 100;
 hpad = padarray(h, padding);
