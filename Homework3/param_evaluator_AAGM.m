@@ -38,8 +38,9 @@ for k=1:length(M1_span)
 end
 
 figure, mesh(2:20, 2:20, reshape((Jvec(:, :)), size(Jvec(:, :), 2), size(Jvec(:, :), 2)))
-title('Jmin for AA+GM');
-xlabel('D'), ylabel('M1'), zlabel('Jmin [dB]')
+title('Jmin for AA+GM, SNR = 10 (db)'); view(170,25);
+xlim([2 20]); ylim([2 20]);
+xlabel('D'), ylabel('M1'), zlabel('Jmin (dB)')
 
 [min, idx] = min(Jvec(:));
 

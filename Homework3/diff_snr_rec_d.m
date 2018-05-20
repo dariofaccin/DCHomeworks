@@ -2,25 +2,11 @@ clc; close all; clear global; clearvars;
 
 % Input
 load('Useful.mat');
+load('GAA_filter.mat');
 SNR_vect = [8 9 10 11 12 13 14];
 Pe_AA_NOGM = zeros(length(SNR_vect),1);
 errors = zeros(length(SNR_vect),1);
 sigma_a = 2;
-
-%% AA filter
-
-Fpass = 0.2;             % Passband Frequency
-Fstop = 0.3;             % Stopband Frequency
-Dpass = 0.057501127785;  % Passband Ripple
-Dstop = 0.01;            % Stopband Attenuation
-dens  = 20;              % Density Factor
-
-% Calculate the order from the parameters using FIRPMORD.
-[N, Fo, Ao, W] = firpmord([Fpass, Fstop], [1 0], [Dpass, Dstop]);
-
-% Calculate the coefficients using the FIRPM function.
-g_AA  = firpm(N, Fo, Ao, W, {dens});
-Hd = dfilt.dffir(g_AA);
 
 qg_up = conv(qc, g_AA);
 qg_up = qg_up.';
@@ -32,8 +18,8 @@ h = qg;
 
 r_g = xcorr(g_AA);
 N1 = floor(length(h)/2);
-N2 = 12;
-M1 = 9;
+N2 = N1;
+M1 = 10;
 D = 4;
 M2 = N2 + M1 - 1 - D;
 
@@ -61,8 +47,10 @@ for i=1:length(SNR_vect)
 	b = -psi_down(find(psi_down == max(psi_down)) + 1:end); 
 
 	detected = equalization_pointC(x_prime, c, b, D);
-	
-    [Pe_AA_NOGM(i), errors(i)] = SER(in_bits(1:length(detected)), detected(1:end));
+	detected = detected(1:end-D);
+	in_bits_2 = in_bits(1:length(detected));
+	errors(i) = length(find(in_bits_2~=detected(1:length(in_bits_2))));
+	Pe_AA_NOGM(i) = errors(i)/length(in_bits_2);
 end
 
 figure();

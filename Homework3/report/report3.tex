@@ -137,7 +137,7 @@ b_i = -\sum_{l=0}^{M_1-1}c_{opt,l}h_{i+D-l} \quad\quad\quad\quad\quad\quad\quad\
 \end{equation}
 
 The minimum-cost function can be expressed in close form as:
-\begin{equation}
+\begin{equation}\label{jmincf}
 J_{min} = \sigma^2_a \left( 1-\sum_{l=0}^{M_1-1} c_{opt,l}h_{D-l}\right)
 \end{equation}
 
@@ -186,6 +186,15 @@ The equalizing filter $c$ and the overall impulse response $\psi_i=h*c_i$ for an
 	\subfloat{\includegraphics[width=7cm]{images/RecA_c}}
 	\subfloat{\includegraphics[width=7cm]{images/RecA_psi}}
 	\caption{Coefficients of the Equalizer filter $c$ (left) and of the overall impulse response $\psi_i$ (right).}\label{filters_a}
+\end{figure}
+
+To choose suitable $M_1$, $M_2$ and $D$ we decided to evaluate the functional $J_{min}$ according to Equation (\ref{jmincf}).\\
+In Figure [\ref{j_min_le}] we can see that for values greater than $M_1=6$ and $D=4$ there is no noticeable improvement in the cost function, so we decided to use these parameters.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=10cm]{images/optimal_params_LE}
+	\caption{$J_{min}$ as a function of $M_1$ and $D$.}\label{j_min_le}
 \end{figure}
 
 The parameters we obtained are reported in Table [\ref{Tab_a}].
@@ -270,6 +279,15 @@ The only difference with respect to Receiver (a) is that now the DFE has both th
 	\caption{Coefficients of the FF filter $c$, of the overall impulse response $\psi_i$, of the FB filter $b$ and of the matched filter $g_m$. Note that $g_m$ is the same as for receiver (a).}\label{filters_b}
 \end{figure}
 
+As before, to choose the parameters $M_1$, $M_2$ and $D$ we evaluated $J_{min}$ according to Equation (\ref{jmincf}).\\
+As in previous configuration we can see that for values greater than $M_1=6$ and $D=4$ there is no noticeable improvement in the cost function, so we decided to use these parameters.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=10cm]{images/optimal_params_DFE}
+	\caption{$J_{min}$ as a function of $M_1$ and $D$.}\label{j_min_dfe}
+\end{figure}
+
 \begin{table}[H]
 	\centering
 	\begin{tabular}{c c c c}
@@ -352,13 +370,23 @@ The anti-aliasing and the matched filters are given in Figure [\ref{filters_c}].
 \end{figure}
 
 The remaining filters are given in Figure [\ref{rec_c}].
+
+As before, to choose the parameters $M_1$, $M_2$ and $D$ we evaluated $J_{min}$ according to Equation (\ref{jmincf}).\\
+As in previous configuration we can see that for values greater than $M_1=10$ and $D=4$ there is no noticeable improvement in the cost function, so we decided to use these parameters.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=10cm]{images/optimal_params_AntiAliasing}
+	\caption{$J_{min}$ as a function of $M_1$ and $D$.}\label{j_min_aa}
+\end{figure}
+
 \begin{table}[H]
 	\centering
 	\begin{tabular}{c c c c}
 		\toprule
 		$\mathbf{\bar{t}_0}$ & $\mathbf{M_1}$ & $\mathbf{M_2}$ & \textbf{D}     \\
 		\midrule
-		21 & 5 & 19 & 4 \\
+		21 & 10 & 16 & 4 \\
 		\bottomrule			
 	\end{tabular}
 	\caption{Parameters of the Receiver (c).}
@@ -432,13 +460,21 @@ The following filters were computed.
 	\caption{Coefficients of the FF filter $c$, of the overall impulse response $\psi_i$ and of the FB filter $b$.}\label{rec_d}
 \end{figure}
 
+For this receiver we used the same parameters the previous one, since the cost function has similar behavior.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=10cm]{images/optimal_params_AntiAliasingNoMF}
+	\caption{$J_{min}$ as a function of $M_1$ and $D$.}\label{j_min_aa_nomf}
+\end{figure}
+
 \begin{table}[H]
 	\centering
 	\begin{tabular}{c c c c}
 		\toprule
 		$\mathbf{\bar{t}_0}$ & $\mathbf{M_1}$ & $\mathbf{M_2}$ & \textbf{D}     \\
 		\midrule
-		21 & 5 & 16 & 4 \\
+		21 & 10 & 16 & 4 \\
 		\bottomrule			
 	\end{tabular}
 	\caption{Parameters of the Receiver (d).}

@@ -50,7 +50,7 @@ x_prime = filter(g_m, 1, x);
 x_prime = x_prime(13:end);
 
 h = conv(qg, g_m);
-% h = h(h ~= 0);
+h = h(h ~= 0);
 
 %% Equalization and symbol detection
 
@@ -63,9 +63,9 @@ r_w = N0 * downsample(r_g, 2);
 
 N1 = floor(length(h)/2);
 N2 = N1;
-M1 = 5;
+M1 = 10;
 D = 4;
-M2 = 19;
+M2 = N2 + M1 - 1 - D;
 
 [c_opt, Jmin] = WienerC_frac(h, r_w, sigma_a, M1, M2, D, N1, N2);
 psi = conv(h,c_opt);
@@ -78,9 +78,10 @@ b = -psi_down(find(psi_down == max(psi_down)) + 1:end);
 
 % figure, stem(b), title('b'), xlabel('nT')
 detected = equalization_pointC(x_prime, c_opt, b, D);
-
-nerr = length(find(in_bits(D:length(detected)+D-1)~=detected));
-Pe = nerr/length(detected);
+detected = detected(1:end-D);
+in_bits_2 = in_bits(1:length(detected));
+errors = length(find(in_bits_2~=detected(1:length(in_bits_2))));
+Pe = errors/length(in_bits_2);
 
 %% C
 figure, stem(0:length(c_opt)-1,abs(c_opt)), hold on, grid on

@@ -22,7 +22,7 @@ r_g = xcorr(conv(g_AA, g_m));
 
 N1 = floor(length(h)/2);
 N2 = N1;
-M1 = 5;
+M1 = 10;
 D = 4;
 M2 = N2 + M1 - 1 - D;
 
@@ -50,8 +50,10 @@ for i=1:length(SNR_vect)
 	b = -psi_down(find(psi_down == max(psi_down)) + 1:end); 
 
 	detected = equalization_pointC(x_prime, c, b, D);
-	
-    [Pe_AA_GM(i), errors(i)] = SER(in_bits(D:length(detected)), detected);
+	detected = detected(1:end-D);
+	in_bits_2 = in_bits(1:length(detected));
+	errors(i) = length(find(in_bits_2~=detected(1:length(in_bits_2))));
+    Pe_AA_GM(i) = errors(i)/length(in_bits_2);
 end
 
 figure();
@@ -59,4 +61,4 @@ semilogy(SNR_vect, Pe_AA_GM, 'k--'); grid on;
 ylim([10^-4 10^-1]); xlim([8 14]);
 legend('AAF+MF+DFE@$\frac{T}{2}$'); set(legend,'Interpreter','latex');
 
-save('Pe_AA_GM.mat','Pe_AA_GM');
+% save('Pe_AA_GM.mat','Pe_AA_GM');

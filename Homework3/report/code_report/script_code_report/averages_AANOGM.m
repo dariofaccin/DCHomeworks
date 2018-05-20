@@ -15,7 +15,7 @@ Pe_AA_NOGM_avg = zeros(length(SNR_vect),1);
 Pe_AA_NOGM = zeros(length(realizations),1);
 N1 = floor(length(h)/2);
 N2 = N1;
-M1 = 9;
+M1 = 5;
 D = 4;
 M2 = N2 + M1 - 1 - D;
 
@@ -36,8 +36,10 @@ for i=1:length(SNR_vect)
 		psi_down = downsample(psi(2:end),2);
 		b = -psi_down(find(psi_down == max(psi_down)) + 1:end); 
 		detected = equalization_pointC(x_prime, c, b, D);
-		nerr = length(find(in_bits(1:length(detected))~=detected));
-		Pe_AA_NOGM(k) = nerr/length(detected);
+		detected = detected(1:end-D);
+		in_bits_2 = in_bits(3:length(detected));
+		errors = length(find(in_bits_2~=detected(1:length(in_bits_2))));
+		Pe_AA_NOGM(k) = errors/length(in_bits_2);
 	end
 	Pe_AA_NOGM_avg(i) = sum(Pe_AA_NOGM)/length(Pe_AA_NOGM);
 end

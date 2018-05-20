@@ -46,7 +46,7 @@ r_w = N0 * downsample(r_g, 2);
 N1 = floor(length(h)/2);
 N2 = 12;
 
-M1 = 9;
+M1 = 10;
 D = 4;
 M2 = N2 + M1 - 1 - D;
 
@@ -60,6 +60,8 @@ psi_down = downsample(psi(2:end),2); % The b filter act at T
 b = -psi_down(find(psi_down == max(psi_down)) + 1:end); 
 
 figure, stem(abs(b)), title('b'), xlabel('nT'), grid on
-decisions = equalization_pointC(x_prime, c, b, D);
-
-[Pe_d, errors] = SER(in_bits(1:length(decisions)), decisions);
+detected = equalization_pointC(x_prime, c, b, D);
+detected = detected(1:end-D);
+in_bits_2 = in_bits(1:length(detected));
+errors = length(find(in_bits_2~=detected(1:length(in_bits_2))));
+Pe = errors/length(in_bits_2);
