@@ -7,9 +7,9 @@ load('GAA_filter.mat');
 
 % Anti aliasing filter
 [G_AA, f] =  freqz(g_AA,1,'whole');
-figure, plot(f/(2*pi),20*log10(abs(G_AA))), xlim([0 1]),
+figure, plot(4*f/(2*pi),20*log10(abs(G_AA))), xlim([0 2]),
 ylabel('$|G_{AA}|$ [dB]')
-ylim([-45 5]);
+ylim([-40 5]);
 xlabel('f/T')
 grid on;
 
@@ -38,7 +38,8 @@ qg = downsample(qg_up(1:end), 2);
 g_m = conj(flipud(qg));
 
 [GM, ff] =  freqz(g_m,1,'whole');
-figure, plot(ff/(2*pi),20*log10(abs(GM))), xlim([0 1]),
+figure, plot(2*ff/(2*pi),20*log10(abs(GM)))
+xlim([0 2])
 ylabel('$|G_M|$ [dB]')
 ylim([-15 10]);
 xlabel('f/T')
