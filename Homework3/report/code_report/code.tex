@@ -1,0 +1,71 @@
+\documentclass[10pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage[margin=2cm]{geometry}
+%\lstloadlanguages{Matlab}
+\lstset{% general command to set parameter(s)
+	framexleftmargin=0mm,
+	frame=single,
+	identifierstyle =, % nothing happens
+	%commentstyle = \color{commenti}, % comments
+	%stringstyle = \ttfamily \color{stringhe}, % typewriter type for strings
+	showstringspaces = false, % no special string spaces
+	emph = {for, if, then, else, end},
+	%emphstyle = \color{blue},
+	firstnumber = 1,
+	numbers =right, %  show number_line
+	numberstyle = \tiny, % style of number_line
+	stepnumber = 5, % one number_line after stepnumber
+	numbersep = 5pt,
+	language = {Matlab},
+	extendedchars = true,
+	breaklines = true,
+	breakautoindent = true,
+	breakindent = 30pt,
+	%basicstyle=\footnotesize\ttfamily
+}
+
+\begin{document}
+	\title{Digital Communications and Laboratory \\ Third Homework}
+	\author{Faccin Dario, Santi Giovanni}
+	\date{}
+	\maketitle
+	\section*{MATLAB code}
+	
+	\lstinputlisting{scriptcodereport/Receiver_a.m}
+	\lstinputlisting{scriptcodereport/Receiver_b.m}
+	\lstinputlisting{scriptcodereport/Receiver_c.m}
+	\lstinputlisting{scriptcodereport/Receiver_d.m}
+	\lstinputlisting{scriptcodereport/Receiver_e.m}
+	\lstinputlisting{scriptcodereport/Receiver_f.m}
+		
+	\lstinputlisting{scriptcodereport/averages_LE.m}
+	\lstinputlisting{scriptcodereport/averages_DFE.m}
+	\lstinputlisting{scriptcodereport/averages_AA_GM.m}
+	\lstinputlisting{scriptcodereport/averages_AANOGM.m}
+	\lstinputlisting{scriptcodereport/averages_VA.m}
+	\lstinputlisting{scriptcodereport/averages_AWGN_SIM.m}
+
+	\lstinputlisting{scriptcodereport/Adaptive_DFE.m}
+	\lstinputlisting{scriptcodereport/equalization_LE.m}
+	\lstinputlisting{scriptcodereport/equalization_DFE.m}
+	\lstinputlisting{scriptcodereport/WienerC_frac.m}
+	\lstinputlisting{scriptcodereport/equalization_pointC.m}
+	\lstinputlisting{scriptcodereport/Viterbi.m}
+	\lstinputlisting{scriptcodereport/FBA.m}
+
+	\lstinputlisting{scriptcodereport/PNSeq.m}
+	\lstinputlisting{scriptcodereport/QPSK_detector.m}
+	\lstinputlisting{scriptcodereport/bitmap.m}
+	\lstinputlisting{scriptcodereport/channel_gen.m}
+	\lstinputlisting{scriptcodereport/channel_sim.m}
+	\lstinputlisting{scriptcodereport/GAA_filter.m}
+	\lstinputlisting{scriptcodereport/Input_generator.m}
+	
+	\lstinputlisting{scriptcodereport/param_evaluator_LE.m}
+	\lstinputlisting{scriptcodereport/param_evaluator_DFE.m}
+	\lstinputlisting{scriptcodereport/param_evaluator_AAGM.m}
+	\lstinputlisting{scriptcodereport/param_evaluator_AANOGM.m}
+	\lstinputlisting{scriptcodereport/Pe_plots.m}
+\end{document}

@@ -10,7 +10,6 @@ load('Pe_VA_avgs.mat');
 load('Pe_FBA.mat');
 load('Pe_AWGN_SIM_avgs.mat');
 
-
 figure()
 semilogy(SNR_vect, Pe_LE_avg, 'b--');
 hold on; grid on;
