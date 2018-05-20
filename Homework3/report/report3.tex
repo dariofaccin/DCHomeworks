@@ -30,7 +30,6 @@
 
 \usepackage{float}
 
-
 \begin{document}
 	
 \title{Digital Communications and Laboratory \\ Third Homework}
@@ -73,7 +72,7 @@ with $\sigma^2_a=2$ and $E_{q_c} = \sum_m | q_c \left(m\frac{T}{4}\right) |^2$.
 \end{figure}
 
 The QPSK symbols are generated with a PN sequence of length $L=2^{20}-1$ in order to provide a stream of bits with spectral characteristics similar to those of a white noise signal. Two consecutive bits are then coupled and mapped into one of the possible constellations symbols, associating the first and second bit to the real and imaginary part respectively. \\
-The $q_c$ filter in linear and frequency domain is given in Figures [\ref{qc}].
+The $q_c$ filter in linear and frequency domain is given in Figure [\ref{qc}].
 
 \begin{figure}[H]
 	\centering
@@ -82,7 +81,7 @@ The $q_c$ filter in linear and frequency domain is given in Figures [\ref{qc}].
 	\caption{Impulse response (left) and Frequency response (right) of the filter $q_c$.}\label{qc}
 \end{figure}
 
-In the following, 6 different receiver configurations are studied. For each of this, an SNR value of $\Gamma = 10$ $dB$ was assumed.
+In the following, 6 different receiver configurations are analyzed. For each of this, SNR value of $\Gamma = 10$ $dB$ is assumed.
 
 \clearpage
 
@@ -92,7 +91,7 @@ The desired signal at the receiver input is
 \begin{equation*}
 x_k = \sum_{i=-\infty}^{\infty} a_i h_{k-i} + \tilde{w}_k
 \end{equation*}
-where $h_n = h_{Tx}*g_C * g_M(t)$. Assuming $\{h_n\}$ has finite duration and support $[-N_1, -N_1+1, \dots, N_2-\, N_2]$, we define postcursors the samples with positive index and precursors those with negative index.\\
+where $h_n = h_{Tx}*g_C * g_M(t)$. Assuming $\{h_n\}$ has finite duration and support $[-N_1, -N_1+1, \dots, N_2-\, N_2]$, we define \textit{postcursors} the samples with positive index and \textit{precursors} those with negative index.\\
 Writing $x_k$ explicitly we can see that it depends both on previous and future symbols.\\
 The DFE is composed by two filters:
 \begin{enumerate}
@@ -106,7 +105,7 @@ The DFE is composed by two filters:
 	\end{equation}\label{eq:fb_filter}
 \end{enumerate}
 
-Ideally the task of the FF filter is to obtain an overall impulse response $\{\psi_n = h * c_n\}$ with small precursors, while the FB filter cancels almost all the ISI.\\
+Ideally the task of the FF filter is to obtain an overall impulse response $\{\psi_n = h * c_n\}$ with small precursors, while the FB filter should cancel almost all the remaining ISI.\\
 The output of the DFE can be written as
 \begin{equation}
 	\begin{split}
@@ -128,12 +127,12 @@ where the matrices $\mathbf{R}$ and $\mathbf{p}$ are computed using
 \mathbf{[R]}_{p,q} = \sigma_a^2 \left( \sum_{j=-N_1}^{N_2}h_jh^*_{j-(p-q)}-\sum_{j=1}^{M_2}h_{j+D-q}h^*_{j+d-p} \right) + r_{\tilde{w}}(p-q)
 \end{equation}
 \begin{equation}
-\mathbf{[p]}_p = \sigma_a^2 h^*_{D-p}, \quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad p,q = 0,1,\dots,M_1-1
+\mathbf{[p]}_p = \sigma_a^2 h^*_{D-p}, \hspace*{4cm} p,q = 0,1,\dots,M_1-1
 \end{equation}
 
 The optimum FB coefficients $\{b_i\}$ are given by
 \begin{equation}
-b_i = -\sum_{l=0}^{M_1-1}c_{opt,l}h_{i+D-l} \quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad i =1,2,\dots,M_2
+b_i = -\sum_{l=0}^{M_1-1}c_{opt,l}h_{i+D-l} \hspace*{4cm} i =1,2,\dots,M_2
 \end{equation}
 
 The minimum-cost function can be expressed in close form as:
@@ -171,29 +170,16 @@ J_{min} = \sigma^2_a \left( 1-\sum_{l=0}^{M_1-1} c_{opt,l}h_{D-l}\right)
 	\label{Receiver_a} 
 \end{figure}
 
-The receiver filter consists of a filter $g_M$ matched to the transmission filter $q_c$ followed by a \textit{Linear Equalizer (LE) filter} $c$. The matched filter is simply computed as $g_m(t) = q^*_c(t_0+t)$, where $t_0$ is the timing phase. It is given in Figure [\ref{gm_a}]. From now on, we may refer to the global impulse response of the system at the input of  $c$ as $h = g_c * g_M$. Since it is defined @$\frac{T}{4}$, a downsampling of a factor 4 is required between the output of $h$ and the input of $c$. \\
+The receiver filter consists of a filter $g_M$ matched to the transmission filter $q_c$ followed by a \textit{Linear Equalizer (LE) filter} $c$. The matched filter is simply computed as $g_m(t) = q^*_c(t_0-t)$, where $t_0$ is the timing phase. It is given in Figure [\ref{gm_a}]. From now on, we may refer to the global impulse response of the system at the input of  $c$ as $h = g_c * g_M$. Since it is defined @$\frac{T}{4}$, a downsampling of a factor 4 is required between the output of $h$ and the input of $c$. \\
 The filter $c$ corresponds to the Feedforward (FF) filter $c$ of Equation (\ref{eq:ff_filter}). Since the LE can be seen as a particular case of a DFE where $M_2 =0$, we developed the general DFE algorithm and set $\{b_i\}=0$ in this case. \\
-The equalizing filter $c$ and the overall impulse response $\psi_i=h*c_i$ for an SNR of $\Gamma = 10$ dB are given in Figure [\ref{filters_a}]. 
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=9cm]{images/RecA_gm}
-	\caption{Matched filter $g_m$ of the receiver filter.}\label{gm_a}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\subfloat{\includegraphics[width=7cm]{images/RecA_c}}
-	\subfloat{\includegraphics[width=7cm]{images/RecA_psi}}
-	\caption{Coefficients of the Equalizer filter $c$ (left) and of the overall impulse response $\psi_i$ (right).}\label{filters_a}
-\end{figure}
+The equalizer filter $c$ and the overall impulse response $\psi_i=h*c_i$ for SNR of $\Gamma = 10$ dB are given in Figure [\ref{filters_a}]. 
 
 To choose suitable $M_1$, $M_2$ and $D$ we decided to evaluate the functional $J_{min}$ according to Equation (\ref{jmincf}).\\
 In Figure [\ref{j_min_le}] we can see that for values greater than $M_1=6$ and $D=4$ there is no noticeable improvement in the cost function, so we decided to use these parameters.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=10cm]{images/optimal_params_LE}
+	\includegraphics[width=8cm]{images/optimal_params_LE}
 	\caption{$J_{min}$ as a function of $M_1$ and $D$.}\label{j_min_le}
 \end{figure}
 
@@ -211,6 +197,19 @@ The parameters we obtained are reported in Table [\ref{Tab_a}].
 	\caption{Parameters of the Receiver (a).}
 	\label{Tab_a}
 \end{table}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=8cm]{images/RecA_gm}
+	\caption{Matched filter $g_m$ of the receiver filter.}\label{gm_a}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\subfloat[Equalizer filter $c$]{\includegraphics[width=8cm]{images/RecA_c}}
+	\subfloat[Overall impulse response $\psi_i$]{\includegraphics[width=8cm]{images/RecA_psi}}
+	\caption{Coefficients of the equalizer filter $c$ and of the overall impulse response $\psi_i$.}\label{filters_a}
+\end{figure}
 
 The final signal at the output of the equalizer filter is processed by a threshold detector, which maps each received symbol according to the following rule:
 
@@ -268,23 +267,13 @@ Note that the actual transmitted symbol at time $k$ is detected at time $k+D$ be
 	\label{Receiver_b} 
 \end{figure}
 
-The only difference with respect to Receiver (a) is that now the DFE has both the FF filter $c$ of Equation (\ref{eq:ff_filter}) and the FB filter $b$ of Equation (\ref{eq:fb_filter}). Using the same algorithm as previous case, we obtained the following filters.
-
-\begin{figure}[H]
-	\centering
-	\subfloat{\includegraphics[width=8cm]{images/RecB_c}}
-	\subfloat{\includegraphics[width=8cm]{images/RecB_psi}}\quad
-	\subfloat{\includegraphics[width=8cm]{images/RecB_b}}
-	\subfloat{\includegraphics[width=8cm]{images/RecB_gm}}
-	\caption{Coefficients of the FF filter $c$, of the overall impulse response $\psi_i$, of the FB filter $b$ and of the matched filter $g_m$. Note that $g_m$ is the same as for receiver (a).}\label{filters_b}
-\end{figure}
-
+The only difference with respect to Receiver (a) is that now the DFE has both the FF filter $c$ of Equation (\ref{eq:ff_filter}) and the FB filter $b$ of Equation (\ref{eq:fb_filter}).\\
 As before, to choose the parameters $M_1$, $M_2$ and $D$ we evaluated $J_{min}$ according to Equation (\ref{jmincf}).\\
 As in previous configuration we can see that for values greater than $M_1=6$ and $D=4$ there is no noticeable improvement in the cost function, so we decided to use these parameters.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=10cm]{images/optimal_params_DFE}
+	\includegraphics[width=8cm]{images/optimal_params_DFE}
 	\caption{$J_{min}$ as a function of $M_1$ and $D$.}\label{j_min_dfe}
 \end{figure}
 
@@ -300,6 +289,19 @@ As in previous configuration we can see that for values greater than $M_1=6$ and
 	\caption{Parameters of the Receiver (b).}
 	\label{Tab_b}
 \end{table}
+
+Using the same algorithm as previous case, we obtained the following filters.
+
+\begin{figure}[H]
+	\centering
+	\subfloat[Feedforward filter $c$.]{\includegraphics[width=8cm]{images/RecB_c}}
+	\subfloat[Overall impulse response $\psi_i$.]{\includegraphics[width=8cm]{images/RecB_psi}}\quad
+	\subfloat[Feedback filter $b$.]{\includegraphics[width=8cm]{images/RecB_b}}
+	\subfloat[Matched filter $g_m$.]{\includegraphics[width=8cm]{images/RecB_gm}}
+	\caption{Coefficients for the DFE, overall impulse response and matched filter. Note that $g_m$ is the same as for receiver (a).}\label{filters_b}
+\end{figure}
+
+
 
 \clearpage
 \subsection*{Receiver c}
@@ -360,8 +362,7 @@ Note also that the filter $c$ is now works at T/2, so the new formulas to comput
 \begin{equation}
 \mathbf{[p]}_p = \sigma_a^2 h^*_{2D-p}, \quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad p,q = 0,1,\dots,M_1-1
 \end{equation}
-\\
-In the following Table [\ref{gaa}] are reported the parameters for the low-pass filter.\\
+In the following Table [\ref{gaa}] are reported the parameters for the anti-aliasing filter.\\
 Since input signal frequency is periodic, the anti-aliasing filter will delete useful information, hence we expect worse performances than previous receivers.
 
 \begin{table}[H]
@@ -379,24 +380,19 @@ Since input signal frequency is periodic, the anti-aliasing filter will delete u
 	\caption{Parameters of the anti-aliasing filter.}
 	\label{gaa}
 \end{table}
-
 Frequency response of the anti-aliasing and of the matched filter are given in Figure [\ref{filters_c}].
-
 \begin{figure}[H]
 	\centering
-	\subfloat{\includegraphics[width=8cm]{images/RecC_GAA}}
-	\subfloat{\includegraphics[width=8cm]{images/RecC_GM}}
+	\subfloat[Frequency response of anti-aliasing filter.]{\includegraphics[width=8cm]{images/RecC_GAA}}
+	\subfloat[Frequency response of matched filter.]{\includegraphics[width=8cm]{images/RecC_GM}}
 	\caption{Anti-aliasing and matched filters of the Receiver (c).}\label{filters_c}
 \end{figure}
 
-The remaining filters are given in Figure [\ref{rec_c}].
-
-As before, to choose the parameters $M_1$, $M_2$ and $D$ we evaluated $J_{min}$ according to Equation (\ref{jmincf}).\\
-For values greater than $M_1=10$ and $D=4$ there is no noticeable improvement in the cost function, so we decided to use these parameters.
+Parameters $M_1$, $M_2$ and $D$ are chosen evaluating $J_{min}$. For values greater than $M_1=10$ and $D=4$ there is no noticeable improvement, so we decided to use these parameters.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=10cm]{images/optimal_params_AntiAliasing}
+	\includegraphics[width=7cm]{images/optimal_params_AntiAliasing}
 	\caption{$J_{min}$ as a function of $M_1$ and $D$.}\label{j_min_aa}
 \end{figure}
 
@@ -413,14 +409,14 @@ For values greater than $M_1=10$ and $D=4$ there is no noticeable improvement in
 	\label{Tab_c}
 \end{table}
 
+In Figure [\ref{rec_c}] are reported the coefficients for the DFE and the overall impulse response.
 \begin{figure}[H]
 	\centering
-	\subfloat{\includegraphics[width=8cm]{images/RecC_c}}
-	\subfloat{\includegraphics[width=8cm]{images/RecC_psi}}\quad
-	\subfloat{\includegraphics[width=9cm]{images/RecC_b}}
+	\subfloat[Feedforward filter $c$.]{\includegraphics[width=7cm]{images/RecC_c}}
+	\subfloat[Overall impulse response $\psi_i$.]{\includegraphics[width=7cm]{images/RecC_psi}}\quad
+	\subfloat[Feedback filter $b$.]{\includegraphics[width=7cm]{images/RecC_b}}
 	\caption{Coefficients of the FF filter $c$, of the overall impulse response $\psi_i$ and of the FB filter $b$.}\label{rec_c}
 \end{figure}
-
 
 \clearpage
 \subsection*{Receiver d}
@@ -469,22 +465,12 @@ For values greater than $M_1=10$ and $D=4$ there is no noticeable improvement in
 	\label{Receiver_d} 
 \end{figure}
 
-The same configuration of receiver (c) is here simulated without the match filter at the input of the DFE. In this case we expect lower performances with respect to the previous configuration, since the equalizing filter is not matched with the impulsive response at its input.\\
-The following filters were computed.
-
-\begin{figure}[H]
-	\centering
-	\subfloat{\includegraphics[width=8cm]{images/RecD_c}}
-	\subfloat{\includegraphics[width=8cm]{images/RecD_psi}}\quad
-	\subfloat{\includegraphics[width=9cm]{images/RecD_b}}
-	\caption{Coefficients of the FF filter $c$, of the overall impulse response $\psi_i$ and of the FB filter $b$.}\label{rec_d}
-\end{figure}
-
+The same configuration of receiver (c) is here simulated without the match filter at the input of the DFE. In this case we expect lower performances with respect to the previous configuration, since the equalizing filter is not matched with the impulse response at its input.\\
 For this receiver we used the same parameters the previous one, since the cost function has similar behavior.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=10cm]{images/optimal_params_AntiAliasingNoMF}
+	\includegraphics[width=8cm]{images/optimal_params_AntiAliasingNoMF}
 	\caption{$J_{min}$ as a function of $M_1$ and $D$.}\label{j_min_aa_nomf}
 \end{figure}
 
@@ -500,6 +486,18 @@ For this receiver we used the same parameters the previous one, since the cost f
 	\caption{Parameters of the Receiver (d).}
 	\label{Tab_d}
 \end{table}
+
+The following filters were computed.
+
+\begin{figure}[H]
+	\centering
+	\subfloat[Feedforward filter $c$.]{\includegraphics[width=8cm]{images/RecD_c}}
+	\subfloat[Overall impulse response $\psi_i$.]{\includegraphics[width=8cm]{images/RecD_psi}}\quad
+	\subfloat[Feedback filter $b$.]{\includegraphics[width=9cm]{images/RecD_b}}
+	\caption{Coefficients of the FF filter $c$, of the overall impulse response $\psi_i$ and of the FB filter $b$.}\label{rec_d}
+\end{figure}
+
+
 
 \clearpage
 \subsection*{Receiver e}
@@ -533,14 +531,15 @@ For this receiver we used the same parameters the previous one, since the cost f
 	\label{Receiver_e} 
 \end{figure}
 
-Here the receiver uses the channel as given by $\psi_D$,$\psi_{D+1}$,\dots,$\psi_{D+M_2}$ of Receiver (b), and performs the maximum likelihood detection through the Viterbi algorithm. \\
+Here the receiver uses the channel as given by $\psi_D$,$\psi_{D+1}$,\dots,$\psi_{D+M_2}$ of Receiver (b) and performs the maximum likelihood detection through the Viterbi algorithm. \\
 The state of the \textit{finite state machine} associated with the algorithm at time $k=0,\dots,K-1$ is 
 
 \begin{equation}
 \textbf{s}_k = a_{k+L_1},a_{k+L_1-1},\dots,a_{k},\dots,a_{k-L_2+1} 
 \end{equation}
 
-where $K$ is the length of the input sequence, therefore the total number of states is $N_s = M^{L_1+L_2}$.The set of the states $\mathcal{S}$ is the set of the possible values of $\textbf{s}_k$, such that $\mathbf{s}_k \in \{ \mathbf{\sigma}_1,\mathbf{\sigma}_2,\dots,\mathbf{\sigma}_{N_s} \}$. With each state $\mathbf{\sigma}_j$, at instant $k$ the algorithm computes the following quantities:
+where $K$ is the length of the input sequence, so the total number of states is $N_s = M^{L_1+L_2}$.\\
+The set of the states $\mathcal{S}$ is the set of the possible values of $\textbf{s}_k$, such that $\mathbf{s}_k \in \{ \mathbf{\sigma}_1,\mathbf{\sigma}_2,\dots,\mathbf{\sigma}_{N_s} \}$. With each state $\mathbf{\sigma}_j$, at instant $k$ the algorithm computes the following quantities:
 
 \begin{enumerate}
 	\item The path metric, $\Gamma(\mathbf{s}_k=\mathbf{\sigma}_j)$;
@@ -609,7 +608,7 @@ The detected symbol is then evaluated using the MAX-LOG-MAP criterion:
 \end{equation}
 
 \clearpage
-\section*{BER comparison}
+\section*{SER comparison}
 For each of the different receiver configurations previously described, the symbol error probability is evaluated by simulations with different values of the SNR $\Gamma$.\\
 The results given are obtained taking the average over 10 independent realizations of the noise.
 
