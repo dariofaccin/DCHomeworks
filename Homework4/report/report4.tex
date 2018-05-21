@@ -37,4 +37,79 @@
 \date{}
 \maketitle
 
+\section*{Single Carrier Model}
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[auto,>=latex']
+	\tikzstyle{block} = [draw, rectangle, minimum height=1cm, minimum width=1cm]
+	
+	\node [coordinate, label={[label distance=0.4cm]45:$a_k$}] (start) {};
+	\node [block, right = 1.5cm of start] (intpl){$\uparrow 4$};
+	\node [coordinate, label={[label distance=0.2cm]90:$a'_n$}, right = 0.75 cm of intpl] (c1) {};
+	\node [block, right = 1.5cm of intpl] (imp){$q_c$};
+	\node [draw, circle,minimum size=0.5cm,inner sep=0pt, right = 1.5cm of imp] (sum1){$+$};
+	\node [coordinate, label={[label distance=0.2cm]90:$s_c(n \frac{T}{4})$}, right = 0.75cm of imp] (c2) {};
+	
+	\node [coordinate, label={[label distance=0.2cm]0:$w_c(n \frac{T}{4})$}, above = 1cm of sum1] (wgn) {};
+
+	\node [block, right = 1.5cm of sum1] (matchedf){$g_M$};
+	\node [coordinate, right = 0.75 cm of matchedf] (c0) {};
+	\node [coordinate, above = 0.5 cm of c0, label={[label distance=0.1cm]45:$t_0 + kT$} ] (c1) {};
+	
+	\node [coordinate, right = 1.2cm of matchedf] (c2) {};
+	\node [block, right = 1cm of c2] (cfilter){$c$};
+	\node [draw, circle,minimum size=0.5cm,inner sep=0pt, right = 1cm of cfilter] (sum){$+$};
+	\node [coordinate, below = 1cm of sum] (c3) {};	
+	\node [block, right = 0.5cm of sum] (detector){$\amalg$};
+	\node [coordinate, right = 0.5cm of detector] (cfin) {};
+	\node [coordinate, below = 1.254cm of cfin] (c6) {};
+	\node [block, right = 0.75cm of c3] (b){$b$};	
+	\node [coordinate, right = 1cm of detector, label={[label distance=0.1cm]0:$\hat{a}_{k-D}$}] (end){};
+	
+	\draw [->] (start) --node[label={[label distance=0.2cm]270:$T$}]{} (intpl);
+	\draw [->] (intpl) --node[label={[label distance=0.2cm]270:$\frac{T}{4}$}]{} (imp);
+	\draw [->] (imp) --node[label={[label distance=0.2cm]270:$\frac{T}{4}$}]{} (sum1);
+	\draw [->] (wgn) --node[]{} (sum1);
+	\draw [->] (sum1) --node[label={[label distance=0.2cm]270:$r_c(n \frac{T}{4})$}]{} (matchedf);
+	\draw [-] (matchedf) --node[label={[label distance=0.2cm]270:$\frac{T}{4}$}]{} (c0);
+	\draw [-] (c1) --node[]{} (c2);
+	\draw [->] (c2) --node[label={[label distance=0.2cm]270:$T$}]{} (cfilter);
+	\draw [->] (cfilter) --node[label={[label distance=0.2cm]270:$T$}]{} (sum);
+	\draw [->] (c3) --node[]{} (sum);
+	\draw [-] (b) --node[]{} (c3);
+	\draw [-] (c6) --node[]{} (b);
+	\draw [-] (cfin) --node[label={[label distance=0.1cm]0:$T$}]{} (c6);
+	\draw [->] (sum) --node[]{} (detector);
+	\draw [->] (detector) --node[]{} (end);
+	
+	\end{tikzpicture}
+	\caption{Model for the SC channel of Problem 1.}
+	\label{Model_SC} 
+\end{figure}
+
+
+\section*{OFDM Model}
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[auto,>=latex']
+	\tikzstyle{block} = [draw, rectangle, minimum height=1cm, minimum width=1cm]
+	
+	\foreach \y in {0, 2, ..., 6}
+		{ \node [block] (0\y) at (0, \y) {$ \uparrow M$};}
+		
+	\foreach \y in {0, 2, ..., 6}
+	{ \node [block] (1\y) at (2, \y) {$z^{-\y} H(z)$};}
+	
+	\foreach \y in {0,2,...,6}  
+		\draw [->] (0\y)-- (1\y);
+		
+	\node [draw, circle,minimum size=0.5cm,inner sep=0pt] (sum) at (5,3) {$+$};
+		
+	\foreach \y in {0,2,...,6}  
+	\draw [->] (1\y)-- (sum);
+	
+	\end{tikzpicture}
+\end{figure}
+
 \end{document}
