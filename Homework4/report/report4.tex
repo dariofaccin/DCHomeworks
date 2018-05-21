@@ -43,14 +43,14 @@
 	\begin{tikzpicture}[auto,>=latex']
 	\tikzstyle{block} = [draw, rectangle, minimum height=1cm, minimum width=1cm]
 	
-	\node [coordinate, label={[label distance=0.4cm]45:$a_k$}] (start) {};
+	\node [coordinate, label={[label distance=0.65cm]60:$a_k$}] (start) {};
 	\node [block, right = 1.5cm of start] (intpl){$\uparrow 4$};
-	\node [coordinate, label={[label distance=0.2cm]90:$a'_n$}, right = 0.75 cm of intpl] (c1) {};
+	\node [coordinate, label={[label distance=0.5cm]90:$a'_n$}, right = 0.75 cm of intpl] (c1) {};
 	\node [block, right = 1.5cm of intpl] (imp){$q_c$};
 	\node [draw, circle,minimum size=0.5cm,inner sep=0pt, right = 1.5cm of imp] (sum1){$+$};
-	\node [coordinate, label={[label distance=0.2cm]90:$s_c(n \frac{T}{4})$}, right = 0.75cm of imp] (c2) {};
+	\node [coordinate, label={[label distance=0.4cm]90:$s_c(n \frac{T}{4})$}, right = 0.75cm of imp] (c2) {};
 	
-	\node [coordinate, label={[label distance=0.2cm]0:$w_c(n \frac{T}{4})$}, above = 1cm of sum1] (wgn) {};
+	\node [coordinate, label={[label distance=0.2cm]90:$w_c(n \frac{T}{4})$}, above = 1cm of sum1] (wgn) {};
 
 	\node [block, right = 1.5cm of sum1] (matchedf){$g_M$};
 	\node [coordinate, right = 0.75 cm of matchedf] (c0) {};
@@ -70,7 +70,7 @@
 	\draw [->] (intpl) --node[label={[label distance=0.2cm]270:$\frac{T}{4}$}]{} (imp);
 	\draw [->] (imp) --node[label={[label distance=0.2cm]270:$\frac{T}{4}$}]{} (sum1);
 	\draw [->] (wgn) --node[]{} (sum1);
-	\draw [->] (sum1) --node[label={[label distance=0.2cm]270:$r_c(n \frac{T}{4})$}]{} (matchedf);
+	\draw [->] (sum1) --node[label={[label distance=0.1cm]90:$r_c(n \frac{T}{4})$}]{} (matchedf);
 	\draw [-] (matchedf) --node[label={[label distance=0.2cm]270:$\frac{T}{4}$}]{} (c0);
 	\draw [-] (c1) --node[]{} (c2);
 	\draw [->] (c2) --node[label={[label distance=0.2cm]270:$T$}]{} (cfilter);
@@ -89,6 +89,46 @@
 
 
 \section*{OFDM Model}
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[auto,>=latex']
+	\tikzstyle{block} = [draw, rectangle, minimum height=1cm, minimum width=1cm]
+	
+	\node [coordinate, label={[label distance=0.6cm]60:$s_k$}] (start) {};
+	\node [block, right = 1.5cm of start] (intpl){$\uparrow 4$};
+	\node [coordinate, right = 0.75 cm of intpl] (c1) {};
+	\node [block, right = 1.5cm of intpl] (imp){$g_{\sqrt{rcos}}$};
+	\node [block, right = 1.5cm of imp] (qc){$q_c$};
+	
+	\node [draw, circle,minimum size=0.5cm,inner sep=0pt, right = 1.5cm of qc] (sum1){$+$};
+	\node [coordinate, right = 0.75cm of imp] (c2) {};
+	
+	\node [coordinate, label={[label distance=0.1cm]90:$w_c(nT_c)$}, above = 1cm of sum1] (wgn) {};
+	
+	\node [block, right = 1.5cm of sum1] (matchedf){$g_{\sqrt{rcos}}$};
+	\node [coordinate, right = 0.75 cm of matchedf] (c0) {};
+	\node [coordinate, above = 0.5 cm of c0, label={[label distance=0.1cm]45:$t_0 + kT_{OFDM}$} ] (c1) {};
+
+	\node [coordinate, right = 1.2cm of matchedf] (c2) {};
+
+	\node [coordinate, right = 1.2cm of c2] (end) {};
+	
+	\draw [->] (start) --node[label={[label distance=0.2cm]270:$T_{OFDM}$}]{} (intpl);
+	\draw [->] (intpl) --node[label={[label distance=0.2cm]270:$T_c$}]{} (imp);
+	\draw [->] (imp) --node[label={[label distance=0.2cm]270:$T_c$}]{} (qc);
+	\draw [->] (qc) --node[label={[label distance=0.2cm]270:$T_c$},  label={[label distance=0.1cm]90:$s_c(nT_c)$}]{} (sum1);
+	\draw [->] (wgn) --node[]{} (sum1);
+	\draw [->] (sum1) --node[label={[label distance=0.1cm]90:$r_c(nT_c)$}]{} (matchedf);
+	\draw [-] (matchedf) --node[label={[label distance=0.2cm]270:$T_c$}]{} (c0);
+	\draw [-] (c1) --node[]{} (c2);
+	\draw [->] (c2) --node[label={[label distance=0.2cm]270:$T_{OFDM}$}]{} (end);
+
+	
+	\end{tikzpicture}
+	\caption{Model for the OFDM channel of Problem 1.}
+	\label{Model_OFDM} 
+\end{figure}
 
 \begin{figure}[H]
 	\centering
