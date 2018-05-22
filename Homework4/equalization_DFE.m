@@ -21,7 +21,7 @@ for k = 0:length(x) - 1 + D
     end
     
     y(k+1) = c.'*xconv;
-    detected(k+1) = QPSK_detector(y(k+1) + b.'*a_old);
+    detected(k+1) = y(k+1) + b.'*a_old;
     
 end
 % scatterplot(y)

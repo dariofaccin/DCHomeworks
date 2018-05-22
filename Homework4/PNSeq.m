@@ -29,6 +29,8 @@ for l=r+1:L
             pn(l) = xor(pn(l-5), pn(l-9));
         case 10
             pn(l) = xor(pn(l-7), pn(l-10));
+        case 15
+            pn(l) = xor(pn(l-14), pn(l-15));
         case 20 
             pn(l) = xor(pn(l-17), pn(l-20));
             
@@ -36,7 +38,5 @@ for l=r+1:L
     end
 end
 
-% Bits are {-1, 1}
-pn = 2*pn -1;
 
 end
