@@ -1,16 +1,18 @@
 clc; close all; clear global; clearvars;
 
 % Initial bits
-L = 2^15-1;
+L = 2^20-1;
 x = PNSeq(L);
-N = floor(length(x)/32400);        % to be encoded by H = 32400x64800
-x = x(1:N*32400);
-
 % Matlab LDPC Encoder
 H = comm.LDPCEncoder();
+
+sstep = 32400;
+numbits = floor(length(x) / sstep) * sstep;
+x = x(1:numbits + 54);
+N = floor(length(x) / sstep);
 encoded = LDPC_encoder(x,H,N);
 
 interleaved = interleaver(encoded);
 symbols_ak = bitmap(interleaved.').';
 
-% save('Input_symbols.mat', 'symbols_ak', 'x', 'H');
+% save('Input_symbols.mat', 'symbols_ak', 'x', 'H', 'sstep');
