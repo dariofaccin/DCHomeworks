@@ -46,8 +46,8 @@ sigma_w = sigma_a/M * E_tot / snr_lin;
 tot = all_ch(3+25-1:end-25);
 tot_ds = downsample(tot, 4);
 
-t0 = 8;
-in_after_srrc = filter(g_srrc, 0, in_after_qc);
+t0 = 29;
+in_after_srrc = filter(g_srrc, 1, in_after_qc);
 
 in_after_srrc = in_after_srrc(t0:end);
 in_after_srrc = downsample(in_after_srrc,4);
