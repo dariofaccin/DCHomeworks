@@ -10,7 +10,7 @@ sigma_a = 2;
 Pbit_AWGN_uncode = zeros(length(SNR_vect),1);
 
 tic
-for i=1:length(SNR_vect)
+parfor i=1:length(SNR_vect)
 	snr_db = SNR_vect(i);
 	snr_lin = 10^(snr_db/10);
 	sigma_w = sigma_a / snr_lin;
@@ -33,4 +33,4 @@ grid on;
 ylim([10^-5 10^-1]); xlim([0 14]);
 legend('Uncoded AWGN');
 
-save('Pbit_AWGN_uncoded.mat', 'Pbit_AWGN_uncode');
+% save('Pbit_AWGN_uncoded.mat', 'Pbit_AWGN_uncode');

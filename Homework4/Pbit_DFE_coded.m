@@ -3,7 +3,7 @@ clc; close all; clear global; clearvars;
 load('Useful.mat', 'qc');
 load('Input_symbols.mat');
 
-SNR_vect = 10:14;
+SNR_vect = 0:0.1:3;
 sigma_a = 2;	% Input variance
 M = 4;			% Constellation cardinality
 
@@ -22,9 +22,8 @@ N1 = N2;
 M1 = 5;
 D = 4;
 M2 = N2 + M1 - 1 - D;
-
-for i=1:length(SNR_vect)
-	tic
+tic
+parfor i=1:length(SNR_vect)
 	snr_db = SNR_vect(i);
 	snr_lin = 10^(snr_db/10);
 	% Single carrier channel simulation
@@ -54,13 +53,12 @@ for i=1:length(SNR_vect)
 	llr_deinter = deinterleaver(llr);
 	decoded = LDPC_decoder(llr_deinter).';
 	Pbit_DFE_code(i) = length(find(x(1:length(decoded))~=decoded))/length(decoded);
-	toc
 end
-
+toc
 figure();
 semilogy(SNR_vect, Pbit_DFE_code, 'b', 'Marker', '^');
 grid on;
-ylim([10^-5 10^-1]); xlim([2 3]);
+ylim([10^-5 10^-1]); xlim([0 3]);
 legend('Coded DFE');
 
 % save('Pbit_DFE_coded.mat', 'Pbit_DFE_code');

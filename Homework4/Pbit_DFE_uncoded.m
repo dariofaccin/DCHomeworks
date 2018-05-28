@@ -25,7 +25,7 @@ M1 = 5;
 D = 4;
 M2 = N2 + M1 - 1 - D;
 tic
-for i=1:length(SNR_vect)
+parfor i=1:length(SNR_vect)
 	snr_db = SNR_vect(i);
 	snr_lin = 10^(snr_db/10);
 	% Single carrier channel simulation
@@ -58,6 +58,6 @@ figure();
 semilogy(SNR_vect, Pbit_DFE_uncode, 'b', 'Marker', '^');
 grid on;
 ylim([10^-5 10^-1]); xlim([0 14]);
-legend('Uncoded QPSK + DFE');
+legend('Uncoded DFE');
 
-save('Pbit_DFE_uncoded.mat', 'Pbit_DFE_uncode');
+% save('Pbit_DFE_uncoded.mat', 'Pbit_DFE_uncode');
