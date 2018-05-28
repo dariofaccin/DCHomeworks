@@ -1,10 +1,10 @@
-function[output, sigma_w, g_srrc, tot_ds, t0] = channel_OFDM(input, snr, sigma_a)
+function[output, sigma_w, g_srrc, tot_ds, t0, tot] = channel_OFDM(input, snr, sigma_a)
 
 snr_db = snr;
 snr_lin = 10^(snr_db/10);
 
 M = 512;
-Npx = 5;
+Npx = 8;
 
 a_pad = [input; ones(M - mod(length(input), M), 1) * (1+1i)];
 a_matrix = reshape(a_pad, M, []); % it should mantain columnwise order
@@ -18,17 +18,17 @@ Q = 4;
 in_upsampled = upsample(r, Q);
 
 % Square-root raised cosine
-% N    = 26;         % Order
-% Fc   = 0.46;       % Cutoff Frequency
-% TM   = 'Rolloff';  % Transition Mode
-% R    = 0.0625;     % Rolloff
-% DT   = 'sqrt';     % Design Type
-% Beta = 0.7;        % Window Parameter
-% win = kaiser(N+1, Beta);
+N    = 30;         % Order
+Fc   = 0.5;       % Cutoff Frequency
+TM   = 'Rolloff';  % Transition Mode
+R    = 0.0625;     % Rolloff
+DT   = 'sqrt';     % Design Type
+Beta = 0.5;        % Window Parameter
+win = kaiser(N+1, Beta);
 
-% g_srrc  = firrcos(N, Fc, R, 2, TM, DT, [], win);
+g_srrc  = firrcos(N, Fc, R, 2, TM, DT, [], win);
 
-g_srrc = rcosdesign(0.0625, 12, 4, 'sqrt');
+% g_srrc = rcosdesign(0.0625, 12, 4, 'sqrt');
 
 in_after_srrc = filter(g_srrc,1,in_upsampled);
 
@@ -40,13 +40,17 @@ qc = impz(qc_num, qc_denom);
 qc = [0; 0; 0; 0; 0; qc(qc >=max(qc)*10^(-2))];
 
 in_after_qc = filter(qc,1,in_after_srrc);
+% noise to be added
 all_ch = conv(g_srrc, conv(g_srrc,qc));
 E_tot = sum(all_ch.^2);
 sigma_w = sigma_a/M * E_tot / snr_lin;
-tot = all_ch(3+25-1:end-25);
+in_after_qc = in_after_qc + wgn(length(in_after_qc),1,10*log10(sigma_w),'complex');
+
+
+tot = all_ch(abs(all_ch)>=(max(abs(all_ch))*1e-2));
 tot_ds = downsample(tot, 4);
 
-t0 = 29;
+t0 = 21;
 in_after_srrc = filter(g_srrc, 1, in_after_qc);
 
 in_after_srrc = in_after_srrc(t0:end);

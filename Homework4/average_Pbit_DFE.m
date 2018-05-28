@@ -36,20 +36,27 @@ for i=1:length(SNR_vect)
 	Pbit_DFE = zeros(length(realizations),1);
 	Pe_H_DFE = zeros(length(realizations),1);
 	for k=1:max_real
+        % current SNR
 		snr_db = SNR_vect(i);
 		snr_lin = 10^(snr_db/10);
+        % Single carrier channel simulation
 		[r_c, sigma_w, qc] = channel_sim(symbols_ak, snr_db, sigma_a);
+        % additive complex-Gaussian noise
 		w = wgn(length(r_c),1, 10*log10(sigma_w), 'complex');
 		r_c = r_c + w;
 		r_c_prime = filter(gm,1,r_c);
 		r_c_prime = r_c_prime(t0_bar:end);
+        % signal at the input of the DFE
 		x_aa = downsample(r_c_prime,4);
 		rw_tilde = sigma_w/4 .* downsample(r_gm, 4);
+        % DFE
 		[c_opt, Jmin] = Adaptive_DFE(h_T, rw_tilde, sigma_a, M1, M2, D);
 		psi = conv(c_opt, h_T);
 		b = - psi(end - M2 + 1:end);
 		y_hat = x_aa/max(psi);
+        % equalized signal
 		detected = equalization_DFE(y_hat, c_opt, b, M1, M2, D);
+        % Decoder
         llr = zeros(2*length(detected),1);
         llr(1:2:end) = -2*real(detected)/(sigma_w/2);
         llr(2:2:end) = -2*imag(detected)/(sigma_w/2);

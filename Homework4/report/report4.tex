@@ -37,6 +37,11 @@
 \date{}
 \maketitle
 
+\section*{Transmission system}
+In the following, two different scenarios are developed: a single-carrier transmission using Receiver (b) of homework 3 and an OFDM transmission with $M$=512 sub-channels. Both implementations are firstly simulated using coding to improve the error correction capability of the system; in particular, a \textit{Low-density parity check} LDPC encoding is applied to the initial data stream in order to allow the receiver to detect codewords which do not belong to the code $\mathcal{C}$ and eventually to correct them with the use of an LDPC decoder. These functions are provided by the Matlab toolbox. Finally, the same transmission is simulated without coding to appreciate the difference in $P_{bit}$ for varying SNR.
+
+
+
 \section*{Single Carrier Model}
 \begin{figure}[H]
 	\centering
