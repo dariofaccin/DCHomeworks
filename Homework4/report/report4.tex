@@ -39,11 +39,19 @@
 \maketitle
 
 \section*{Transmission system}
-In the following, two different scenarios are developed: a single-carrier transmission using Receiver (b) of homework 3 and an OFDM transmission with $M$=512 sub-channels. Both implementations are firstly simulated using coding to improve the error correction capability of the system; in particular, a \textit{Low-density parity check} LDPC encoding is applied to the initial data stream in order to allow the receiver to detect codewords which do not belong to the code $\mathcal{C}$ and eventually to correct them with the use of an LDPC decoder. These functions are provided by the Matlab toolbox. Finally, the same transmission is simulated without coding to appreciate the difference in $P_{bit}$ for varying SNR.
+In the following, two different scenarios are developed: a single-carrier transmission using Receiver (b) of homework 3 and an OFDM transmission with $M$=512 sub-channels. Both implementations are firstly simulated using coding to improve the error correction capability of the system; in particular, a \textit{Low-density parity check} LDPC encoding is applied to the initial data stream in order to allow the receiver to detect codewords which do not belong to the code $\mathcal{C}$ and eventually to correct them with the use of an LDPC decoder. These functions are provided by the Matlab toolbox. Finally, the same transmission is simulated without coding to appreciate the difference in $P_{bit}$ for varying SNR. \\
+In this report we decided to treat only the implementation of the encoded transmission, since the uncoded one follow by simply removing the LDPC encoder and decoder.
 
+\subsection*{Symbols generation}
+A data stream of bits $b_l$ is generated using a PN sequence of length $2^{20}-1$ repeated once. This is encoded by an LDPC encoded provided by the Matlab toolbox, which reads sequences of 32400 bits and generates codewords $c_m$ of length 64800 bits. An interleaver is used in order to reduce the probability of having \textit{burst} errors, then a bitmap maps couples of bits into a QPSK constellation with \textit{Gray coding}. This scenario is given in Figure [\ref{}].
 
+\vspace{5em}
 
-\section*{Single Carrier Model}
+\subsection*{Single Carrier}
+The channel for the single carrier transmission is that implemented in homework 3. \\
+The receiver filter consists of a filter $g_M$ matched to the transmission filter $q_c$ followed by a \textit{Decision Feedback Equalizer (DFE) filter}. The matched filter is simply computed as $g_m(t) = q^*_c(t_0-t)$, where $t_0$ is the timing phase. 
+Since the global impulse response of the system $h = g_c * g_M$ at the input of  $c$ is defined @$\frac{T}{4}$, a downsampling of a factor 4 is required between the output of $h$ and the input of $c$. The equations used to compute both $c$ and $b$ filter have already been described in homework 3. The scenario just described is given in Figure [\ref{Model_SC}].
+
 \begin{figure}[H]
 	\centering
 	\begin{tikzpicture}[auto,>=latex']
@@ -89,12 +97,46 @@ In the following, two different scenarios are developed: a single-carrier transm
 	\draw [->] (detector) --node[]{} (end);
 	
 	\end{tikzpicture}
-	\caption{Model for the SC channel of Problem 1.}
+	\caption{Model for the SC channel.}
 	\label{Model_SC} 
 \end{figure}
 
+\clearpage
+\subsection*{OFDM}
+Orthogonal frequency division multiplexing is an efficient modulation technique by which blocks of $\mathcal{M}$ symbols are transmitted in parallel over $\mathcal{M}$ subchannels, using $\mathcal{M}$ modulation filters with frequency resonses $\mathcal{H}_i(f)$, $i=1,2,\dots,\mathcal{M}-1$. The $\mathcal{M}$ input symbols at the $k_th$ modulation interval are represented by the vector
 
-\section*{OFDM Model}
+\begin{equation}
+\mathbf{a}_k = [a_k[0],\dots,a_k[\mathcal{M}-1]]^T
+\end{equation}
+
+where $a_k[i]\in\mathcal{A}[i]$, $i=0,\dots,\mathcal{M}-1$.\\
+We implemented the \textit{Discrete Multitone} DMT version in which the transmit and receiver filter backs use a prototipe filter with impulse response given by
+
+\begin{equation}
+h_n = \begin{cases}
+		1 \quad\quad \text{if } 0\le n\le\mathcal{M}-1 \\
+		0 \quad\quad \text{otherwise}
+\end{cases}
+\end{equation}
+
+In this way the impulse response of the polyphase components of the prototype filter are simply $\{ h_n^(l)\}=\{\delta_n\}$ for $l=0,1,\dots,\mathcal{M}$. As a consequence, because the frequency responses are constants, we obtain directly the transmit signal by applying a P/S conversion at the output of the IDFT. To equalise the channel, we implemented the baseband equivalent system given in Figure [\ref{ofdm}].
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=14cm]{OFDM}
+	\caption{Block diagram of a DMT system with cyclic prefix and frequency-domain equalizer.}\label{ofdm}
+\end{figure}
+
+
+We exploited the concept of circular convolution to obtain a convolution in the time domain as a product of finite length vectors in the frequency domain. To do so, we extended the block of samples $\mathbf{A}_k$ by repeating ??$N_{px}=$ ?? elements before transmitting through the channel. In particular, after the modulation, each block of samples is cyclically extended by copying the $N_{px}$ sample $A_k[\mathcal{M}-N_{px}],\dots,A_k[\mathcal{M}-1]$ in front of the block. After the P/S conversion, where the $N_{px}$ samples of the cyclic extension are the first to be sent, the $N_{px}+\mathcal{M}$ samples are transmitted over the channel.  At the receiver, blocks of samples of length $N_{px}+\mathcal{M}$ are taken; the boundaries between blocks are set so that the last $\mathcal{M}$ samples depend only on the elements of only one cyclically extended block of samples. The first $N_{px}$ samples of a block are thus discarded. \\
+The resulting vector $\mathcal{r}_k$ can be expressed as 
+\begin{equation}
+\mathbf{r}_k = \mathbf{\Xi}_k\mathbf{g}_C + \mathbf{w}_k
+\end{equation}
+where $\mathbf{g}_C$ is the $\mathcal{M}$-component vector of the channel impulse response extended with $\mathcal{M}-N_{px}-1$ zeros.
+
+
+
 
 \begin{figure}[H]
 	\centering
@@ -132,30 +174,30 @@ In the following, two different scenarios are developed: a single-carrier transm
 
 	
 	\end{tikzpicture}
-	\caption{Model for the OFDM channel of Problem 1.}
+	\caption{Channel model for the OFDM transmission.}
 	\label{Model_OFDM} 
 \end{figure}
 
-\begin{figure}[H]
-	\centering
-	\begin{tikzpicture}[auto,>=latex']
-	\tikzstyle{block} = [draw, rectangle, minimum height=1cm, minimum width=1cm]
-	
-	\foreach \y in {0, 2, ..., 6}
-		{ \node [block] (0\y) at (0, \y) {$ \uparrow M$};}
-		
-	\foreach \y in {0, 2, ..., 6}
-	{ \node [block] (1\y) at (2, \y) {$z^{-\y} H(z)$};}
-	
-	\foreach \y in {0,2,...,6}  
-		\draw [->] (0\y)-- (1\y);
-		
-	\node [draw, circle,minimum size=0.5cm,inner sep=0pt] (sum) at (5,3) {$+$};
-		
-	\foreach \y in {0,2,...,6}  
-	\draw [->] (1\y)-- (sum);
-	
-	\end{tikzpicture}
-\end{figure}
+%\begin{figure}[H]
+%	\centering
+%	\begin{tikzpicture}[auto,>=latex']
+%	\tikzstyle{block} = [draw, rectangle, minimum height=1cm, minimum width=1cm]
+%	
+%	\foreach \y in {0, 2, ..., 6}
+%		{ \node [block] (0\y) at (0, \y) {$ \uparrow M$};}
+%		
+%	\foreach \y in {0, 2, ..., 6}
+%	{ \node [block] (1\y) at (2, \y) {$z^{-\y} H(z)$};}
+%	
+%	\foreach \y in {0,2,...,6}  
+%		\draw [->] (0\y)-- (1\y);
+%		
+%	\node [draw, circle,minimum size=0.5cm,inner sep=0pt] (sum) at (5,3) {$+$};
+%		
+%	\foreach \y in {0,2,...,6}  
+%	\draw [->] (1\y)-- (sum);
+%	
+%	\end{tikzpicture}
+%\end{figure}
 
 \end{document}

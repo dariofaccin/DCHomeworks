@@ -2,7 +2,7 @@ clc; close all; clear global; clearvars;
 load('Input_symbols.mat');
 set(0,'defaultTextInterpreter','latex')    % latex format
 
-snr = 2;
+snr = 0.5;
 snr_lin = 10^(snr/10);
 % Sub-channels
 M = 512;   
@@ -41,42 +41,3 @@ toc
 
 nerr = length(find(x(1:length(dec_bits))~=dec_bits))
 Pbit = nerr/length(dec_bits)
-
-
-
-% %% PLOT
-
-% square-root raised cosine in T
-stem(-(length(g_srrc)-1)/2:(length(g_srrc)-1)/2,g_srrc)
-xlim([-(length(g_srrc)-1)/2 (length(g_srrc)-1)/2 ]), grid on
-xlabel('$nT_c$')
-ylabel('$g_{\sqrt{rcos}}(nT_c)$')
-
-% square-root raised cosine in f
-[G_srrc, f] = freqz(g_srrc,1,1024,'whole');
-f = f/(2*pi);
-figure, plot(f,10*log10(abs(G_srrc))), grid on, xlim([0 0.5])
-ylim([-15 5])
-
-% qc from homework 3
-figure, stem(0:length(qc)-1,qc)
-xlabel('$nT_c$')
-ylabel('$q_c$')
-xlim([0 length(qc)-1]), grid on
-
-% qr
-figure, stem(q_r), grid on
-xlabel('$nT_c$')
-ylabel('$q_r(nT_c)$')
-xlim([0 length(q_r)-1]);
-
-% Qr
-[Q_r, f] = freqz(q_r,1,1024,'whole');
-f = f/(2*pi);
-plot(f,10*log10(abs(Q_r)))
-grid on
-xlim([0 0.5]);
-ylim([-15 5]);
-
-
-
