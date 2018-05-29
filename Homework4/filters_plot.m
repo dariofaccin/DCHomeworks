@@ -36,15 +36,17 @@ f = f/(2*pi);
 plot(f,10*log10(abs(Q_r)))
 grid on
 xlim([0 0.5]);
-ylim([-15 5]);
+ylim([-5 10]);
 xlabel('$f/T_c$')
 ylabel('$|Q_R|$');
 
 %% h(mT_OFDM)
 figure
-stem(-16:length(q_r)-16-1,q_r)
-q_r_ds = q_r(1:2:end);
-stem(-8:length(q_r_ds)-8-1,q_r_ds)
+peak_pos = find(q_r == max(q_r));
+stem(-(peak_pos-1):length(q_r)-(peak_pos-1)-1,q_r)
+q_r_ds = q_r(1:4:end);
+stem(-(peak_pos-1)/4:length(q_r_ds)-(peak_pos-1)/4-1,q_r_ds)
+xlim([-(peak_pos-1)/4 length(q_r_ds)-(peak_pos-1)/4-1])
 grid on
 xlabel('$mT_{OFDM}$');
 ylabel('h')

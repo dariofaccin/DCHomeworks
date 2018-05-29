@@ -103,7 +103,7 @@ Since the global impulse response of the system $h = g_c * g_M$ at the input of 
 
 \clearpage
 \subsection*{OFDM}
-Orthogonal frequency division multiplexing is an efficient modulation technique by which blocks of $\mathcal{M}$ symbols are transmitted in parallel over $\mathcal{M}$ subchannels, using $\mathcal{M}$ modulation filters with frequency resonses $\mathcal{H}_i(f)$, $i=1,2,\dots,\mathcal{M}-1$. The $\mathcal{M}$ input symbols at the $k_th$ modulation interval are represented by the vector
+Orthogonal frequency division multiplexing is an efficient modulation technique by which blocks of $\mathcal{M}$ symbols are transmitted in parallel over $\mathcal{M}$ subchannels, using $\mathcal{M}$ modulation filters with frequency resonses $\mathcal{H}_i(f)$, $i=1,2,\dots,\mathcal{M}-1$. The $\mathcal{M}$ input symbols at the $k_{th}$ modulation interval are represented by the vector
 
 \begin{equation}
 \mathbf{a}_k = [a_k[0],\dots,a_k[\mathcal{M}-1]]^T
@@ -119,8 +119,8 @@ h_n = \begin{cases}
 \end{cases}
 \end{equation}
 
-In this way the impulse response of the polyphase components of the prototype filter are simply $\{ h_n^(l)\}=\{\delta_n\}$ for $l=0,1,\dots,\mathcal{M}$. As a consequence, because the frequency responses are constants, we obtain directly the transmit signal by applying a P/S conversion at the output of the IDFT. To equalise the channel, we implemented the baseband equivalent system given in Figure [\ref{ofdm}].
-
+In this way the impulse response of the polyphase components of the prototype filter are simply $\{ h_n^(l)\}=\{\delta_n\}$ for $l=0,1,\dots,\mathcal{M}$. As a consequence, because the frequency responses are constants, we obtain directly the transmit signal by applying a P/S conversion at the output of the IDFT. To equalise the channel, we implemented the baseband equivalent system given in Figure [\ref{ofdm}]. The channel is given in Figure [\ref{Model_OFDM}]
+.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=14cm]{OFDM}
@@ -128,14 +128,51 @@ In this way the impulse response of the polyphase components of the prototype fi
 \end{figure}
 
 
-We exploited the concept of circular convolution to obtain a convolution in the time domain as a product of finite length vectors in the frequency domain. To do so, we extended the block of samples $\mathbf{A}_k$ by repeating ??$N_{px}=$ ?? elements before transmitting through the channel. In particular, after the modulation, each block of samples is cyclically extended by copying the $N_{px}$ sample $A_k[\mathcal{M}-N_{px}],\dots,A_k[\mathcal{M}-1]$ in front of the block. After the P/S conversion, where the $N_{px}$ samples of the cyclic extension are the first to be sent, the $N_{px}+\mathcal{M}$ samples are transmitted over the channel.  At the receiver, blocks of samples of length $N_{px}+\mathcal{M}$ are taken; the boundaries between blocks are set so that the last $\mathcal{M}$ samples depend only on the elements of only one cyclically extended block of samples. The first $N_{px}$ samples of a block are thus discarded. \\
-The resulting vector $\mathcal{r}_k$ can be expressed as 
+We exploited the concept of circular convolution to obtain a convolution in the time domain as a product of finite length vectors in the frequency domain. To do so, we extended the block of samples $\mathbf{A}_k$ by repeating ??$N_{px}=$ ?? elements before transmitting through the channel. The value of $N_{px}$ was chosen equal to the support of the equivalent channel impulse response $h(mT_{OFDM})$. In particular, after the modulation, each block of samples is cyclically extended by copying the $N_{px}$ sample $A_k[\mathcal{M}-N_{px}],\dots,A_k[\mathcal{M}-1]$ in front of the block. After the P/S conversion, where the $N_{px}$ samples of the cyclic extension are the first to be sent, the $N_{px}+\mathcal{M}$ samples are transmitted over the channel.  At the receiver, blocks of samples of length $N_{px}+\mathcal{M}$ are taken; the boundaries between blocks are set sUCH that the last $\mathcal{M}$ samples depend only on the elements of only one cyclically extended block of samples. The first $N_{px}$ samples of a block are thus discarded. \\
+The resulting vector $\mathbf{r}_k$ can be expressed as 
 \begin{equation}
 \mathbf{r}_k = \mathbf{\Xi}_k\mathbf{g}_C + \mathbf{w}_k
 \end{equation}
-where $\mathbf{g}_C$ is the $\mathcal{M}$-component vector of the channel impulse response extended with $\mathcal{M}-N_{px}-1$ zeros.
+where 
 
+\begin{itemize}
+	\item $\mathbf{g}_C$ is the $\mathcal{M}$-component vector of the channel impulse response extended with $\mathcal{M}-N_{px}-1$ zeros;
+	\item $\mathbf{\Xi}_k$ is an $\mathcal{M}$ $x$ $\mathcal{M}$ circulant matrix, given by
+	\begin{equation*}
+	\mathbf{\Xi}_k = \begin{bmatrix}
+						A_k[0] & A_k[\mathcal{M}-1] & \cdots & A_k[1] \\
+						A_k[1] & A_k[0] & \cdots & A_k[2] \\
+						\vdots & \vdots & \ddots & \vdots \\
+						A_k[\mathcal{M}-1] & A_k[\mathcal{M}-2] & \cdots & A_k[0]
+	\end{bmatrix}
+	\end{equation*} \\
+	
+	\item $ \mathbf{w}_k$ is a vector of additive noise. 
+\end{itemize}
 
+Moreover, since $\mathbf{\Xi}$ is a circulant matrix, it satisfies the property
+
+\begin{equation}\label{property}
+\mathbf{F}_\mathcal{M} \mathbf{\Xi}_k \mathbf{F}_\mathcal{M}^{-1} = \text{diag}\{\mathbf{a}_k\}
+\end{equation}
+
+Defining the DFT of the vector $\mathbf{g}_C$ as $\mathbf{G}_C = \mathbf{F}_\mathcal{M}\mathbf{g}_C$ and using equation \ref{property}, we can express the demodulator output as 
+
+\begin{equation}
+\mathbf{x}_k = \mathbf{F}_\mathcal{M}\mathbf{r}_k = \text{diag}\{\mathbf{a}_k\}\mathbf{G}_C + \mathbf{W}_k
+\end{equation}
+
+Finally, to equalize the channel using the zero-forcing criterion, $\mathbf{x}_k$ is multiplied by the diagonal matrix $\mathbf{K}$ which elements are simply given by
+
+\begin{equation}
+K_i = [\mathbf{F}]_{i,i} = \frac{1}{\mathcal{G}_{C,i}} \quad\quad\quad i=0,\dots \mathcal{M}-1
+\end{equation}
+
+Therefore the input to the data detector is given by
+
+\begin{equation}
+\mathbf{y}_k = \mathbf{K}\mathbf{x}_k = \mathbf{a}_k+ \mathbf{K}\mathbf{W}_k
+\end{equation}
 
 
 \begin{figure}[H]
@@ -176,6 +213,45 @@ where $\mathbf{g}_C$ is the $\mathcal{M}$-component vector of the channel impuls
 	\end{tikzpicture}
 	\caption{Channel model for the OFDM transmission.}
 	\label{Model_OFDM} 
+\end{figure}
+
+\clearpage
+The filters we used are given as follow.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=14cm]{qc}
+	\caption{Impulse response of the filter $q_c$.}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=14cm]{gsrrc_1}
+	\caption{Impulse response of the square root rised-cosine filter.}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=14cm]{qr}
+	\caption{Equivalent channel impulse response $q_r(nT_c) = g_{\sqrt{srrc}}(nT_c)*q_c(nT_c)*g_{\sqrt{srrc}}(nT_c)$.}\label{}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=14cm]{h}
+	\caption{Equivalent channel impulse response after the downsampling, given by $h(mT_{OFDM}) = q_R(t_0+mT_{OFDM})$.}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=14cm]{Q_r}
+	\caption{Frequency response of the \textit{square root rised cosine} filter.}\label{}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=14cm]{G_srrc}
+	\caption{}\label{}
 \end{figure}
 
 %\begin{figure}[H]
