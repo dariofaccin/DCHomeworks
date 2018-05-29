@@ -216,6 +216,27 @@ Therefore the input to the data detector is given by
 \end{figure}
 
 \clearpage
+\subsection*{Detection}
+At the detection point, we implemented the following system
+
+\vspace{5em}
+
+For the single carrier transmission, the output of the DFE filter is a sequence of QPSK symbols $y_k$. These are decoded exploiting the LLR representation given by 
+
+\begin{equation}
+l'_{2k} = -2\frac{\mathcal{R}[y_k]}{\sigma_w^2}
+\end{equation}
+
+\begin{equation}
+l'_{2k+1} = -2\frac{\mathcal{I}[y_k]}{\sigma_w^2}
+\end{equation}
+
+The generated data stream, which length is twice that of $y_k$, is \textit{deinterlead} and decoded by the LDPC decoder provided. The final output $\hat{b}_l$ is compared with the initial data $b_l$ to count the number of errors introduced by the channel, and the $P_{bit}$ is finally computed as 
+
+\begin{equation}
+P_{bit} = \frac{\text{number of errors}}{\text{number of sent bits}}
+\end{equation}
+\clearpage
 The filters we used are given as follow.
 
 \begin{figure}[H]
