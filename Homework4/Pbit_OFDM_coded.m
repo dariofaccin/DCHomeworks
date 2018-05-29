@@ -3,12 +3,12 @@ clc; close all; clear global; clearvars;
 load('Useful.mat', 'qc');
 load('Input_symbols.mat');
 
-SNR_vect = 0:0.1:2;
+SNR_vect = 0.8:0.05:1.4;
 sigma_a = 2;	% Input variance
 
 Pbit_OFDM_code = zeros(length(SNR_vect),1);
 M = 512;
-Npx = 11;
+Npx = 18;
 tic
 parfor i=1:length(SNR_vect)
 	snr_db = SNR_vect(i);
@@ -36,7 +36,7 @@ end
 toc
 
 figure();
-semilogy(SNR_vect, Pbit_OFDM_code, 'b', 'Marker', '^');
+semilogy(SNR_vect, Pbit_OFDM_code, 'b');
 hold on; grid on;
 ylim([10^-5 10^-1]); xlim([0 2]);
 legend('Coded OFDM');

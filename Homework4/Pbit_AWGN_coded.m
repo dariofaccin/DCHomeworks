@@ -4,7 +4,7 @@ load('Input_symbols.mat');
 
 symbols = symbols_ak;
 
-SNR_vect = 0:0.1:2;
+SNR_vect = 0.35:0.05:1;
 sigma_a = 2;
 
 Pbit_AWGN_code = zeros(length(SNR_vect),1);
@@ -33,4 +33,4 @@ grid on;
 ylim([10^-5 10^-1]); xlim([0 2]);
 legend('Coded AWGN');
 
-% save('Pbit_AWGN_coded.mat', 'Pbit_AWGN_code');
+save('Pbit_AWGN_coded.mat', 'Pbit_AWGN_code');

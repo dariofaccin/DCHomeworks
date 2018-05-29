@@ -8,12 +8,12 @@ sigma_a = 2;	% Input variance
 Pbit_OFDM_uncode = zeros(length(SNR_vect),1);
 t0 = 21;
 M = 512;
-Npx = 11;
+Npx = 18;
 tic
 parfor k=1:length(SNR_vect)
 	snr_db = SNR_vect(k);
 	snr_lin = 10^(snr_db/10);
-	[r_c, sigma_w, g_srrc, g, t0] = channel_OFDM(symbols, snr_db, sigma_a);
+	[r_c, sigma_w, g_srrc, g, t0] = channel_OFDM(symbols, snr_db, sigma_a, Npx);
 	G = fft(g,512).';
 	a_matrix = reshape(r_c(1:end-mod(length(r_c),M+Npx)), M+Npx, []);
 	rn = a_matrix(Npx+1:end,:);
@@ -31,9 +31,9 @@ parfor k=1:length(SNR_vect)
 end
 toc
 figure();
-semilogy(SNR_vect, Pbit_OFDM_uncode, 'b', 'Marker', '^');
+semilogy(SNR_vect, Pbit_OFDM_uncode, 'b');
 hold on; grid on;
 ylim([10^-5 10^-1]); xlim([SNR_vect(1) SNR_vect(end)]);
 legend('Uncoded OFDM');
 
-% save('Pbit_OFDM_uncoded.mat','Pbit_OFDM_uncode')
+save('Pbit_OFDM_uncoded.mat','Pbit_OFDM_uncode')
