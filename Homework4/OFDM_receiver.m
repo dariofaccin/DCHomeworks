@@ -2,17 +2,17 @@ clc; close all; clear global; clearvars;
 load('Input_symbols.mat');
 set(0,'defaultTextInterpreter','latex')    % latex format
 
-snr = 0.5;
+snr = 2.5;
 snr_lin = 10^(snr/10);
 % Sub-channels
 M = 512;   
 % cycle prefix length
-Npx = 8;
 sigma_a = 2;
-% OFDM symulationd
-[r_c, sigma_w, g_srrc, g, t0, q_r] = channel_OFDM(symbols_ak, snr, sigma_a);
-G = fft(g,512).';
 
+Npx = 11;
+% OFDM symulation
+[r_c, sigma_w, g_srrc, g, t0, q_r] = channel_OFDM(symbols_ak, snr, sigma_a, Npx);
+G = fft(g,512).';
 a_matrix = reshape(r_c(1:end-mod(length(r_c),M+Npx)), M+Npx, []);
 rn = a_matrix(Npx+1:end,:);
 x_k = fft(rn);
@@ -35,9 +35,6 @@ llr(2:2:end) = llr_imag_ar;
 % llr = llr(1:2*length(x));
 % Decode the bits
 llr = deinterleaver(llr); % Deinterleave the loglikelihood ratio first
-tic
 dec_bits = LDPC_decoder(llr).';
-toc
-
-nerr = length(find(x(1:length(dec_bits))~=dec_bits))
-Pbit = nerr/length(dec_bits)
+nerr = length(find(x(1:length(dec_bits))~=dec_bits));
+Pbit = nerr/length(dec_bits);

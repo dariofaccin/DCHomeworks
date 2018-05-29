@@ -3,18 +3,17 @@ clc; close all; clear global; clearvars;
 load('Useful.mat', 'qc');
 load('Input_symbols.mat');
 
-SNR_vect = 0:0.1:3;
+SNR_vect = 0:0.1:2;
 sigma_a = 2;	% Input variance
 
 Pbit_OFDM_code = zeros(length(SNR_vect),1);
-t0 = 21;
 M = 512;
-Npx = 8;
+Npx = 11;
 tic
 parfor i=1:length(SNR_vect)
 	snr_db = SNR_vect(i);
 	snr_lin = 10^(snr_db/10);
-	[r_c, sigma_w, g_srrc, g, t0] = channel_OFDM(symbols_ak, snr_db, sigma_a);
+	[r_c, sigma_w, g_srrc, g, t0] = channel_OFDM(symbols_ak, snr_db, sigma_a, Npx);
 	G = fft(g,512).';
 	a_matrix = reshape(r_c(1:end-mod(length(r_c),M+Npx)), M+Npx, []);
 	rn = a_matrix(Npx+1:end,:);
@@ -39,7 +38,7 @@ toc
 figure();
 semilogy(SNR_vect, Pbit_OFDM_code, 'b', 'Marker', '^');
 hold on; grid on;
-ylim([10^-5 10^-1]); xlim([0 3]);
+ylim([10^-5 10^-1]); xlim([0 2]);
 legend('Coded OFDM');
 
 % save('Pbit_OFDM_coded.mat','Pbit_OFDM_code')

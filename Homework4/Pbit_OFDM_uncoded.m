@@ -8,7 +8,7 @@ sigma_a = 2;	% Input variance
 Pbit_OFDM_uncode = zeros(length(SNR_vect),1);
 t0 = 21;
 M = 512;
-Npx = 8;
+Npx = 11;
 tic
 parfor k=1:length(SNR_vect)
 	snr_db = SNR_vect(k);

@@ -4,7 +4,7 @@ load('Input_symbols.mat');
 
 symbols = symbols_ak;
 
-SNR_vect = 0:0.1:3;
+SNR_vect = 0:0.1:2;
 sigma_a = 2;
 
 Pbit_AWGN_code = zeros(length(SNR_vect),1);
@@ -28,9 +28,9 @@ end
 toc
 
 figure();
-semilogy(SNR_vect, Pbit_AWGN_code, 'b', 'Marker', '^');
+semilogy(SNR_vect, Pbit_AWGN_code, 'k', 'Marker', '^');
 grid on;
-ylim([10^-5 10^-1]); xlim([0 3]);
+ylim([10^-5 10^-1]); xlim([0 2]);
 legend('Coded AWGN');
 
 % save('Pbit_AWGN_coded.mat', 'Pbit_AWGN_code');

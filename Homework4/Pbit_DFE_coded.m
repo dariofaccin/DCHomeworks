@@ -3,7 +3,7 @@ clc; close all; clear global; clearvars;
 load('Useful.mat', 'qc');
 load('Input_symbols.mat');
 
-SNR_vect = 0:0.1:3;
+SNR_vect = 0:0.1:2;
 sigma_a = 2;	% Input variance
 M = 4;			% Constellation cardinality
 
@@ -58,7 +58,7 @@ toc
 figure();
 semilogy(SNR_vect, Pbit_DFE_code, 'b', 'Marker', '^');
 grid on;
-ylim([10^-5 10^-1]); xlim([0 3]);
+ylim([10^-5 10^-1]); xlim([0 2]);
 legend('Coded DFE');
 
 % save('Pbit_DFE_coded.mat', 'Pbit_DFE_code');

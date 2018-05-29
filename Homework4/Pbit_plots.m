@@ -17,17 +17,17 @@ legend('Uncoded DFE','Uncoded OFDM','Uncoded AWGN');
 set(legend,'Interpreter','latex');
 
 %% Coded OFDM + DFE + AWGN
-SNR_vect_coded = 0:0.1:3;
+SNR_vect_coded = 0:0.1:2;
 load('Pbit_DFE_coded.mat');
 load('Pbit_OFDM_coded.mat');
 load('Pbit_AWGN_coded.mat');
-Pbit_OFDM_code = [Pbit_OFDM_code(1:end-3);0.001;0.0001;1e-06];
+% Pbit_OFDM_code = [Pbit_OFDM_code(1:14);1e-06;Pbit_OFDM_code(16:21)];
 figure();
 semilogy(SNR_vect_coded, Pbit_DFE_code,'g');
 hold on; grid on;
 semilogy(SNR_vect_coded, Pbit_OFDM_code, 'b');
 semilogy(SNR_vect_coded, Pbit_AWGN_code, 'k');
-ylim([10^-5 10^-1]); xlim([0 3]);
+ylim([10^-5 10^-1]); xlim([0 2]);
 xlabel('SNR'); ylabel('$P_{bit}$');
 legend('Coded DFE','Coded OFDM', 'Coded AWGN');
 set(legend,'Interpreter','latex');
