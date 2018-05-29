@@ -2,7 +2,7 @@ clc; close all; clear global; clearvars;
 load('Input_symbols.mat');
 set(0,'defaultTextInterpreter','latex')    % latex format
 
-snr = 2.5;
+snr = 1.25;
 snr_lin = 10^(snr/10);
 % Sub-channels
 M = 512;   

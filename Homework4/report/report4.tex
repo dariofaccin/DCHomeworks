@@ -39,17 +39,17 @@
 \maketitle
 
 \section*{Transmission system}
-In the following, two different scenarios are developed: a single-carrier transmission using Receiver (b) of homework 3 and an OFDM transmission with $M$=512 sub-channels. Both implementations are firstly simulated using coding to improve the error correction capability of the system; in particular, a \textit{Low-density parity check} LDPC encoding is applied to the initial data stream in order to allow the receiver to detect codewords which do not belong to the code $\mathcal{C}$ and eventually to correct them with the use of an LDPC decoder. These functions are provided by the Matlab toolbox. Finally, the same transmission is simulated without coding to appreciate the difference in $P_{bit}$ for varying SNR. \\
+In the following, two different scenarios are developed: a single carrier transmission using Receiver (b) of homework 3 and an OFDM transmission with $M$=512 sub-channels. Both implementations are firstly simulated using coding to improve the error correction capability of the system; in particular, a \textit{Low-density parity check} LDPC encoding is applied to the initial data stream in order to allow the receiver to detect codewords which do not belong to the code $\mathcal{C}$ and eventually to correct them with the use of an LDPC decoder. These functions are provided by the Matlab toolbox. Finally, the same transmission is simulated without coding to appreciate the difference in terms of $P_{bit}$ for varying SNR. \\
 In this report we decided to treat only the implementation of the encoded transmission, since the uncoded one follow by simply removing the LDPC encoder and decoder.
 
 \subsection*{Symbols generation}
-A data stream of bits $b_l$ is generated using a PN sequence of length $2^{20}-1$ repeated once. This is encoded by an LDPC encoded provided by the Matlab toolbox, which reads sequences of 32400 bits and generates codewords $c_m$ of length 64800 bits. An interleaver is used in order to reduce the probability of having \textit{burst} errors, then a bitmap maps couples of bits into a QPSK constellation with \textit{Gray coding}. This scenario is given in Figure [\ref{}].
+A data stream of bits $b_l$ is generated using a PN sequence of length $2^{20}-1$ repeated once. This is encoded by an LDPC encoder provided by the Matlab toolbox, which reads sequences of 32400 bits and generates codewords $c_m$ of length 64800 bits. An interleaver is used in order to reduce the probability of having \textit{burst} errors, then a bitmap maps couples of bits into a QPSK constellation with \textit{Gray coding}. This scenario is given in Figure [\ref{}].
 
 \vspace{5em}
 
 \subsection*{Single Carrier}
 The channel for the single carrier transmission is that implemented in homework 3. \\
-The receiver filter consists of a filter $g_M$ matched to the transmission filter $q_c$ followed by a \textit{Decision Feedback Equalizer (DFE) filter}. The matched filter is simply computed as $g_m(t) = q^*_c(t_0-t)$, where $t_0$ is the timing phase. 
+The receiver filter consists of a filter $g_M$ matched to the transmission filter $q_c$ followed by a \textit{Decision Feedback Equalizer} (DFE) filter. The matched filter is simply computed as $g_m(t) = q^*_c(t_0-t)$, where $t_0$ is the timing phase. 
 Since the global impulse response of the system $h = g_c * g_M$ at the input of  $c$ is defined @$\frac{T}{4}$, a downsampling of a factor 4 is required between the output of $h$ and the input of $c$. The equations used to compute both $c$ and $b$ filter have already been described in homework 3. The scenario just described is given in Figure [\ref{Model_SC}].
 
 \begin{figure}[H]
@@ -128,7 +128,7 @@ In this way the impulse response of the polyphase components of the prototype fi
 \end{figure}
 
 
-We exploited the concept of circular convolution to obtain a convolution in the time domain as a product of finite length vectors in the frequency domain. To do so, we extended the block of samples $\mathbf{A}_k$ by repeating ??$N_{px}=$ ?? elements before transmitting through the channel. The value of $N_{px}$ was chosen equal to the support of the equivalent channel impulse response $h(mT_{OFDM})$. In particular, after the modulation, each block of samples is cyclically extended by copying the $N_{px}$ sample $A_k[\mathcal{M}-N_{px}],\dots,A_k[\mathcal{M}-1]$ in front of the block. After the P/S conversion, where the $N_{px}$ samples of the cyclic extension are the first to be sent, the $N_{px}+\mathcal{M}$ samples are transmitted over the channel.  At the receiver, blocks of samples of length $N_{px}+\mathcal{M}$ are taken; the boundaries between blocks are set sUCH that the last $\mathcal{M}$ samples depend only on the elements of only one cyclically extended block of samples. The first $N_{px}$ samples of a block are thus discarded. \\
+We exploited the concept of circular convolution to obtain a convolution in the time domain as a product of finite length vectors in the frequency domain. To do so, we extended the block of samples $\mathbf{A}_k$ by repeating $N_{px}=18$ elements before transmitting through the channel. The value of $N_{px}$ was chosen equal to the support of the equivalent channel impulse response $h(mT_{OFDM})$. In particular, after the modulation, each block of samples is cyclically extended by copying the $N_{px}$ sample $A_k[\mathcal{M}-N_{px}],\dots,A_k[\mathcal{M}-1]$ in front of the block. After the P/S conversion, where the $N_{px}$ samples of the cyclic extension are the first to be sent, the $N_{px}+\mathcal{M}$ samples are transmitted over the channel.  At the receiver, blocks of samples of length $N_{px}+\mathcal{M}$ are taken; the boundaries between blocks are set such that the last $\mathcal{M}$ samples depend only on the elements of only one cyclically extended block of samples. The first $N_{px}$ samples of a block are thus discarded. \\
 The resulting vector $\mathbf{r}_k$ can be expressed as 
 \begin{equation}
 \mathbf{r}_k = \mathbf{\Xi}_k\mathbf{g}_C + \mathbf{w}_k
@@ -223,19 +223,25 @@ At the detection point, we implemented the following system
 
 For the single carrier transmission, the output of the DFE filter is a sequence of QPSK symbols $y_k$. These are decoded exploiting the LLR representation given by 
 
-\begin{equation}
+\begin{equation}\label{LLR}
 l'_{2k} = -2\frac{\mathcal{R}[y_k]}{\sigma_w^2}
 \end{equation}
 
-\begin{equation}
+\begin{equation}\label{LLR1}
 l'_{2k+1} = -2\frac{\mathcal{I}[y_k]}{\sigma_w^2}
 \end{equation}
 
 The generated data stream, which length is twice that of $y_k$, is \textit{deinterlead} and decoded by the LDPC decoder provided. The final output $\hat{b}_l$ is compared with the initial data $b_l$ to count the number of errors introduced by the channel, and the $P_{bit}$ is finally computed as 
 
-\begin{equation}
+\begin{equation}\label{Pbit}
 P_{bit} = \frac{\text{number of errors}}{\text{number of sent bits}}
 \end{equation}
+
+For the OFDM transmission $y_k$ is a matrix with $\mathcal{M}=512$ rows corresponding to the output of the $\mathcal{M}$ subchannels. Each LLR element is computed using equations \ref{LLR} and \ref{LLR1}, then the final LLR vector is generated in such a way that two consecutive values at position \textit{i} and \textit{i+1} corresponded to the real and imaginary part of the same symbol in $y_k$. This operation was computed for all columns. The resulting vector was deinterlived and decoded with the same procedure of the single carrier transmission. Finally the \textit{bit error probability} was computed using equation \ref{Pbit}.
+
+\subsection*{Bit Error Probabilities}
+
+
 \clearpage
 The filters we used are given as follow.
 
@@ -260,7 +266,7 @@ The filters we used are given as follow.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=14cm]{h}
-	\caption{Equivalent channel impulse response after the downsampling, given by $h(mT_{OFDM}) = q_R(t_0+mT_{OFDM})$.}
+	\caption{Equivalent channel impulse response after the downsampling, given by $h(mT_{OFDM}) = q_R(t_0+mT_{OFDM})$. Since $h$ has length 18, we chose $N_{px}=18$ as the \textit{prefix length}.}
 \end{figure}
 
 \begin{figure}[H]
@@ -274,6 +280,20 @@ The filters we used are given as follow.
 	\includegraphics[width=14cm]{G_srrc}
 	\caption{}\label{}
 \end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=14cm]{uncoded}
+	\caption{Simulated $P_{bit}$ for the uncoded transmission.}\label{uncoded}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=14cm]{coded}
+	\caption{Simulated $P_{bit}$ for the coded transmission.}\label{coded}
+\end{figure}
+
+
 
 %\begin{figure}[H]
 %	\centering
