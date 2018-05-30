@@ -60,7 +60,7 @@ A data stream of bits $b_l$ is generated using a PN sequence of length $2^{20}-1
 	
 	\node [coordinate, right = 1.5cm of qpsk] (end) {};
 	
-	\draw [->] (start) --node[label={[label distance=0.2cm]270:$T_{bit}$}, label={[label distance=0.1cm]90:$b_\ell$}]{} (encoder);
+	\draw [->] (start) --node[label={[label distance=0.2cm]270:$T_{bit}$}, label={[label distance=0.1cm]90:$b_l$}]{} (encoder);
 	
 	\draw [->] (encoder) --node[label={[label distance=0.2cm]270:$T_{cod}$}, label={[label distance=0.1cm]90:$c_m$}]{} (interl);
 	
@@ -243,7 +243,34 @@ Therefore the input to the data detector is given by
 \subsection*{Detection}
 At the detection point, we implemented the following system
 
-\vspace{5em}
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[auto,>=latex']
+	\tikzstyle{block} = [draw, rectangle, minimum height=1cm, minimum width=1cm]
+	
+	\node[draw, rectangle, minimum height=1.5cm, minimum width=1.5cm](llr) {$P/S$};
+	
+	\coordinate[above = 0.35cm of llr.west](a1){};
+	\coordinate[left = 1.5cm of a1](llr1){};
+	
+	\coordinate[below = 0.35cm of llr.west](a2){};
+	\coordinate[left = 1.5cm of a2](llr2){};
+	
+	\node [draw, rectangle, minimum height=2.5cm, minimum width=0.5cm, right = 1.5cm of llr] (deinterl) {};
+	
+	\node [draw, rectangle, minimum height=1.5cm, minimum width=1.5cm, right = 1.5cm of deinterl] (decoder) {LDPC};
+	
+	\coordinate[right = 1.5cm of decoder](end){};
+	
+	\draw [->] (llr1) --node[label={[label distance=0.7cm]180:$l'_{2k}$}]{} (a1);
+	\draw [->] (llr2) --node[label={[label distance=0.5cm]180:$l'_{2k+1}$}]{} (a2);
+	\draw [->] (llr) --node[label={[label distance=0.2cm]270:$T_{cod}$}, label={[label distance=0.1cm]90:$l'_p$}]{} (deinterl);
+	\draw [->] (deinterl) --node[label={[label distance=0.2cm]270:$T_{cod}$}, label={[label distance=0.1cm]90:$l_m$}]{} (decoder);
+	\draw [->] (decoder) --node[label={[label distance=0.2cm]270:$T_{bit}$}, label={[label distance=0.1cm]90:$\hat{b}_l$}]{} (end);
+	
+	
+	\end{tikzpicture}
+\end{figure}
 
 For the single carrier transmission, the output of the DFE filter is a sequence of QPSK symbols $y_k$. These are decoded exploiting the LLR representation given by 
 
