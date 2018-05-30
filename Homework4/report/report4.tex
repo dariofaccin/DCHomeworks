@@ -45,7 +45,31 @@ In this report we decided to treat only the implementation of the encoded transm
 \subsection*{Symbols generation}
 A data stream of bits $b_l$ is generated using a PN sequence of length $2^{20}-1$ repeated once. This is encoded by an LDPC encoder provided by the Matlab toolbox, which reads sequences of 32400 bits and generates codewords $c_m$ of length 64800 bits. An interleaver is used in order to reduce the probability of having \textit{burst} errors, then a bitmap maps couples of bits into a QPSK constellation with \textit{Gray coding}. This scenario is given in Figure [\ref{}].
 
-\vspace{5em}
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[auto,>=latex']
+	\tikzstyle{block} = [draw, rectangle, minimum height=1cm, minimum width=1cm]
+	
+	\node [coordinate] (start) {};
+	
+	\node [draw, rectangle, minimum height=1.5cm, minimum width=1.5cm, right = 1.5cm of start] (encoder) {LDPC};
+	
+	\node [draw, rectangle, minimum height=2.5cm, minimum width=0.5cm, right = 1.5cm of encoder] (interl) {};
+	
+	\node [draw, rectangle, minimum height=1.5cm, minimum width=1.5cm, right = 1.5cm of interl] (qpsk) {QPSK};
+	
+	\node [coordinate, right = 1.5cm of qpsk] (end) {};
+	
+	\draw [->] (start) --node[label={[label distance=0.2cm]270:$T_{bit}$}, label={[label distance=0.1cm]90:$b_\ell$}]{} (encoder);
+	
+	\draw [->] (encoder) --node[label={[label distance=0.2cm]270:$T_{cod}$}, label={[label distance=0.1cm]90:$c_m$}]{} (interl);
+	
+	\draw [->] (interl) --node[label={[label distance=0.2cm]270:$T_{cod}$}, label={[label distance=0.1cm]90:$c'_p$}]{} (qpsk);
+	
+	\draw [->] (qpsk) --node[label={[label distance=0.2cm]270:$T_a$}, label={[label distance=0.1cm]90:$a_k$}]{} (end);
+	
+	\end{tikzpicture}
+\end{figure}
 
 \subsection*{Single Carrier}
 The channel for the single carrier transmission is that implemented in homework 3. \\
