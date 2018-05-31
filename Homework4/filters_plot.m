@@ -52,4 +52,10 @@ xlabel('$mT_{OFDM}$');
 ylabel('h')
 
 %% DFT of h
-H = FFT(h)
+H = fft(q_r_ds,512);
+plot(10*log10(abs(H/length(H))))
+xlim([0 512]);
+xlabel('f')
+ylabel('H [dB]')
+grid on
+

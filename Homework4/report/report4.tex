@@ -40,10 +40,10 @@
 
 \section*{Transmission system}
 In the following, two different scenarios are developed: a single carrier transmission using Receiver (b) of homework 3 and an OFDM transmission with $M$=512 sub-channels. Both implementations are firstly simulated using coding to improve the error correction capability of the system; in particular, a \textit{Low-density parity check} LDPC encoding is applied to the initial data stream in order to allow the receiver to detect codewords which do not belong to the code $\mathcal{C}$ and eventually to correct them with the use of an LDPC decoder. These functions are provided by the Matlab toolbox. Finally, the same transmission is simulated without coding to appreciate the difference in terms of $P_{bit}$ for varying SNR. \\
-In this report we decided to treat only the implementation of the encoded transmission, since the uncoded one follow by simply removing the LDPC encoder and decoder.
+In this report we decided to treat only the implementation of the encoded transmission; the uncoded one, indeed, follows by simply removing the LDPC and the interleaver.
 
 \subsection*{Symbols generation}
-A data stream of bits $b_l$ is generated using a PN sequence of length $2^{20}-1$ repeated once. This is encoded by an LDPC encoder provided by the Matlab toolbox, which reads sequences of 32400 bits and generates codewords $c_m$ of length 64800 bits. An interleaver is used in order to reduce the probability of having \textit{burst} errors, then a bitmap maps couples of bits into a QPSK constellation with \textit{Gray coding}. This scenario is given in Figure [\ref{}].
+A data stream of bits $b_l$ is generated using a PN sequence of length $2^{20}-1$ repeated once. This is encoded by an LDPC encoder provided by the Matlab toolbox, which reads sequences of 32400 bits and generates codewords $c_m$ of length 64800 bits. An interleaver is used in order to reduce the probability of having \textit{burst} errors, then a bitmap maps pairs of bits into a QPSK constellation with \textit{Gray coding}. This scenario is given in Figure [\ref{}].
 
 \begin{figure}[H]
 	\centering
@@ -73,8 +73,7 @@ A data stream of bits $b_l$ is generated using a PN sequence of length $2^{20}-1
 
 \subsection*{Single Carrier}
 The channel for the single carrier transmission is that implemented in homework 3. \\
-The receiver filter consists of a filter $g_M$ matched to the transmission filter $q_c$ followed by a \textit{Decision Feedback Equalizer} (DFE) filter. The matched filter is simply computed as $g_m(t) = q^*_c(t_0-t)$, where $t_0$ is the timing phase. 
-Since the global impulse response of the system $h = g_c * g_M$ at the input of  $c$ is defined @$\frac{T}{4}$, a downsampling of a factor 4 is required between the output of $h$ and the input of $c$. The equations used to compute both $c$ and $b$ filter have already been described in homework 3. The scenario just described is given in Figure [\ref{Model_SC}].
+The receiver filter consists of a filter $g_M$ matched to the transmission filter $q_c$ followed by a \textit{Decision Feedback Equalizer} (DFE) filter. The matched filter is simply computed as $g_m(t) = q^*_c(t_0-t)$, where $t_0$ is the timing phase. Since the global impulse response of the system $h = g_c * g_M$ at the input of  $c$ is defined @$\frac{T}{4}$, a downsampling of a factor 4 is required between the output of $h$ and the input of $c$. The equations used to compute both filters $c$ and $b$ have already been discussed in homework 3. The scenario just described is given in Figure [\ref{Model_SC}].
 
 \begin{figure}[H]
 	\centering
@@ -127,7 +126,7 @@ Since the global impulse response of the system $h = g_c * g_M$ at the input of 
 
 \clearpage
 \subsection*{OFDM}
-Orthogonal frequency division multiplexing is an efficient modulation technique by which blocks of $\mathcal{M}$ symbols are transmitted in parallel over $\mathcal{M}$ subchannels, using $\mathcal{M}$ modulation filters with frequency resonses $\mathcal{H}_i(f)$, $i=1,2,\dots,\mathcal{M}-1$. The $\mathcal{M}$ input symbols at the $k_{th}$ modulation interval are represented by the vector
+Orthogonal frequency division multiplexing is an efficient modulation technique by which blocks of $\mathcal{M}$ symbols are transmitted in parallel over $\mathcal{M}$ sub-channels, using $\mathcal{M}$ modulation filters with frequency responses $\mathcal{H}_i(f)$, $i=1,2,\dots,\mathcal{M}-1$. The $\mathcal{M}$ input symbols at the $k_{th}$ modulation interval are represented by the vector
 
 \begin{equation}
 \mathbf{a}_k = [a_k[0],\dots,a_k[\mathcal{M}-1]]^T
@@ -143,7 +142,7 @@ h_n = \begin{cases}
 \end{cases}
 \end{equation}
 
-In this way the impulse response of the polyphase components of the prototype filter are simply $\{ h_n^(l)\}=\{\delta_n\}$ for $l=0,1,\dots,\mathcal{M}$. As a consequence, because the frequency responses are constants, we obtain directly the transmit signal by applying a P/S conversion at the output of the IDFT. To equalise the channel, we implemented the baseband equivalent system given in Figure [\ref{ofdm}]. The channel is given in Figure [\ref{Model_OFDM}]
+In this way the impulse response of the polyphase components of the prototype filter are simply $\{ h_n^{(l)}\}=\{\delta_n\}$ for $l=0,1,\dots,\mathcal{M}$. As a consequence, because the frequency responses are constants, we obtain directly the transmit signal by applying a P/S conversion at the output of the IDFT. To equalise the channel, we implemented the baseband equivalent system given in Figure [\ref{ofdm}]. The channel is given in Figure [\ref{Model_OFDM}]
 .
 \begin{figure}[H]
 	\centering
@@ -161,7 +160,7 @@ where
 
 \begin{itemize}
 	\item $\mathbf{g}_C$ is the $\mathcal{M}$-component vector of the channel impulse response extended with $\mathcal{M}-N_{px}-1$ zeros;
-	\item $\mathbf{\Xi}_k$ is an $\mathcal{M}$ $x$ $\mathcal{M}$ circulant matrix, given by
+	\item $\mathbf{\Xi}_k$ is an $\mathcal{M}$ $\times$ $\mathcal{M}$ circulant matrix, given by
 	\begin{equation*}
 	\mathbf{\Xi}_k = \begin{bmatrix}
 						A_k[0] & A_k[\mathcal{M}-1] & \cdots & A_k[1] \\
@@ -194,7 +193,7 @@ K_i = [\mathbf{F}]_{i,i} = \frac{1}{\mathcal{G}_{C,i}} \quad\quad\quad i=0,\dots
 
 Therefore the input to the data detector is given by
 
-\begin{equation}
+\begin{equation}\label{zfc}
 \mathbf{y}_k = \mathbf{K}\mathbf{x}_k = \mathbf{a}_k+ \mathbf{K}\mathbf{W}_k
 \end{equation}
 
@@ -268,30 +267,28 @@ At the detection point, we implemented the following system
 	\draw [->] (deinterl) --node[label={[label distance=0.2cm]270:$T_{cod}$}, label={[label distance=0.1cm]90:$l_m$}]{} (decoder);
 	\draw [->] (decoder) --node[label={[label distance=0.2cm]270:$T_{bit}$}, label={[label distance=0.1cm]90:$\hat{b}_l$}]{} (end);
 	
-	
 	\end{tikzpicture}
+	\caption{Decoding scheme}
 \end{figure}
 
 For the single carrier transmission, the output of the DFE filter is a sequence of QPSK symbols $y_k$. These are decoded exploiting the LLR representation given by 
 
 \begin{equation}\label{LLR}
-l'_{2k} = -2\frac{\mathcal{R}[y_k]}{\sigma_w^2}
+l'_{2k} = -2\frac{\mathcal{R}[y_k]}{\sigma_i^2}
 \end{equation}
 
 \begin{equation}\label{LLR1}
-l'_{2k+1} = -2\frac{\mathcal{I}[y_k]}{\sigma_w^2}
+l'_{2k+1} = -2\frac{\mathcal{I}[y_k]}{\sigma_i^2}
 \end{equation}
 
-The generated data stream, which length is twice that of $y_k$, is \textit{deinterlead} and decoded by the LDPC decoder provided. The final output $\hat{b}_l$ is compared with the initial data $b_l$ to count the number of errors introduced by the channel, and the $P_{bit}$ is finally computed as 
+where $\sigma_i^2 = $ is ... \\ 
+The generated data stream, which length is twice that of $y_k$, is \textit{deinterleaved} and decoded by the LDPC decoder provided. The final output $\hat{b}_l$ is compared with the initial data $b_l$ to count the number of errors introduced by the channel, and then $P_{bit}$ is finally computed as 
 
 \begin{equation}\label{Pbit}
 P_{bit} = \frac{\text{number of errors}}{\text{number of sent bits}}
 \end{equation}
 
-For the OFDM transmission $y_k$ is a matrix with $\mathcal{M}=512$ rows corresponding to the output of the $\mathcal{M}$ subchannels. Each LLR element is computed using equations \ref{LLR} and \ref{LLR1}, then the final LLR vector is generated in such a way that two consecutive values at position \textit{i} and \textit{i+1} corresponded to the real and imaginary part of the same symbol in $y_k$. This operation was computed for all columns. The resulting vector was deinterlived and decoded with the same procedure of the single carrier transmission. Finally the \textit{bit error probability} was computed using equation \ref{Pbit}.
-
-\subsection*{Bit Error Probabilities}
-
+For the OFDM transmission $y_k$ is a matrix with $\mathcal{M}=512$ rows corresponding to the output of the $\mathcal{M}$ subchannels. Each LLR element is computed using equations \ref{LLR} and \ref{LLR1}, with the only difference that now $\sigma_i^2 = \frac{1}{2}\sigma_w^2*\mathcal{M}*|K|^2 $. The final LLR vector is generated in such a way that two consecutive values at position \textit{i} and \textit{i+1} corresponded to the real and imaginary part of the same symbol in $y_k$. This operation is computed for all columns. The resulting vector is deinterleaved and decoded with the same procedure of the single carrier transmission. Finally the \textit{bit error probability} was computed using equation \ref{Pbit}.
 
 \clearpage
 The filters we used are given as follow.
@@ -322,6 +319,12 @@ The filters we used are given as follow.
 
 \begin{figure}[H]
 	\centering
+	\includegraphics[width=14cm]{H_fft}
+	\caption{FFT of the equivalent channel impulse response $h$ computed over $\mathcal{M}$ samples.}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
 	\includegraphics[width=14cm]{Q_r}
 	\caption{Frequency response of the \textit{square root rised cosine} filter.}\label{}
 \end{figure}
@@ -331,6 +334,11 @@ The filters we used are given as follow.
 	\includegraphics[width=14cm]{G_srrc}
 	\caption{}\label{}
 \end{figure}
+
+\subsection*{Bit Error Probabilities}
+Here the $P_{bit}$ obtained for the different configurations are given as function of the SNR $\Gamma$. \\
+For the uncoded data transmission, the DFE receiver shows better performances. This is to be expected since the channel is well equalized by the \textit{decision feedback equalizer} filter; this can be noted by observing Figure [9] of homework 3, where the overall impulse response $\psi$ presents no precursors. On the other hand, the OFDM transmission system shows worse performances due to the fact that the zero-forcing criterion amplifies the noise signal components, as given in equation \ref{zfc}. \\
+For the coded data transmission, the DFE still shows good performances being only 1 dB over the AWGN bound. The OFDM system, however, thanks to the LDPC encoding scheme, performs even better.  
 
 \begin{figure}[H]
 	\centering
