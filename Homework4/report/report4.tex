@@ -9,6 +9,7 @@
 \usepackage{enumitem}
 \usepackage{booktabs}
 \usepackage{array}
+
 % Avoid paragraph indent
 \setlength{\parindent}{0pt}
 % Useful floor and ceiling functions
@@ -39,7 +40,7 @@
 \maketitle
 
 \section*{Transmission system}
-In the following, two different scenarios are developed: a single carrier transmission using Receiver (b) of homework 3 and an OFDM transmission with $M$=512 sub-channels. Both implementations are firstly simulated using coding to improve the error correction capability of the system; in particular, a \textit{Low-density parity check} LDPC encoding is applied to the initial data stream in order to allow the receiver to detect codewords which do not belong to the code $\mathcal{C}$ and eventually to correct them with the use of an LDPC decoder. These functions are provided by the Matlab toolbox. Finally, the same transmission is simulated without coding to appreciate the difference in terms of $P_{bit}$ for varying SNR. \\
+In the following, two different scenarios are developed: a single carrier transmission using Receiver (b) of homework 3 and an OFDM transmission with $\mathcal{M}$=512 sub-channels. Both implementations are firstly simulated using coding to improve the error correction capability of the system; in particular, a \textit{Low-density parity check} LDPC encoding is applied to the initial data stream in order to allow the receiver to detect codewords which do not belong to the code $\mathcal{C}$ and eventually to correct them with the use of an LDPC decoder. These functions are provided by the Matlab toolbox. Finally, the same transmission is simulated without coding to appreciate the difference in terms of $P_{bit}$ for varying SNR. \\
 In this report we decided to treat only the implementation of the encoded transmission; the uncoded one, indeed, follows by simply removing the LDPC and the interleaver.
 
 \subsection*{Symbols generation}
@@ -81,15 +82,15 @@ The receiver filter consists of a filter $g_M$ matched to the transmission filte
 	\tikzstyle{block} = [draw, rectangle, minimum height=1cm, minimum width=1cm]
 	
 	\node [coordinate, label={[label distance=0.65cm]60:$a_k$}] (start) {};
-	\node [block, right = 1.5cm of start] (intpl){$\uparrow 4$};
+	\node [block, right = 1.25cm of start] (intpl){$\uparrow 4$};
 	\node [coordinate, label={[label distance=0.5cm]90:$a'_n$}, right = 0.75 cm of intpl] (c1) {};
-	\node [block, right = 1.5cm of intpl] (imp){$q_c$};
-	\node [draw, circle,minimum size=0.5cm,inner sep=0pt, right = 1.5cm of imp] (sum1){$+$};
+	\node [block, right = 1.25cm of intpl] (imp){$q_c$};
+	\node [draw, circle,minimum size=0.5cm,inner sep=0pt, right = 1.25cm of imp] (sum1){$+$};
 	\node [coordinate, label={[label distance=0.4cm]90:$s_c(n \frac{T}{4})$}, right = 0.75cm of imp] (c2) {};
 	
 	\node [coordinate, label={[label distance=0.2cm]90:$w_c(n \frac{T}{4})$}, above = 1cm of sum1] (wgn) {};
 
-	\node [block, right = 1.5cm of sum1] (matchedf){$g_M$};
+	\node [block, right = 1.25cm of sum1] (matchedf){$g_M$};
 	\node [coordinate, right = 0.75 cm of matchedf] (c0) {};
 	\node [coordinate, above = 0.5 cm of c0, label={[label distance=0.1cm]45:$t_0 + kT$} ] (c1) {};
 	
@@ -179,7 +180,7 @@ Moreover, since $\mathbf{\Xi}$ is a circulant matrix, it satisfies the property
 \mathbf{F}_\mathcal{M} \mathbf{\Xi}_k \mathbf{F}_\mathcal{M}^{-1} = \text{diag}\{\mathbf{a}_k\}
 \end{equation}
 
-Defining the DFT of the vector $\mathbf{g}_C$ as $\mathbf{G}_C = \mathbf{F}_\mathcal{M}\mathbf{g}_C$ and using equation \ref{property}, we can express the demodulator output as 
+Defining the DFT of the vector $\mathbf{g}_C$ as $\mathbf{G}_C = \mathbf{F}_\mathcal{M}\mathbf{g}_C$ and using equation \eqref{property}, we can express the demodulator output as 
 
 \begin{equation}
 \mathbf{x}_k = \mathbf{F}_\mathcal{M}\mathbf{r}_k = \text{diag}\{\mathbf{a}_k\}\mathbf{G}_C + \mathbf{W}_k
@@ -188,7 +189,7 @@ Defining the DFT of the vector $\mathbf{g}_C$ as $\mathbf{G}_C = \mathbf{F}_\mat
 Finally, to equalize the channel using the zero-forcing criterion, $\mathbf{x}_k$ is multiplied by the diagonal matrix $\mathbf{K}$ which elements are simply given by
 
 \begin{equation}
-K_i = [\mathbf{F}]_{i,i} = \frac{1}{\mathcal{G}_{C,i}} \quad\quad\quad i=0,\dots \mathcal{M}-1
+K_i = [\mathbf{F}]_{i,i} = \dfrac{1}{\mathcal{G}_{C,i}} \quad\quad\quad i=0,\dots \mathcal{M}-1
 \end{equation}
 
 Therefore the input to the data detector is given by
@@ -274,21 +275,21 @@ At the detection point, we implemented the following system
 For the single carrier transmission, the output of the DFE filter is a sequence of QPSK symbols $y_k$. These are decoded exploiting the LLR representation given by 
 
 \begin{equation}\label{LLR}
-l'_{2k} = -2\frac{\mathcal{R}[y_k]}{\sigma_i^2}
+l'_{2k} = -2\dfrac{\mathcal{R}[y_k]}{\sigma_i^2}
 \end{equation}
 
 \begin{equation}\label{LLR1}
-l'_{2k+1} = -2\frac{\mathcal{I}[y_k]}{\sigma_i^2}
+l'_{2k+1} = -2\dfrac{\mathcal{I}[y_k]}{\sigma_i^2}
 \end{equation}
 
-where $\sigma_i^2 = $ is ... \\ 
+where $\sigma_i^2 = \dfrac{J_{min}-\sigma_a^2 |1-\psi_D|^2}{|\psi_D|^2}$. \\ 
 The generated data stream, which length is twice that of $y_k$, is \textit{deinterleaved} and decoded by the LDPC decoder provided. The final output $\hat{b}_l$ is compared with the initial data $b_l$ to count the number of errors introduced by the channel, and then $P_{bit}$ is finally computed as 
 
 \begin{equation}\label{Pbit}
 P_{bit} = \frac{\text{number of errors}}{\text{number of sent bits}}
 \end{equation}
 
-For the OFDM transmission $y_k$ is a matrix with $\mathcal{M}=512$ rows corresponding to the output of the $\mathcal{M}$ subchannels. Each LLR element is computed using equations \ref{LLR} and \ref{LLR1}, with the only difference that now $\sigma_i^2 = \frac{1}{2}\sigma_w^2*\mathcal{M}*|K|^2 $. The final LLR vector is generated in such a way that two consecutive values at position \textit{i} and \textit{i+1} corresponded to the real and imaginary part of the same symbol in $y_k$. This operation is computed for all columns. The resulting vector is deinterleaved and decoded with the same procedure of the single carrier transmission. Finally the \textit{bit error probability} was computed using equation \ref{Pbit}.
+For the OFDM transmission $y_k$ is a matrix with $\mathcal{M}=512$ rows corresponding to the output of the $\mathcal{M}$ subchannels. Each LLR element is computed using equations \eqref{LLR} and \eqref{LLR1}, with the only difference that now $\sigma_i^2 = \frac{1}{2}\sigma_w^2 \cdot \mathcal{M} \cdot |K|^2 $. The final LLR vector is generated in such a way that two consecutive values at position \textit{i} and \textit{i+1} corresponds to the real and imaginary part of the same symbol in $y_k$. This operation is computed for all columns. The resulting vector is deinterleaved and decoded with the same procedure of the single carrier transmission. Finally the \textit{bit error probability} was computed using equation \eqref{Pbit}.
 
 \clearpage
 The filters we used are given as follow.
@@ -302,7 +303,7 @@ The filters we used are given as follow.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=14cm]{gsrrc_1}
-	\caption{Impulse response of the square root rised-cosine filter.}
+	\caption{Impulse response of the square root raised-cosine filter.}
 \end{figure}
 
 \begin{figure}[H]
@@ -337,7 +338,7 @@ The filters we used are given as follow.
 
 \subsection*{Bit Error Probabilities}
 Here the $P_{bit}$ obtained for the different configurations are given as function of the SNR $\Gamma$. \\
-For the uncoded data transmission, the DFE receiver shows better performances. This is to be expected since the channel is well equalized by the \textit{decision feedback equalizer} filter; this can be noted by observing Figure [9] of homework 3, where the overall impulse response $\psi$ presents no precursors. On the other hand, the OFDM transmission system shows worse performances due to the fact that the zero-forcing criterion amplifies the noise signal components, as given in equation \ref{zfc}. \\
+For the uncoded data transmission, the DFE receiver shows better performances. This is to be expected since the channel is well equalized by the \textit{decision feedback equalizer} filter; this can be noted by observing Figure [9] of homework 3, where the overall impulse response $\psi$ presents no precursors. On the other hand, the OFDM transmission system shows worse performances due to the fact that the zero-forcing criterion amplifies the noise signal components, as given in equation \eqref{zfc}. \\
 For the coded data transmission, the DFE still shows good performances being only 1 dB over the AWGN bound. The OFDM system, however, thanks to the LDPC encoding scheme, performs even better.  
 
 \begin{figure}[H]
@@ -352,7 +353,12 @@ For the coded data transmission, the DFE still shows good performances being onl
 	\caption{Simulated $P_{bit}$ for the coded transmission.}\label{coded}
 \end{figure}
 
-
+\begin{thebibliography}{15}
+	\bibitem{nevio<3}
+	Nevio Benvenuto, Giovanni Cherubini,
+	\textit{Algorithms for Communication Systems and their Applications}. 
+	Wiley, 2002.
+\end{thebibliography}
 
 %\begin{figure}[H]
 %	\centering
