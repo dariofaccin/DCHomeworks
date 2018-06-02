@@ -1,0 +1,60 @@
+\documentclass[10pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage[margin=2cm]{geometry}
+\usepackage{color}
+\definecolor{commenti}{rgb}{0,0,1}
+\definecolor{stringhe}{rgb}{1,0,0}
+%\lstloadlanguages{Matlab}
+\lstset{% general command to set parameter(s)
+	framexleftmargin=0mm,
+	frame=single,
+	identifierstyle =, % nothing happens
+	commentstyle = \color{commenti}, % comments
+	stringstyle = \color{stringhe}, % typewriter type for strings
+	showstringspaces = false, % no special string spaces
+	emph = {for, if, then, else, end},
+	%emphstyle = \color{blue},
+	firstnumber = 1,
+	numbers = left, %  show number_line
+	numberstyle = \tiny, % style of number_line
+	stepnumber = 5, % one number_line after stepnumber
+	numbersep = 5pt,
+	language = {Matlab},
+	extendedchars = true,
+	breaklines = true,
+	breakautoindent = true,
+	breakindent = 30pt,
+	basicstyle=\footnotesize\ttfamily
+}
+
+\begin{document}
+	\title{Digital Communications and Laboratory \\ Fourth Homework}
+	\author{Faccin Dario, Santi Giovanni}
+	\date{}
+	\maketitle
+	\section*{MATLAB code}
+	
+	\lstinputlisting{scriptcodereport/Pbit_DFE_coded.m}
+	\lstinputlisting{scriptcodereport/Pbit_DFE_uncoded.m}
+	\lstinputlisting{scriptcodereport/Pbit_AWGN_coded.m}
+	\lstinputlisting{scriptcodereport/Pbit_AWGN_uncoded.m}
+	\lstinputlisting{scriptcodereport/Pbit_OFDM_coded.m}
+	\lstinputlisting{scriptcodereport/Pbit_OFDM_uncoded.m}
+		
+	\lstinputlisting{scriptcodereport/Pbit_plots.m}
+	\lstinputlisting{scriptcodereport/QPSK_detector.m}
+	\lstinputlisting{scriptcodereport/Adaptive_DFE.m}
+	\lstinputlisting{scriptcodereport/equalization_DFE.m}
+	\lstinputlisting{scriptcodereport/PNSeq.m}
+	\lstinputlisting{scriptcodereport/LDPC_encoder.m}
+	\lstinputlisting{scriptcodereport/LDPC_decoder.m}
+	\lstinputlisting{scriptcodereport/bitmap.m}
+	\lstinputlisting{scriptcodereport/ibmap.m}
+	\lstinputlisting{scriptcodereport/channel_sim.m}
+	\lstinputlisting{scriptcodereport/channel_OFDM.m}
+	\lstinputlisting{scriptcodereport/InputGenerator.m}
+	\lstinputlisting{scriptcodereport/interleaver.m}
+	\lstinputlisting{scriptcodereport/deinterleaver.m}
+\end{document}
