@@ -16,7 +16,7 @@ f = f/(2*pi);
 figure, plot(f,10*log10(abs(G_srrc))), grid on, xlim([0 0.5])
 ylim([-15 5])
 xlabel('$f/T_c$')
-ylabel('$|G{\sqrt{rcos}}|$');
+ylabel('$|G{\sqrt{rcos}}|$ [dB]');
 
 %% qc from homework 3
 figure, stem(0:length(qc)-1,qc)
@@ -38,7 +38,7 @@ grid on
 xlim([0 0.5]);
 ylim([-5 10]);
 xlabel('$f/T_c$')
-ylabel('$|Q_R|$');
+ylabel('$|Q_R|$ [dB]');
 
 %% h(mT_OFDM)
 figure
@@ -55,7 +55,7 @@ ylabel('h')
 H = fft(q_r_ds,512);
 plot(10*log10(abs(H/length(H))))
 xlim([0 512]);
-xlabel('f')
+xlabel('n')
 ylabel('H [dB]')
 grid on
 
