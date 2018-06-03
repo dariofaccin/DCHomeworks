@@ -53,9 +53,10 @@ ylabel('h')
 
 %% DFT of h
 H = fft(q_r_ds,512);
-plot(10*log10(abs(H/length(H))))
-xlim([0 512]);
-xlabel('n')
+f = linspace(0,1,512);
+plot(f,10*log10(abs(H/length(H))))
+xlim([0 1]);
+xlabel('f$\mathcal{M}/T_{OFDM}$')
 ylabel('H [dB]')
 grid on
 
