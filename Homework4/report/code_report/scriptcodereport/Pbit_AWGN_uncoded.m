@@ -10,11 +10,14 @@ tic
 parfor i=1:length(SNR_vect)
 	snr_db = SNR_vect(i);
 	snr_lin = 10^(snr_db/10);
+    % noise variance
 	sigma_w = sigma_a / snr_lin;
 	w = wgn(length(symbols),1, 10*log10(sigma_w), 'complex');
+    % received signal
 	r_c = symbols + w;
 	r_c_prime = r_c;
 	detected = r_c_prime;
+    % QPSK detector
 	hard_d = zeros(length(detected),1);
 	for u=1:length(detected)
 		hard_d(u) = QPSK_detector(detected(u));

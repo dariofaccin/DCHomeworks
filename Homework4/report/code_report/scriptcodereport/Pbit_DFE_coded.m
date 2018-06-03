@@ -5,9 +5,9 @@ load('Input_symbols.mat');
 
 SNR_vect = 1.4:0.05:1.8;
 sigma_a = 2;				% Input variance
-M = 4;					% Constellation cardinality
+M = 4;                  	% Constellation cardinality
 
-gm = conj(qc(end:-1:1));		% Matched filter: complex conjugate of qc
+gm = conj(qc(end:-1:1));    % Matched filter: complex conjugate of qc
 h = conv(qc,gm);			% Impulse response
 
 t0_bar = find(h == max(h));		% Timing phase: peak of h

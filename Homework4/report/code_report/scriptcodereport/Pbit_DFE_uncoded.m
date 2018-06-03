@@ -4,10 +4,10 @@ load('Useful.mat', 'qc');
 load('Input_symbols.mat');
 symbols = bitmap(x).';
 SNR_vect = 0:14;
-sigma_a = 2;				% Input variance
-M = 4;					% Constellation cardinality
+sigma_a = 2;                	% Input variance
+M = 4;                          % Constellation cardinality
 gm = conj(qc(end:-1:1));		% Matched filter: complex conjugate of qc
-h = conv(qc,gm);			% Impulse response
+h = conv(qc,gm);                % Impulse response
 t0_bar = find(h == max(h));		% Timing phase: peak of h
 h = h(h>max(h)/100);
 h = h(3:end-2);
